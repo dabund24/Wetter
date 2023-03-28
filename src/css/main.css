@@ -1,0 +1,10 @@
+body {
+    font-family: "Segoe UI Variable", sans-serif;
+    font-size: 17px;
+}
+
+.test {
+    font-size: 2rem;
+    display: flex;
+    flex-direction: column;
+}
