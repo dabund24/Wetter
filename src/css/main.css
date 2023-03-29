@@ -1,6 +1,230 @@
+:root {
+    --background-color: #ffffff;
+    --foreground-color: #000000;
+    --foreground-color--opaque: #00000011;
+    --accent-color: #0e7667;
+
+    --animation--tab-indicator__start: 17%;
+    --animation--tab-indicator__end: 17%;
+}
+
+[data-theme="dark"] {
+    --background-color: #121212;
+    --foreground-color: #ffffff;
+    --foreground-color--opaque: #ffffff11;
+    --accent-color: #27f4e2;
+}
+
 body {
-    font-family: "Segoe UI Variable", sans-serif;
-    font-size: 17px;
+    min-height: 100vh;
+    background-color: var(--background-color);
+}
+
+body, input, button {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI Variable", "Segoe UI","Roboto","Oxygen","Ubuntu","Helvetica Neue", Arial, sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+    font-size: 20px;
+    color: var(--foreground-color);
+}
+
+input, button {
+    background-color: transparent;
+    border: none;
+}
+
+.wi {
+    font-size: 1.5rem;
+}
+
+.content-wrapper {
+    margin: 0 auto;
+    max-width: 60rem;
+}
+
+.line--accent {
+    background-color: var(--accent-color);
+    border-radius: 2px;
+}
+
+.line--regular {
+    background-color: var(--foreground-color);
+    border-radius: 2px;
+}
+
+.hoverable {
+    cursor: pointer;
+    border-radius: .5rem;
+    border: 4px solid transparent;
+    transition: border .5s, background-color .5s;
+}
+
+.hoverable:hover {
+    border: 4px solid var(--foreground-color--opaque);
+    background-color: var(--foreground-color--opaque);
+}
+
+@keyframes load-indication--margin-left {
+    0% {margin-left: calc(50% - 5rem);}
+    25% {margin-left: calc(50% - 5rem);}
+    100% {margin-left: calc(50% + 3rem);}
+}
+
+@keyframes load-indication--margin-right {
+    0% {margin-right: calc(50% + 3rem);}
+    75% {margin-right: calc(50% - 5rem);}
+    100% {margin-right: calc(50% - 5rem);}
+}
+
+.button--accent {
+    border-radius: .5rem;
+    padding: .5rem;
+    background-color: var(--accent-color);
+    color: var(--background-color);
+}
+
+#load-indicator {
+    position: sticky;
+    top: 1rem;
+    height: 4px;
+    animation: load-indication--margin-left .7s ease-in-out 0s infinite alternate, load-indication--margin-right .7s ease-in-out 0s infinite alternate;
+}
+
+.search {
+    margin: 0 auto;
+    max-width: 25rem;
+}
+
+.search__input {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    border: none;
+    outline: none;
+    padding: .5rem 0;
+}
+
+.search .line--regular {
+    height: 4px;
+    width: 100%;
+    margin: auto;
+    transition: .3s ease-in-out;
+}
+
+.search:focus-within .line--regular {
+    width: 2rem;
+    background-color: var(--accent-color);
+}
+
+#starred {
+    margin: 1rem auto 0;
+    width: fit-content;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.starred__station {
+    margin: 0;
+}
+
+.starred__station-name {
+    padding: .5rem 1rem;
+}
+
+.starred__station .line--accent {
+    margin: -4px auto 0;
+    height: 4px;
+    width: 0;
+    transition: .5s ease-in-out;
+}
+
+.starred__station--active .line--accent {
+    width: 2rem;
+}
+
+#station-name {
+    text-align: center;
+}
+
+.tab-row {
+    display: flex;
+    flex-flow: row;
+}
+
+.tab-row__tab {
+    padding: .5rem 0;
+    text-align: center;
+    width: 100%;
+}
+
+.tab-indicator-container {
+    position: relative;
+    top: -4px;
+    height: 4px;
+}
+
+#tab-indicator {
+    height: 100%;
+    margin-left: calc(17% - 1rem);
+    margin-right: calc(83% - 1rem);
+    animation-fill-mode: both;
+    --animation--tab-indicator__start: 17%;
+    --animation--tab-indicator__end: 17%;
+}
+
+.tab-indicator__animation-to-right {
+    animation: tab-indicator--margin-left--to-right .5s ease-in-out 0s alternate, tab-indicator--margin-right--to-right .5s ease-in-out 0s alternate;
+}
+
+.tab-indicator__animation-to-left {
+    animation: tab-indicator--margin-left--to-left .5s ease-in-out 0s alternate, tab-indicator--margin-right--to-left .5s ease-in-out 0s alternate;
+}
+
+@keyframes tab-indicator--margin-left--to-right {
+    0% {margin-left: calc(var(--animation--tab-indicator__start) - 1rem);}
+    25% {margin-left: calc(var(--animation--tab-indicator__start) - 1rem);}
+    100% {margin-left: calc(var(--animation--tab-indicator__end) - 1rem);}
+}
+
+@keyframes tab-indicator--margin-right--to-right {
+    0% {margin-right: calc(100% - var(--animation--tab-indicator__start) - 1rem);}
+    75% {margin-right: calc(100% - var(--animation--tab-indicator__end) - 1rem);}
+    100% {margin-right: calc(100% - var(--animation--tab-indicator__end) - 1rem);}
+}
+
+@keyframes tab-indicator--margin-left--to-left {
+    0% {margin-left: calc(var(--animation--tab-indicator__start) - 1rem);}
+    75% {margin-left: calc(var(--animation--tab-indicator__end) - 1rem);}
+    100% {margin-left: calc(var(--animation--tab-indicator__end) - 1rem);}
+}
+
+@keyframes tab-indicator--margin-right--to-left {
+    0% {margin-right: calc(100% - var(--animation--tab-indicator__start) - 1rem);}
+    25% {margin-right: calc(100% - var(--animation--tab-indicator__start) - 1rem);}
+    100% {margin-right: calc(100% - var(--animation--tab-indicator__end) - 1rem);}
+}
+
+.table {
+    display: flex;
+    flex-direction: column;
+}
+
+.table > :nth-child(2) {
+    height: 4px;
+}
+
+.table__row {
+    display: flex;
+    flex-direction: row;
+    padding: .5rem 0;
+}
+
+.table__cell {
+    width: 100%;
+    text-align: center;
+}
+
+.table__cell .wi {
+    line-height: 0;
 }
 
 .test {

@@ -1,10 +1,124 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de" data-theme="light">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/x-icon" href="">
+    <title>Wetter</title>
+    <link href="../css/main.css" rel="stylesheet">
+    <link href="../css/weather-icons.min.css" rel="stylesheet">
+    <link href="../css/weather-icons-wind.min.css" rel="stylesheet">
 </head>
 <body>
-
+<script src="https://s3.eu-central-1.amazonaws.com/app-prod-static.warnwetter.de/v16/forecast_mosmix_10863.json"></script>
+<script src="../js/main.js"></script>
+<script src="../js/navigation.js"></script>
+<div id="load-indicatorlol" class="line--accent"></div>
+<div class="search">
+    <input type="text" class="search__input" placeholder="Suche">
+    <div class="line--regular"></div>
+</div>
+<div id="starred">
+    <div class="starred__station">
+        <button class="hoverable starred__station-name">Berlin-Marzahn</button>
+        <div class="line--accent"></div>
+    </div>
+    <div class="starred__station">
+        <button class="hoverable starred__station-name">München Stadt</button>
+        <div class="line--accent"></div>
+    </div>
+    <div class="starred__station starred__station--active">
+        <button class="hoverable starred__station-name">Garching</button>
+        <div class="line--accent"></div>
+    </div>
+</div>
+<h1 id="station-name" onclick="switchTheme()">Garching</h1>
+<div class="content-wrapper">
+    <div class="tab-row">
+        <button type="button" class="hoverable tab-row__tab" onclick="switchTab(0)">Verlauf</button>
+        <button type="button" class="hoverable tab-row__tab" onclick="switchTab(1)">Tagesdaten</button>
+        <button type="button" class="hoverable tab-row__tab" onclick="switchTab(2)">Unwetterwarnungen</button>
+    </div>
+    <div class="tab-indicator-container">
+        <div class="line--accent tab-indicator__animation-to-right" id="tab-indicator"></div>
+    </div>
+    <div class="forecast table">
+        <div class="forecast__header table__header table__row">
+            <div class="table__cell">
+                Uhrzeit
+            </div>
+            <div class="table__cell">
+                Icon
+            </div>
+            <div class="table__cell">
+                Temperatur
+            </div>
+            <div class="table__cell">
+                Niederschlag
+            </div>
+            <div class="table__cell">
+                Windgeschw.
+            </div>
+            <div class="table__cell">
+                Windböen
+            </div>
+            <div class="table__cell">
+                Windrichtung
+            </div>
+        </div>
+        <div class="line--regular line--horizontal"></div>
+        <div class="forecast__row table__row">
+            <div class="table__cell">
+                22 Uhr
+            </div>
+            <div class="table__cell">
+                <i class="wi wi-thunderstorm"></i>
+            </div>
+            <div class="table__cell">
+                35 °C
+            </div>
+            <div class="table__cell">
+                150 mm
+            </div>
+            <div class="table__cell">
+                25 km/h
+            </div>
+            <div class="table__cell">
+                235 km/h
+            </div>
+            <div class="table__cell">
+                <i class="wi wi-wind from-134-deg"></i>
+            </div>
+        </div>
+        <div class="forecast__row table__row">
+            <div class="table__cell">
+                3 Uhr
+            </div>
+            <div class="table__cell">
+                <i class="wi wi-strong-wind"></i>
+            </div>
+            <div class="table__cell">
+                -3 °C
+            </div>
+            <div class="table__cell">
+                0 mm
+            </div>
+            <div class="table__cell">
+                3 km/h
+            </div>
+            <div class="table__cell">
+                10 km/h
+            </div>
+            <div class="table__cell">
+                <i class="wi wi-wind"></i>
+            </div>
+        </div>
+    </div>
+</div>
+<footer>
+    Daniel Bund, 2023
+</footer>
 </body>
 </html>
