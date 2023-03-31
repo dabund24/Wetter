@@ -19,15 +19,31 @@ body {
     padding: 0 .5rem;
 }
 
-body, input, button {
+body, input, button, .tooltip:after {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI Variable", "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-    font-size: 20px;
+    font-size: 1.25rem;
     color: var(--foreground-color);
 }
 
 input, button {
     background-color: transparent;
     border: none;
+}
+
+.loading {
+    cursor: progress;
+}
+
+.loading .wi-data:before {
+    content: "\f07b";
+}
+
+.loading .wi-data {
+    transform: rotate(0deg) !important;
+}
+
+h1, h2 {
+    text-align: center;
 }
 
 .wi {
@@ -97,6 +113,10 @@ input, button {
     height: 4px;
     margin-top: -4px;
     animation: load-indication .7s ease-in-out 0s infinite alternate, load-indication--margin-right .7s ease-in-out 0s infinite alternate;
+}
+
+.loading #load-indicator {
+    display: block;
 }
 
 @keyframes load-indication {
@@ -295,6 +315,19 @@ input, button {
     }
 }
 
+#tab-content {
+    height: 25rem;
+    overflow-y: scroll;
+}
+
+#tab-content-1 {
+    display: none;
+}
+
+#tab-content-2 {
+    display: none;
+}
+
 .table {
     display: flex;
     flex-direction: column;
@@ -319,6 +352,20 @@ input, button {
     line-height: 0;
 }
 
+.day-data {
+    display: flex;
+    flex-direction: column;
+}
+
+.day-data__tiles-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.day-data-tile {
+    width: 100%;
+}
+
 .test {
     display: flex;
     flex-direction: column;
@@ -326,4 +373,21 @@ input, button {
 
 .test, .test .wi {
     font-size: 5rem !important;
+}
+
+footer {
+    display: flex;
+    flex-direction: row;
+    padding: .5rem;
+    position: relative;
+    bottom: 0;
+}
+
+footer > * {
+    color: var(--foreground-color);
+    margin: 0 .5rem;
+}
+
+footer > :last-child {
+    margin-left: auto;
 }

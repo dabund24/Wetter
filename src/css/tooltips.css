@@ -1,0 +1,159 @@
+.tooltip {
+    position: relative;
+    cursor: help;
+}
+
+.tooltip:after {
+    position: absolute;
+    transform: translateX(-50%);
+    bottom: 1em;
+    left:50%;
+    border-radius: .5rem;
+    width: 0;
+    font-size: 0;
+    line-height: initial;
+    text-align: center;
+    background-color: var(--foreground-color--opaque);
+    backdrop-filter: blur(1px);
+    opacity: 0;
+    transition: opacity .5s;
+}
+
+.wi:hover:after {
+    width: auto;
+    white-space: nowrap;
+    font-size: 20px;
+    border: 4px solid var(--foreground-color--opaque);
+    padding: 0 .5rem;
+    opacity: 1;
+}
+
+/* 1 */
+.tooltip.wi-day-sunny:after, .tooltip.wi-night-clear:after {
+    content: "Sonne";
+}
+/* 2 */
+.tooltip.wi-day-sunny-overcast:after, .tooltip.wi-night-alt-partly-cloudy:after {
+    content: "Sonne, leicht bewölkt";
+}
+/* 3 */
+.tooltip.wi-day-cloudy:after, .tooltip.wi-night-alt-cloudy:after {
+    content: "Sonne, bewölkt";
+}
+/* 4 */
+.tooltip.wi-cloud:after {
+    content: "Wolken";
+}
+/* 5 */
+.tooltip.wi-fog:after {
+    content: "Nebel";
+}
+/* TODO 6
+.tooltip.wi-day-sunny:after, .tooltip.wi-night-clear:after {
+    content: "Nebel, Rutschgefahr";
+}*/
+/* 7 */
+.tooltip.wi-sprinkle:after {
+    content: "leichter Regen";
+}
+/* 8 */
+.tooltip.wi-showers:after {
+    content: "Regen";
+}
+/* 9 */
+.tooltip.wi-rain:after {
+    content: "starker Regen";
+}
+/* TODO 10
+.tooltip.wi-day-sunny:after, .tooltip.wi-night-clear:after {
+    content: "leichter Regen, Rutschgefahr";
+}*/
+/* TODO 11
+.tooltip.wi-day-sunny:after, .tooltip.wi-night-clear:after {
+    content: "starker Regen, Rutschgefahr";
+}*/
+/* 12 */
+.tooltip.wi-rain-mix:after {
+    content: "Regen, vereinzelt Schneefall";
+}
+/* 13 */
+.tooltip.wi-sleet:after {
+    content: "Regen, vermehrt Schneeefall";
+}
+/* TODO 14
+.tooltip.wi-day-sunny:after, .tooltip.wi-night-clear:after {
+    content: "leichter Schneefall";
+}*/
+/* 15 */
+.tooltip.wi-snow:after {
+    content: "Schneefall";
+}
+/* 16 */
+.tooltip.wi-snow-wind:after {
+    content: "starker Schneefall";
+}
+/* 17 */
+.tooltip.wi-hail:after {
+    content: "Wolken, (Hagel)";
+}
+/* 18 */
+.tooltip.wi-day-sprinkle:after, .tooltip.wi-night-alt-sprinkle:after {
+    content: "Sonne, leichter Regen";
+}
+/* 19 */
+.tooltip.wi-day-rain:after, .tooltip.wi-night-rain:after {
+    content: "Sonne, starker Regen";
+}
+/* 20 */
+.tooltip.wi-day-rain-mix:after, .tooltip.wi-night-alt-rain-mix:after {
+    content: "Sonne, Regen, vereinzelter Schneefall";
+}
+/* 21 */
+.tooltip.wi-day-sleet:after, .tooltip.wi-night-alt-sleet:after {
+    content: "Sonne, Regen, vermehrter Schneefall";
+}
+/* 22 */
+.tooltip.wi-day-snow:after, .tooltip.wi-night-alt-snow:after {
+    content: "Sonne, vereinzelter Schneefall";
+}
+/* 23 */
+.tooltip.wi-day-snow-wind:after, .tooltip.wi-night-alt-snow-wind:after {
+    content: "Sonne, vermehrter Schneefall";
+}
+/* 24 */
+.tooltip.wi-day-hail:after, .tooltip.wi-night-alt-hail:after {
+    content: "Sonne, (Hagel)";
+}
+/* 25 */
+.tooltip.wi-day-rain-wind:after, .tooltip.wi-night-alt-rain-wind:after {
+    content: "Sonne, (Starker Hagel)";
+}
+/* 26 */
+.tooltip.wi-lightning:after {
+    content: "Gewitter";
+}
+/* 27 */
+.tooltip.wi-storm-showers:after {
+    content: "Gewitter, Regen";
+}
+/* 28 */
+.tooltip.wi-thunderstorm:after {
+    content: "Gewitter, starker Regen";
+}
+/* TODO 29
+.tooltip.wi-storm-showers:after {
+    content: "Gewitter, (Hagel)";
+}*/
+/* TODO 30
+.tooltip.wi-thunderstorm:after {
+    content: "Gewitter, (starker Hagel)";
+}*/
+/* 31 */
+.tooltip.wi-day-windy:after, .tooltip.wi-strong-wind:after {
+    content: "(Wind)";
+}
+
+/* loading */
+.loading .tooltip.wi-data:after {
+    content: "nicht verfügbar";
+}

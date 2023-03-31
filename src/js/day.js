@@ -1,7 +1,12 @@
 class Day {
-
+    
+    addOverviewData(data) {
+        this.icon1 = data.icon1;
+        console.log(this.icon1);
+        console.log(data.sunrise);
+    }
 }
 
-class DayLong extends Day {
+const a = 0;
 
-}
+export default Day;

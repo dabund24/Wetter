@@ -6,7 +6,7 @@ const root = document.querySelector(':root');
 let currentTab = 0;
 const tabPercentages = ["17%", "50%", "83%"];
 
-function switchTab(newTab) {
+export function switchTab(newTab) {
     if (newTab === currentTab) {
         return;
     }
@@ -25,6 +25,10 @@ function switchTab(newTab) {
     } else {
         tabLine.classList.add("indicator__animation-to-left");
     }
+    
+    document.getElementById("tab-content-" + currentTab).style.setProperty("display", "none");
+    document.getElementById("tab-content-" + newTab).style.setProperty("display", "block");
+
     currentTab = newTab;
 }
 
@@ -34,7 +38,7 @@ function switchTab(newTab) {
 let currentDay = 0;
 const dayPercentages = ["5%", "15%", "25%", "35%", "45%", "55%", "65%", "75%", "85%", "95%"];
 
-function switchDay(newDay) {
+export function switchDay(newDay) {
     if (newDay === currentDay) {
         return;
     }
@@ -59,10 +63,12 @@ function switchDay(newDay) {
 /****************/
 // theme switch //
 /****************/
-function switchTheme() {
+export function switchTheme() {
     if (document.documentElement.getAttribute("data-theme") === "light") {
         document.documentElement.setAttribute("data-theme", "dark");
     } else {
         document.documentElement.setAttribute("data-theme", "light");
     }
 }
+
+export {root};

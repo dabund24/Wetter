@@ -1,24 +1,46 @@
-let stationID = 10863;
-let fm_data;
+import Day from "./day.js";
+import {root, switchTab as sTab, switchTheme as sTheme, switchDay as sDay} from "./navigation.js";
 
-function fetchData(stationIDlol) {
-    const spinner = document.getElementById("load-indicator");
-    spinner.style.setProperty("display", "block");
+let stationID = 10863;
+const days = [new Day()];
+
+for (let i = 1; i < 10; i++) {
+    days.push(new Day());
+}
+
+
+root.classList.add("loading");
+
+fetchData(stationID);
+
+
+
+export function fetchData(stationIDlol) {
     fetch("https://s3.eu-central-1.amazonaws.com/app-prod-static.warnwetter.de/v16/forecast_mosmix_" + stationID + ".json")
-        .then((response) => response.json()).then((data) => {
-        fm_data = data;
-        logData(data);
-        
+        .then(response => response.json()).then(data => {
+            processOverviewData(data);
     });
-    setTimeout(function(){
-        console.log('after');
-        spinner.style.setProperty("display", "none");
-    },5000);
+}
+
+function processOverviewData(data) {
+    let daysData = data.days;
+    for (let i in daysData) {
+        days[i].addOverviewData(daysData[i]);
+    }
 }
 
 function logData(data) {
     console.log(data);
 }
 
+export function switchTab(index) {
+    sTab(index);
+}
 
-console.log(fm_data);
+export function switchTheme(index) {
+    sTheme(index);
+}
+
+export function switchDay(index) {
+    sDay(index);
+}
