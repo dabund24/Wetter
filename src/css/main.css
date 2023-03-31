@@ -3,9 +3,6 @@
     --foreground-color: #000000;
     --foreground-color--opaque: #00000011;
     --accent-color: #0e7667;
-
-    --animation--tab-indicator__start: 17%;
-    --animation--tab-indicator__end: 17%;
 }
 
 [data-theme="dark"] {
@@ -16,12 +13,14 @@
 }
 
 body {
-    min-height: 100vh;
     background-color: var(--background-color);
+    min-height: 100vh;
+    margin: 0;
+    padding: 0 .5rem;
 }
 
 body, input, button {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI Variable", "Segoe UI","Roboto","Oxygen","Ubuntu","Helvetica Neue", Arial, sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI Variable", "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
     font-size: 20px;
     color: var(--foreground-color);
 }
@@ -62,18 +61,6 @@ input, button {
     background-color: var(--foreground-color--opaque);
 }
 
-@keyframes load-indication--margin-left {
-    0% {margin-left: calc(50% - 5rem);}
-    25% {margin-left: calc(50% - 5rem);}
-    100% {margin-left: calc(50% + 3rem);}
-}
-
-@keyframes load-indication--margin-right {
-    0% {margin-right: calc(50% + 3rem);}
-    75% {margin-right: calc(50% - 5rem);}
-    100% {margin-right: calc(50% - 5rem);}
-}
-
 .button--accent {
     border-radius: .5rem;
     padding: .5rem;
@@ -81,11 +68,52 @@ input, button {
     color: var(--background-color);
 }
 
+.wi--container {
+
+}
+
+.wi--alt-text--container {
+    position: relative;
+    width: 0;
+    height: 0;
+    bottom: 3.5rem;
+    z-index: 50;
+}
+
+.wi--alt-text {
+    position: absolute;
+    white-space: nowrap;
+    padding: .5rem;
+    border-radius: .5rem;
+    backdrop-filter: blur(.1rem);
+    border: 4px solid var(--foreground-color--opaque);
+    background-color: var(--foreground-color--opaque);
+}
+
 #load-indicator {
+    display: none;
     position: sticky;
-    top: 1rem;
+    top: .5rem;
     height: 4px;
-    animation: load-indication--margin-left .7s ease-in-out 0s infinite alternate, load-indication--margin-right .7s ease-in-out 0s infinite alternate;
+    margin-top: -4px;
+    animation: load-indication .7s ease-in-out 0s infinite alternate, load-indication--margin-right .7s ease-in-out 0s infinite alternate;
+}
+
+@keyframes load-indication {
+    0% {
+        margin-left: calc(50% - 5rem);
+        margin-right: calc(50% + 3rem);
+    }
+    25% {
+        margin-left: calc(50% - 5rem);
+    }
+    75% {
+        margin-right: calc(50% - 5rem);
+    }
+    100% {
+        margin-left: calc(50% + 3rem);
+        margin-right: calc(50% - 5rem);
+    }
 }
 
 .search {
@@ -112,6 +140,22 @@ input, button {
 .search:focus-within .line--regular {
     width: 2rem;
     background-color: var(--accent-color);
+}
+
+.action-bar {
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+}
+
+[data-theme="dark"] .theme-toggle .wi-day-sunny {
+    display: none;
+}
+
+[data-theme="light"] .theme-toggle .wi-night-clear {
+    display: none;
 }
 
 #starred {
@@ -145,6 +189,43 @@ input, button {
     text-align: center;
 }
 
+.day-select-container {
+    overflow-x: scroll;
+    padding: .5rem 0;
+}
+
+.day-select {
+    margin: 0 auto;
+    width: fit-content;
+}
+
+.days {
+    display: flex;
+    flex-direction: row;
+}
+
+.day {
+    display: flex;
+    flex-direction: column;
+    padding: .5rem 0;
+    width: 11rem;
+}
+
+.day span {
+    display: block;
+    text-align: center;
+}
+
+.day .wi {
+    font-size: 2rem;
+    margin: .5rem;
+}
+
+#day-indicator {
+    --animation--tab-indicator__start: 5%;
+    --animation--tab-indicator__end: 5%;
+}
+
 .tab-row {
     display: flex;
     flex-flow: row;
@@ -156,51 +237,62 @@ input, button {
     width: 100%;
 }
 
-.tab-indicator-container {
+.indicator-line-container {
     position: relative;
     top: -4px;
     height: 4px;
 }
 
-#tab-indicator {
+.indicator {
     height: 100%;
-    margin-left: calc(17% - 1rem);
-    margin-right: calc(83% - 1rem);
     animation-fill-mode: both;
+}
+
+#tab-indicator {
     --animation--tab-indicator__start: 17%;
     --animation--tab-indicator__end: 17%;
 }
 
-.tab-indicator__animation-to-right {
-    animation: tab-indicator--margin-left--to-right .5s ease-in-out 0s alternate, tab-indicator--margin-right--to-right .5s ease-in-out 0s alternate;
+.indicator__animation-to-right {
+    animation: indicator--to-right .5s ease-in-out 0s alternate both;
 }
 
-.tab-indicator__animation-to-left {
-    animation: tab-indicator--margin-left--to-left .5s ease-in-out 0s alternate, tab-indicator--margin-right--to-left .5s ease-in-out 0s alternate;
+.indicator__animation-to-left {
+    animation: indicator--to-left .5s ease-in-out 0s alternate both;
 }
 
-@keyframes tab-indicator--margin-left--to-right {
-    0% {margin-left: calc(var(--animation--tab-indicator__start) - 1rem);}
-    25% {margin-left: calc(var(--animation--tab-indicator__start) - 1rem);}
-    100% {margin-left: calc(var(--animation--tab-indicator__end) - 1rem);}
+@keyframes indicator--to-right {
+    0% {
+        margin-left: calc(var(--animation--tab-indicator__start) - 1rem);
+        margin-right: calc(100% - var(--animation--tab-indicator__start) - 1rem);
+    }
+    25% {
+        margin-left: calc(var(--animation--tab-indicator__start) - 1rem);
+    }
+    75% {
+        margin-right: calc(100% - var(--animation--tab-indicator__end) - 1rem);
+    }
+    100% {
+        margin-left: calc(var(--animation--tab-indicator__end) - 1rem);
+        margin-right: calc(100% - var(--animation--tab-indicator__end) - 1rem);
+    }
 }
 
-@keyframes tab-indicator--margin-right--to-right {
-    0% {margin-right: calc(100% - var(--animation--tab-indicator__start) - 1rem);}
-    75% {margin-right: calc(100% - var(--animation--tab-indicator__end) - 1rem);}
-    100% {margin-right: calc(100% - var(--animation--tab-indicator__end) - 1rem);}
-}
-
-@keyframes tab-indicator--margin-left--to-left {
-    0% {margin-left: calc(var(--animation--tab-indicator__start) - 1rem);}
-    75% {margin-left: calc(var(--animation--tab-indicator__end) - 1rem);}
-    100% {margin-left: calc(var(--animation--tab-indicator__end) - 1rem);}
-}
-
-@keyframes tab-indicator--margin-right--to-left {
-    0% {margin-right: calc(100% - var(--animation--tab-indicator__start) - 1rem);}
-    25% {margin-right: calc(100% - var(--animation--tab-indicator__start) - 1rem);}
-    100% {margin-right: calc(100% - var(--animation--tab-indicator__end) - 1rem);}
+@keyframes indicator--to-left {
+    0% {
+        margin-left: calc(var(--animation--tab-indicator__start) - 1rem);
+        margin-right: calc(100% - var(--animation--tab-indicator__start) - 1rem);
+    }
+    25% {
+        margin-right: calc(100% - var(--animation--tab-indicator__start) - 1rem);
+    }
+    75% {
+        margin-left: calc(var(--animation--tab-indicator__end) - 1rem);
+    }
+    100% {
+        margin-left: calc(var(--animation--tab-indicator__end) - 1rem);
+        margin-right: calc(100% - var(--animation--tab-indicator__end) - 1rem);
+    }
 }
 
 .table {
@@ -228,7 +320,10 @@ input, button {
 }
 
 .test {
-    font-size: 2rem;
     display: flex;
     flex-direction: column;
+}
+
+.test, .test .wi {
+    font-size: 5rem !important;
 }
