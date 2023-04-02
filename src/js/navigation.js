@@ -1,4 +1,4 @@
-const root = document.querySelector(':root');
+export const root = document.querySelector(':root');
 
 /**************/
 // tab switch //
@@ -35,7 +35,7 @@ export function switchTab(newTab) {
 /**************/
 // day switch //
 /**************/
-let currentDay = 0;
+export let currentDay = 0;
 const dayPercentages = ["5%", "15%", "25%", "35%", "45%", "55%", "65%", "75%", "85%", "95%"];
 
 export function switchDay(newDay) {
@@ -70,5 +70,3 @@ export function switchTheme() {
         document.documentElement.setAttribute("data-theme", "light");
     }
 }
-
-export {root};

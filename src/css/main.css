@@ -224,19 +224,19 @@ h1, h2 {
     flex-direction: row;
 }
 
-.day {
+.tile {
     display: flex;
     flex-direction: column;
     padding: .5rem 0;
     width: 11rem;
 }
 
-.day span {
+.tile span {
     display: block;
     text-align: center;
 }
 
-.day .wi {
+.tile .wi {
     font-size: 2rem;
     margin: .5rem;
 }
