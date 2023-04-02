@@ -1,15 +1,31 @@
+[data-color="green"] {
+    --accent-light: #0e7667;
+    --accent-dark: #27f4e2;
+}
+
+[data-color="red"] {
+    --accent-light: #cb1a29;
+    --accent-dark: #eb6c68;
+}
+
+[data-color="blue"] {
+    --accent-light: #0e6aba;
+    --accent-dark: #54bef6;
+}
+
+
 :root {
     --background-color: #ffffff;
     --foreground-color: #000000;
     --foreground-color--opaque: #00000011;
-    --accent-color: #0e7667;
+    --accent-color: var(--accent-light);
 }
 
 [data-theme="dark"] {
     --background-color: #121212;
     --foreground-color: #ffffff;
     --foreground-color--opaque: #ffffff11;
-    --accent-color: #27f4e2;
+    --accent-color: var(--accent-dark);
 }
 
 body {
@@ -198,7 +214,7 @@ h1, h2 {
     margin: -4px auto 0;
     height: 4px;
     width: 0;
-    transition: .5s ease-in-out;
+    transition: width .5s ease-in-out;
 }
 
 .starred__station--active .line--accent {
@@ -379,15 +395,19 @@ footer {
     display: flex;
     flex-direction: row;
     padding: .5rem;
-    position: relative;
+    position: sticky;
     bottom: 0;
 }
 
 footer > * {
     color: var(--foreground-color);
-    margin: 0 .5rem;
+    width: 100%;
+}
+
+footer #status-bar {
+    text-align: center;
 }
 
 footer > :last-child {
-    margin-left: auto;
+    text-align: right;
 }

@@ -70,3 +70,13 @@ export function switchTheme() {
         document.documentElement.setAttribute("data-theme", "light");
     }
 }
+
+/****************/
+// color switch //
+/****************/
+const colors = ["green", "red", "blue"];
+let currentColor = 0;
+export function switchColor() {
+    currentColor = (currentColor + 1) % 3;
+    document.documentElement.setAttribute("data-color", colors[currentColor]);
+}

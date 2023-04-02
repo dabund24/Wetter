@@ -1,6 +1,12 @@
 export function unixToHoursString(unix) {
     let date = new Date(unix);
-    return date.getHours() + "." + date.getMinutes() + " Uhr"
+    return leadingZeros(date.getHours(), 2) + "." + leadingZeros(date.getMinutes(), 2) + " Uhr"
+}
+
+export function addHours(date, toBeAdded) {
+    let result = new Date(date);
+    result.setHours(result.getHours() + Number(toBeAdded), result.getMinutes(), result.getSeconds(), result.getMilliseconds());
+    return result;
 }
 
 export function addDays(date, toBeAdded) {
@@ -9,17 +15,36 @@ export function addDays(date, toBeAdded) {
     return result;
 }
 
+export function dayDifference(dateA, dateB) {
+    const ms_per_day = 1000 * 60 * 60 * 24;
+    // Discard the time and time-zone information.
+    const utc1 = Date.UTC(dateA.getFullYear(), dateA.getMonth(), dateA.getDate());
+    const utc2 = Date.UTC(dateB.getFullYear(), dateB.getMonth(), dateB.getDate());
+
+    return Math.floor((utc2 - utc1) / ms_per_day);
+}
+
 
 export const leadingZeros = (number, digits) => String(number).padStart(digits, '0');
 
 export const daysOfWeek = [
+    "Sonntag",
     "Montag",
     "Dienstag",
     "Mittwoch",
     "Donnerstag",
     "Freitag",
     "Samstag",
-    "Sonntag"
+]
+
+export const moonPhases = [
+    "wi-moon-alt-new",
+    "wi-moon-alt-waxing-crescent-4",
+    "wi-moon-alt-waxing-gibbous-1",
+    "wi-moon-alt-waxing-gibbous-5",
+    "wi-moon-alt-waning-gibbous-2",
+    "wi-moon-alt-waning-gibbous-6",
+    "wi-moon-alt-waning-crescent-3"
 ]
 
 export const icons_day = [
@@ -101,5 +126,7 @@ export function replaceNaClassFromChildOfParent(parent, classSelector, newClass)
 }
 
 export function setHTMLOfChildOfParent(parent, classSelector, innerHTML) {
-    parent.querySelector(classSelector).innerHTML = innerHTML;
+    if (parent != null) {
+        parent.querySelector(classSelector).innerHTML = innerHTML;
+    }
 }

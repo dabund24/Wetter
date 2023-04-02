@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de" data-theme="light">
+<html lang="de" data-theme="light" data-color="green">
 
 <head>
     <meta charset="UTF-8"/>
@@ -16,9 +16,10 @@
 <script src="https://s3.eu-central-1.amazonaws.com/app-prod-static.warnwetter.de/v16/forecast_mosmix_10863.json"></script>
 
 <script type="module">
-    import {switchTab, switchTheme, switchDay, fetchData} from "../js/main.js";
+    import {switchTab, switchTheme, switchColor, switchDay, fetchData} from "../js/main.js";
     window.switchTab = switchTab;
     window.switchTheme = switchTheme;
+    window.switchColor = switchColor;
     window.switchDay = switchDay;
     window.fetchData = fetchData;
 </script>
@@ -31,7 +32,7 @@
     <button class="hoverable refresh" onclick="fetchData(10863)">
         <i class="wi wi-fw wi-refresh"></i>
     </button>
-    <button class="hoverable star">
+    <button class="hoverable star" onclick="switchColor()">
         <i class="wi wi-fw wi-stars"></i>
     </button>
     <button class="hoverable theme-toggle" onclick="switchTheme()">
@@ -59,18 +60,18 @@
         <div class="days">
             <button class="day hoverable tile" onclick="switchDay(0)">
                 <span class="day__icon">
-                    <i class="day__icon__1 wi wi-snow-wind wi_-data"></i>
-                    <i class="day__icon__2 wi wi-day-windy wi_-data"></i>
+                    <i class="day__icon__1 wi wi_-data"></i>
+                    <i class="day__icon__2 wi wi_-data"></i>
                 </span>
                 <span class="day__temperature">-3 °C / 25 °C</span>
                 <span class="day__precipitation">250 ml</span>
-                <strong class="day__day-of-week">Donnerstag</strong>
-                <strong class="day__date">30.03.2023</strong>
+                <strong class="day__day-of-week">Wochentag</strong>
+                <strong class="day__date">XX.XX.XXXX</strong>
             </button>
             <button class="day hoverable tile" onclick="switchDay(1)">
                 <span class="day__icon">
-                    <i class="day__icon__1 wi wi-snow-wind wi_-data"></i>
-                    <i class="day__icon__2 wi wi-day-windy wi_-data"></i>
+                    <i class="day__icon__1 wi wi_-data"></i>
+                    <i class="day__icon__2 wi wi_-data"></i>
                 </span>
                 <span class="day__temperature">-3 °C / 25 °C</span>
                 <span class="day__precipitation">250 ml</span>
@@ -79,8 +80,8 @@
             </button>
             <button class="day hoverable tile" onclick="switchDay(2)">
                 <span class="day__icon">
-                    <i class="day__icon__1 wi wi-snow-wind wi_-data"></i>
-                    <i class="day__icon__2 wi wi-day-windy wi_-data"></i>
+                    <i class="day__icon__1 wi wi_-data"></i>
+                    <i class="day__icon__2 wi wi_-data"></i>
                 </span>
                 <span class="day__temperature">-3 °C / 25 °C</span>
                 <span class="day__precipitation">250 ml</span>
@@ -89,8 +90,8 @@
             </button>
             <button class="day hoverable tile" onclick="switchDay(3)">
                 <span class="day__icon">
-                    <i class="day__icon__1 wi wi-snow-wind wi_-data"></i>
-                    <i class="day__icon__2 wi wi-day-windy wi_-data"></i>
+                    <i class="day__icon__1 wi wi_-data"></i>
+                    <i class="day__icon__2 wi wi_-data"></i>
                 </span>
                 <span class="day__temperature">-3 °C / 25 °C</span>
                 <span class="day__precipitation">250 ml</span>
@@ -99,7 +100,8 @@
             </button>
             <button class="day hoverable tile" onclick="switchDay(4)">
                 <span class="day__icon">
-                    <i class="day__icon__1 wi wi-snow-wind wi_-data"></i>
+                    <i class="day__icon__1 wi wi_-data"></i>
+                    <i class="day__icon__2 wi wi_-data"></i>
                 </span>
                 <span class="day__temperature">-3 °C / 25 °C</span>
                 <span class="day__precipitation">250 ml</span>
@@ -108,7 +110,8 @@
             </button>
             <button class="day hoverable tile" onclick="switchDay(5)">
                 <span class="day__icon">
-                    <i class="day__icon__1 wi wi-snow-wind wi_-data"></i>
+                    <i class="day__icon__1 wi wi_-data"></i>
+                    <i class="day__icon__2 wi wi_-data"></i>
                 </span>
                 <span class="day__temperature">-3 °C / 25 °C</span>
                 <span class="day__precipitation">250 ml</span>
@@ -117,7 +120,8 @@
             </button>
             <button class="day hoverable tile" onclick="switchDay(6)">
                 <span class="day__icon">
-                    <i class="day__icon__1 wi wi-snow-wind wi_-data"></i>
+                    <i class="day__icon__1 wi wi_-data"></i>
+                    <i class="day__icon__2 wi wi_-data"></i>
                 </span>
                 <span class="day__temperature">-3 °C / 25 °C</span>
                 <span class="day__precipitation">250 ml</span>
@@ -126,7 +130,8 @@
             </button>
             <button class="day hoverable tile" onclick="switchDay(7)">
                 <span class="day__icon">
-                    <i class="day__icon__1 wi wi-snow-wind wi_-data"></i>
+                    <i class="day__icon__1 wi wi_-data"></i>
+                    <i class="day__icon__2 wi wi_-data"></i>
                 </span>
                 <span class="day__temperature">-3 °C / 25 °C</span>
                 <span class="day__precipitation">250 ml</span>
@@ -135,7 +140,8 @@
             </button>
             <button class="day hoverable tile" onclick="switchDay(8)">
                 <span class="day__icon">
-                    <i class="day__icon__1 wi wi-snow-wind wi_-data"></i>
+                    <i class="day__icon__1 wi wi_-data"></i>
+                    <i class="day__icon__2 wi wi_-data"></i>
                 </span>
                 <span class="day__temperature">-3 °C / 25 °C</span>
                 <span class="day__precipitation">250 ml</span>
@@ -144,7 +150,8 @@
             </button>
             <button class="day hoverable tile" onclick="switchDay(9)">
                 <span class="day__icon">
-                    <i class="day__icon__1 wi wi-snow-wind wi_-data"></i>
+                    <i class="day__icon__1 wi wi_-data"></i>
+                    <i class="day__icon__2 wi wi_-data"></i>
                 </span>
                 <span class="day__temperature">-3 °C / 25 °C</span>
                 <span class="day__precipitation">250 ml</span>
@@ -196,157 +203,47 @@
                     </div>
                 </div>
                 <div class="line--regular line--horizontal"></div>
-                <div class="forecast__row table__row">
-                    <div class="table__cell">
-                        0 Uhr
-                    </div>
-                    <div class="table__cell">
-                        <i class="wi wi-night-alt-hail wi_-data tooltip"></i>
-                    </div>
-                    <div class="table__cell">
-                        35 °C
-                    </div>
-                    <div class="table__cell">
-                        150 mm
-                    </div>
-                    <div class="table__cell">
-                        25 km/h
-                    </div>
-                    <div class="table__cell">
-                        235 km/h
-                    </div>
-                    <div class="table__cell">
-                        <i class="wi wi-wind from-134-deg wi_-data"></i>
-                    </div>
+                <div class="table__content" id="forecast__content">
+
                 </div>
-                <div class="forecast__row table__row">
-                    <div class="table__cell">
-                        4 Uhr
+                <template>
+                    <div class="forecast__row table__row">
+                        <div class="table__cell forecast__time">
+                            0 Uhr
+                        </div>
+                        <div class="table__cell">
+                            <i class="wi wi-na wi_-data tooltip forecast__icon"></i>
+                        </div>
+                        <div class="table__cell forecast__temperature">
+                            35 °C
+                        </div>
+                        <div class="table__cell forecast__precipitation">
+                            150 mm
+                        </div>
+                        <div class="table__cell forecast__windSpeed">
+                            25 km/h
+                        </div>
+                        <div class="table__cell forecast__windGust">
+                            235 km/h
+                        </div>
+                        <div class="table__cell">
+                            <i class="wi wi-na wi_-data forecast__windDirection"></i>
+                        </div>
                     </div>
-                    <div class="table__cell">
-                        <i class="wi wi-night-alt-sleet wi_-data tooltip"></i>
-                    </div>
-                    <div class="table__cell">
-                        -3 °C
-                    </div>
-                    <div class="table__cell">
-                        0 mm
-                    </div>
-                    <div class="table__cell">
-                        3 km/h
-                    </div>
-                    <div class="table__cell">
-                        10 km/h
-                    </div>
-                    <div class="table__cell">
-                        <i class="wi wi-wind wi_-data"></i>
-                    </div>
-                </div>
-                <div class="forecast__row table__row">
-                    <div class="table__cell">
-                        8 Uhr
-                    </div>
-                    <div class="table__cell">
-                        <i class="wi wi-day-sunny-overcast wi_-data tooltip"></i>
-                    </div>
-                    <div class="table__cell">
-                        -3 °C
-                    </div>
-                    <div class="table__cell">
-                        0 mm
-                    </div>
-                    <div class="table__cell">
-                        3 km/h
-                    </div>
-                    <div class="table__cell">
-                        10 km/h
-                    </div>
-                    <div class="table__cell">
-                        <i class="wi wi-wind wi_-data"></i>
-                    </div>
-                </div>
-                <div class="forecast__row table__row">
-                    <div class="table__cell">
-                        12 Uhr
-                    </div>
-                    <div class="table__cell">
-                        <i class="wi wi-day-sprinkle wi_-data tooltip"></i>
-                    </div>
-                    <div class="table__cell">
-                        -3 °C
-                    </div>
-                    <div class="table__cell">
-                        0 mm
-                    </div>
-                    <div class="table__cell">
-                        3 km/h
-                    </div>
-                    <div class="table__cell">
-                        10 km/h
-                    </div>
-                    <div class="table__cell">
-                        <i class="wi wi-wind wi_-data"></i>
-                    </div>
-                </div>
-                <div class="forecast__row table__row">
-                    <div class="table__cell">
-                        16 Uhr
-                    </div>
-                    <div class="table__cell">
-                        <i class="wi wi-day-sunny wi_-data tooltip"></i>
-                    </div>
-                    <div class="table__cell">
-                        -3 °C
-                    </div>
-                    <div class="table__cell">
-                        0 mm
-                    </div>
-                    <div class="table__cell">
-                        3 km/h
-                    </div>
-                    <div class="table__cell">
-                        10 km/h
-                    </div>
-                    <div class="table__cell">
-                        <i class="wi wi-wind wi_-data"></i>
-                    </div>
-                </div>
-                <div class="forecast__row table__row">
-                    <div class="table__cell">
-                        20 Uhr
-                    </div>
-                    <div class="table__cell">
-                        <i class="wi wi-night-clear wi_-data tooltip"></i>
-                    </div>
-                    <div class="table__cell">
-                        -3 °C
-                    </div>
-                    <div class="table__cell">
-                        0 mm
-                    </div>
-                    <div class="table__cell">
-                        3 km/h
-                    </div>
-                    <div class="table__cell">
-                        10 km/h
-                    </div>
-                    <div class="table__cell">
-                        <i class="wi wi-wind wi_-data"></i>
-                    </div>
-                </div>
+                </template>
             </div>
         </div>
         <div id="tab-content-1">
             <div class="day-data__tiles-container">
                 <div class="day-data-tile tile">
                 <span class="day__icon">
-                    <i class="wi wi-thunderstorm wi_-data tooltip"></i>
+                    <i class="wi wi-thunderstorm wi_-data tooltip day-data__icon1"></i>
                 </span>
                     <span>Vormittag</span>
                 </div>
                 <div class="day-data-tile tile">
                 <span class="day__icon">
-                    <i class="wi wi-day-sprinkle wi_-data tooltip"></i>
+                    <i class="wi wi-day-sprinkle wi_-data tooltip day-data__icon2"></i>
                 </span>
                     <span>Nachmittag</span>
                 </div>
@@ -357,26 +254,26 @@
                     <i class="wi wi-thermometer"></i>
                     <i class="wi wi-direction-down"></i>
                 </span>
-                    <span>-10 °C</span>
+                    <span class="day-data__temperatureMin">-10 °C</span>
                 </div>
                 <div class="day-data-tile tile">
                 <span class="day__icon">
                     <i class="wi wi-thermometer"></i>
                     <i class="wi wi-direction-up"></i>
                 </span>
-                    <span>35 °C</span>
+                    <span class="day-data__temperatureMax">35 °C</span>
                 </div>
                 <div class="day-data-tile tile">
                 <span class="day__icon">
                     <i class="wi wi-umbrella"></i>
                 </span>
-                    <span>350 mm</span>
+                    <span class="day-data__precipitation">350 mm</span>
                 </div>
                 <div class="day-data-tile tile">
                 <span class="day__icon">
                     <i class="wi wi-day-sunny"></i>
                 </span>
-                    <span>10,5 Stunden</span>
+                    <span class="day-data__sunshine">10,5 Stunden</span>
                 </div>
             </div>
             <div class="day-data__tiles-container">
@@ -384,25 +281,25 @@
                 <span class="day__icon">
                     <i class="wi wi-sunrise"></i>
                 </span>
-                    <span>07.30 Uhr</span>
+                    <span class="day-data__sunrise">07.30 Uhr</span>
                 </div>
                 <div class="day-data-tile tile">
                 <span class="day__icon">
                     <i class="wi wi-sunset"></i>
                 </span>
-                    <span>19.30 Uhr</span>
+                    <span class="day-data__sunset">19.30 Uhr</span>
                 </div>
                 <div class="day-data-tile tile">
                 <span class="day__icon">
                     <i class="wi wi-moonrise"></i>
                 </span>
-                    <span>16.45 Uhr</span>
+                    <span class="day-data__moonrise">16.45 Uhr</span>
                 </div>
                 <div class="day-data-tile tile">
                 <span class="day__icon">
                     <i class="wi wi-moonset"></i>
                 </span>
-                    <span>04.20 Uhr</span>
+                    <span class="day-data__moonset">04.20 Uhr</span>
                 </div>
             </div>
             <div class="day-data__tiles-container">
@@ -410,35 +307,36 @@
                 <span class="day__icon">
                     <i class="wi wi-windy"></i>
                 </span>
-                    <span>10 km/h</span>
+                    <span class="day-data__windSpeed">10 km/h</span>
                 </div>
                 <div class="day-data-tile tile">
                 <span class="day__icon">
                     <i class="wi wi-strong-wind"></i>
                 </span>
-                    <span>130 km/h</span>
+                    <span class="day-data__windGust">130 km/h</span>
                 </div>
                 <div class="day-data-tile tile">
                 <span class="day__icon">
-                    <i class="wi wi-wind from-120-deg wi_-data"></i>
+                    <i class="wi wi-wind from-120-deg wi_-data day-data__windDirection"></i>
                 </span>
                     <span>Windrichtung</span>
                 </div>
                 <div class="day-data-tile tile">
                 <span class="day__icon">
-                    <i class="wi wi-moon-alt-waxing-crescent-2 wi_-data"></i>
+                    <i class="wi wi-moon-alt-waxing-crescent-2 wi_-data day-data__moonPhase"></i>
                 </span>
                     <span>Mondphase</span>
                 </div>
             </div>
         </div>
         <div id="tab-content-2">
-
+            Noch nicht fertig.
         </div>
     </div>
 </div>
 <footer>
-    <span>Daniel Bund, 2023</span>
+    <div>Daniel Bund, 2023</div>
+    <div id="status-bar">Lol</div>
     <a href="https://github.com/dabund24/WetterLOL">Github</a>
 </footer>
 </body>
