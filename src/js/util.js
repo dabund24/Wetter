@@ -102,7 +102,7 @@ export const icons_night = [
     "wi-snow-wind",
     "wi-hail",
     "wi-night-alt-sprinkle",
-    "wi-night-rain",
+    "wi-night-alt-rain",
     "wi-night-alt-rain-mix",
     "wi-night-alt-sleet",
     "wi-night-alt-snow",

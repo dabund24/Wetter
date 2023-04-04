@@ -161,7 +161,7 @@ h1, h2 {
 }
 
 .search {
-    margin: 0 auto;
+    margin: .5rem auto 0;
     max-width: 25rem;
 }
 
@@ -222,7 +222,7 @@ h1, h2 {
     margin: -4px auto 0;
     height: 4px;
     width: 0;
-    transition: width .5s ease-in-out;
+    transition: width .2s ease-in-out;
 }
 
 .starred__station--active .line--accent {
@@ -364,7 +364,7 @@ h1, h2 {
 .table__row {
     display: flex;
     flex-direction: row;
-    padding: .5rem 0;
+    padding: .7rem 0;
 }
 
 .table__cell {
@@ -403,13 +403,12 @@ footer {
     background-color: var(--background-color);
     display: flex;
     flex-direction: row;
-    padding: .2rem 1rem;
+    padding: 0 1rem .2rem;
     position: sticky;
     bottom: 0;
 }
 
 footer > * {
-    color: var(--foreground-color);
     width: 100%;
 }
 
@@ -419,4 +418,8 @@ footer #status-bar {
 
 footer > :last-child {
     text-align: right;
+}
+
+footer a {
+    color: var(--foreground-color);
 }

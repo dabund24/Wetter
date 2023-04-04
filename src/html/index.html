@@ -16,11 +16,12 @@
 <script src="https://s3.eu-central-1.amazonaws.com/app-prod-static.warnwetter.de/v16/forecast_mosmix_10863.json"></script>
 
 <script type="module">
-    import {switchTab, switchTheme, switchColor, switchDay, fetchData} from "../js/main.js";
+    import {switchTab, switchTheme, switchColor, switchDay, switchStation, fetchData} from "../js/main.js";
     window.switchTab = switchTab;
     window.switchTheme = switchTheme;
     window.switchColor = switchColor;
     window.switchDay = switchDay;
+    window.switchStation = switchStation;
     window.fetchData = fetchData;
 </script>
 <div id="content">
@@ -30,7 +31,7 @@
         <div class="line--regular"></div>
     </div>
     <div class="action-bar">
-        <button class="hoverable refresh" onclick="fetchData(10863)">
+        <button class="hoverable refresh" onclick="fetchData()">
             <i class="wi wi-fw wi-refresh"></i>
         </button>
         <button class="hoverable star" onclick="switchColor()">
@@ -42,26 +43,38 @@
         </button>
     </div>
     <div id="starred">
-        <div class="starred__station">
-            <button class="hoverable starred__station-name">Berlin-Marzahn</button>
-            <div class="line--accent"></div>
-        </div>
-        <div class="starred__station">
-            <button class="hoverable starred__station-name">München Stadt</button>
-            <div class="line--accent"></div>
-        </div>
         <div class="starred__station starred__station--active">
-            <button class="hoverable starred__station-name">Garching</button>
+            <button class="hoverable starred__station-name" onclick="switchStation(0)">Berlin-Tegel</button>
             <div class="line--accent"></div>
         </div>
+        <div class="starred__station">
+            <button class="hoverable starred__station-name" onclick="switchStation(1)">München Stadt</button>
+            <div class="line--accent"></div>
+        </div>
+        <div class="starred__station">
+            <button class="hoverable starred__station-name" onclick="switchStation(2)">Garching</button>
+            <div class="line--accent"></div>
+        </div>
+        <div class="starred__station">
+            <button class="hoverable starred__station-name" onclick="switchStation(3)">Weihenstephan-Dürnast</button>
+            <div class="line--accent"></div>
+        </div>
+        <div class="starred__station">
+            <button class="hoverable starred__station-name" onclick="switchStation(4)">Wertheim-Eichel</button>
+            <div class="line--accent"></div>
+        </div>
+        <template class="starred__station">
+            <button class="hoverable starred__station-name" onclick="switchStation(0)">Gespeicherte Station</button>
+            <div class="line--accent"></div>
+        </template>
     </div>
-    <h1 id="station-name">Garching</h1>
+    <h1 id="station-name">Stationsname</h1>
     <div class="day-select-container">
         <div class="day-select">
             <div class="days">
                 <button class="day hoverable tile" onclick="switchDay(0)">
                 <span class="day__icon">
-                    <i class="day__icon__1 wi wi_-data"></i>
+                    <i class="day__icon__1 wi wi_-data tooltip"></i>
                     <i class="day__icon__2 wi wi_-data"></i>
                 </span>
                     <span class="day__temperature">Temperatur</span>
@@ -324,7 +337,7 @@
                     </div>
                     <div class="day-data-tile tile">
                 <span class="day__icon">
-                    <i class="wi wi-moon-alt-waxing-crescent-2 wi_-data day-data__moonPhase"></i>
+                    <i class="wi wi-na wi_-data day-data__moonPhase"></i>
                 </span>
                         <span>Mondphase</span>
                     </div>
@@ -339,7 +352,9 @@
 <footer>
     <div>Daniel Bund, 2023</div>
     <div id="status-bar">Lol</div>
-    <a href="https://github.com/dabund24/WetterLOL">Github</a>
+    <div>
+        <a href="https://github.com/dabund24/WetterLOL">Github</a>
+    </div>
 </footer>
 </body>
 </html>

@@ -26,16 +26,25 @@
 }
 
 /* 1 */
-.tooltip.wi-day-sunny:after, .tooltip.wi-night-clear:after {
+.tooltip.wi-day-sunny:after {
     content: "Sonne";
 }
+.tooltip.wi-night-clear:after {
+    content: "Mond";
+}
 /* 2 */
-.tooltip.wi-day-sunny-overcast:after, .tooltip.wi-night-alt-partly-cloudy:after {
+.tooltip.wi-day-sunny-overcast:after {
     content: "Sonne, leicht bewölkt";
 }
+.tooltip.wi-night-alt-partly-cloudy:after {
+    content: "Mond, leicht bewölkt";
+}
 /* 3 */
-.tooltip.wi-day-cloudy:after, .tooltip.wi-night-alt-cloudy:after {
+.tooltip.wi-day-cloudy:after {
     content: "Sonne, bewölkt";
+}
+.tooltip.wi-night-alt-cloudy:after {
+    content: "Mond, bewölkt";
 }
 /* 4 */
 .tooltip.wi-cloud:after {
@@ -94,36 +103,60 @@
     content: "Wolken, (Hagel)";
 }
 /* 18 */
-.tooltip.wi-day-sprinkle:after, .tooltip.wi-night-alt-sprinkle:after {
+.tooltip.wi-day-sprinkle:after {
     content: "Sonne, leichter Regen";
 }
+.tooltip.wi-night-alt-sprinkle:after {
+    content: "Mond, leichter Regen";
+}
 /* 19 */
-.tooltip.wi-day-rain:after, .tooltip.wi-night-rain:after {
+.tooltip.wi-day-rain:after {
     content: "Sonne, starker Regen";
 }
+.tooltip.wi-night-rain:after {
+    content: "Mond, starker Regen";
+}
 /* 20 */
-.tooltip.wi-day-rain-mix:after, .tooltip.wi-night-alt-rain-mix:after {
-    content: "Sonne, Regen, vereinzelter Schneefall";
+.tooltip.wi-day-rain-mix:after {
+    content: "Sonne, Regen, vereinzelt Schneefall";
+}
+.tooltip.wi-night-alt-rain-mix:after {
+    content: "Mond, Regen, vereinzelt Schneefall";
 }
 /* 21 */
-.tooltip.wi-day-sleet:after, .tooltip.wi-night-alt-sleet:after {
-    content: "Sonne, Regen, vermehrter Schneefall";
+.tooltip.wi-day-sleet:after {
+    content: "Sonne, Regen, vermehrt Schneefall";
+}
+.tooltip.wi-night-alt-sleet:after {
+    content: "Mond, Regen, vermehrt Schneefall";
 }
 /* 22 */
-.tooltip.wi-day-snow:after, .tooltip.wi-night-alt-snow:after {
-    content: "Sonne, vereinzelter Schneefall";
+.tooltip.wi-day-snow:after {
+    content: "Sonne, vereinzelt Schneefall";
+}
+.tooltip.wi-night-alt-snow:after {
+    content: "Mond, vereinzelt Schneefall";
 }
 /* 23 */
-.tooltip.wi-day-snow-wind:after, .tooltip.wi-night-alt-snow-wind:after {
-    content: "Sonne, vermehrter Schneefall";
+.tooltip.wi-day-snow-wind:after {
+    content: "Sonne, vermehrt Schneefall";
+}
+.tooltip.wi-night-alt-snow-wind:after {
+    content: "Mond, vermehrt Schneefall";
 }
 /* 24 */
-.tooltip.wi-day-hail:after, .tooltip.wi-night-alt-hail:after {
-    content: "Sonne, (Hagel)";
+.tooltip.wi-day-hail:after {
+    content: "Sonne, Hagel";
+}
+.tooltip.wi-night-alt-hail:after {
+    content: "Mond, Hagel";
 }
 /* 25 */
-.tooltip.wi-day-rain-wind:after, .tooltip.wi-night-alt-rain-wind:after {
-    content: "Sonne, (Starker Hagel)";
+.tooltip.wi-day-rain-wind:after {
+    content: "Sonne, starker Hagel";
+}
+.tooltip.wi-night-alt-rain-wind:after {
+    content: "Mond, starker Hagel";
 }
 /* 26 */
 .tooltip.wi-lightning:after {
@@ -147,7 +180,7 @@
 }*/
 /* 31 */
 .tooltip.wi-day-windy:after, .tooltip.wi-strong-wind:after {
-    content: "(Wind)";
+    content: "Sturm";
 }
 
 /* loading */

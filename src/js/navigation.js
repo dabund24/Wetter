@@ -1,5 +1,17 @@
 export const root = document.querySelector(':root');
 
+/******************/
+// station switch //
+/******************/
+
+let currentStation = 0;
+export function switchStation(newStation) {
+    let stations = document.getElementById("starred");
+    stations.children[currentStation].classList.remove("starred__station--active");
+    stations.children[newStation].classList.add("starred__station--active");
+    currentStation = newStation;
+}
+
 /**************/
 // tab switch //
 /**************/

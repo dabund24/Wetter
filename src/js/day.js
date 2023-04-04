@@ -1,13 +1,12 @@
 import {unixToHoursString, daysOfWeek, leadingZeros, moonPhases, icons_day, icons_night} from "./util.js";
 
-
-
-
 export default class Day {
     
+
     constructor() {
         this.icon1 = icons_day[0];
         this.icon2 = icons_day[0];
+        this.moonPhase = icons_day[0];
         this.times = [];
         this.icons = [];
         this.temperatures = [];
