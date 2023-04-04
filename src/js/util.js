@@ -38,13 +38,13 @@ export const daysOfWeek = [
 ]
 
 export const moonPhases = [
-    "wi-moon-alt-new",
-    "wi-moon-alt-waxing-crescent-4",
-    "wi-moon-alt-waxing-gibbous-1",
-    "wi-moon-alt-waxing-gibbous-5",
-    "wi-moon-alt-waning-gibbous-2",
-    "wi-moon-alt-waning-gibbous-6",
-    "wi-moon-alt-waning-crescent-3"
+    "wi-moon-new",
+    "wi-moon-waxing-crescent-4",
+    "wi-moon-waxing-gibbous-1",
+    "wi-moon-waxing-gibbous-5",
+    "wi-moon-waning-gibbous-2",
+    "wi-moon-waning-gibbous-6",
+    "wi-moon-waning-crescent-3"
 ]
 
 export const icons_day = [

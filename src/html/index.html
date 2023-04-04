@@ -23,314 +23,316 @@
     window.switchDay = switchDay;
     window.fetchData = fetchData;
 </script>
-<div id="load-indicator" class="line--accent"></div>
-<div class="search">
-    <input type="text" class="search__input" placeholder="Suche">
-    <div class="line--regular"></div>
-</div>
-<div class="action-bar">
-    <button class="hoverable refresh" onclick="fetchData(10863)">
-        <i class="wi wi-fw wi-refresh"></i>
-    </button>
-    <button class="hoverable star" onclick="switchColor()">
-        <i class="wi wi-fw wi-stars"></i>
-    </button>
-    <button class="hoverable theme-toggle" onclick="switchTheme()">
-        <i class="wi wi-fw wi-day-sunny"></i>
-        <i class="wi wi-fw wi-night-clear"></i>
-    </button>
-</div>
-<div id="starred">
-    <div class="starred__station">
-        <button class="hoverable starred__station-name">Berlin-Marzahn</button>
-        <div class="line--accent"></div>
+<div id="content">
+    <div id="load-indicator" class="line--accent"></div>
+    <div class="search">
+        <input type="text" class="search__input" placeholder="Suche">
+        <div class="line--regular"></div>
     </div>
-    <div class="starred__station">
-        <button class="hoverable starred__station-name">München Stadt</button>
-        <div class="line--accent"></div>
+    <div class="action-bar">
+        <button class="hoverable refresh" onclick="fetchData(10863)">
+            <i class="wi wi-fw wi-refresh"></i>
+        </button>
+        <button class="hoverable star" onclick="switchColor()">
+            <i class="wi wi-fw wi-stars"></i>
+        </button>
+        <button class="hoverable theme-toggle" onclick="switchTheme()">
+            <i class="wi wi-fw wi-day-sunny"></i>
+            <i class="wi wi-fw wi-night-clear"></i>
+        </button>
     </div>
-    <div class="starred__station starred__station--active">
-        <button class="hoverable starred__station-name">Garching</button>
-        <div class="line--accent"></div>
-    </div>
-</div>
-<h1 id="station-name">Garching</h1>
-<div class="day-select-container">
-    <div class="day-select">
-        <div class="days">
-            <button class="day hoverable tile" onclick="switchDay(0)">
-                <span class="day__icon">
-                    <i class="day__icon__1 wi wi_-data"></i>
-                    <i class="day__icon__2 wi wi_-data"></i>
-                </span>
-                <span class="day__temperature">-3 °C / 25 °C</span>
-                <span class="day__precipitation">250 ml</span>
-                <strong class="day__day-of-week">Wochentag</strong>
-                <strong class="day__date">XX.XX.XXXX</strong>
-            </button>
-            <button class="day hoverable tile" onclick="switchDay(1)">
-                <span class="day__icon">
-                    <i class="day__icon__1 wi wi_-data"></i>
-                    <i class="day__icon__2 wi wi_-data"></i>
-                </span>
-                <span class="day__temperature">-3 °C / 25 °C</span>
-                <span class="day__precipitation">250 ml</span>
-                <strong class="day__day-of-week">Freitag</strong>
-                <strong class="day__date">31.03.2023</strong>
-            </button>
-            <button class="day hoverable tile" onclick="switchDay(2)">
-                <span class="day__icon">
-                    <i class="day__icon__1 wi wi_-data"></i>
-                    <i class="day__icon__2 wi wi_-data"></i>
-                </span>
-                <span class="day__temperature">-3 °C / 25 °C</span>
-                <span class="day__precipitation">250 ml</span>
-                <strong class="day__day-of-week">Samstag</strong>
-                <strong class="day__date">01.04.2023</strong>
-            </button>
-            <button class="day hoverable tile" onclick="switchDay(3)">
-                <span class="day__icon">
-                    <i class="day__icon__1 wi wi_-data"></i>
-                    <i class="day__icon__2 wi wi_-data"></i>
-                </span>
-                <span class="day__temperature">-3 °C / 25 °C</span>
-                <span class="day__precipitation">250 ml</span>
-                <strong class="day__day-of-week">Donnerstag</strong>
-                <strong class="day__date">30.03.2023</strong>
-            </button>
-            <button class="day hoverable tile" onclick="switchDay(4)">
-                <span class="day__icon">
-                    <i class="day__icon__1 wi wi_-data"></i>
-                    <i class="day__icon__2 wi wi_-data"></i>
-                </span>
-                <span class="day__temperature">-3 °C / 25 °C</span>
-                <span class="day__precipitation">250 ml</span>
-                <strong class="day__day-of-week">Donnerstag</strong>
-                <strong class="day__date">30.03.2023</strong>
-            </button>
-            <button class="day hoverable tile" onclick="switchDay(5)">
-                <span class="day__icon">
-                    <i class="day__icon__1 wi wi_-data"></i>
-                    <i class="day__icon__2 wi wi_-data"></i>
-                </span>
-                <span class="day__temperature">-3 °C / 25 °C</span>
-                <span class="day__precipitation">250 ml</span>
-                <strong class="day__day-of-week">Donnerstag</strong>
-                <strong class="day__date">30.03.2023</strong>
-            </button>
-            <button class="day hoverable tile" onclick="switchDay(6)">
-                <span class="day__icon">
-                    <i class="day__icon__1 wi wi_-data"></i>
-                    <i class="day__icon__2 wi wi_-data"></i>
-                </span>
-                <span class="day__temperature">-3 °C / 25 °C</span>
-                <span class="day__precipitation">250 ml</span>
-                <strong class="day__day-of-week">Donnerstag</strong>
-                <strong class="day__date">30.03.2023</strong>
-            </button>
-            <button class="day hoverable tile" onclick="switchDay(7)">
-                <span class="day__icon">
-                    <i class="day__icon__1 wi wi_-data"></i>
-                    <i class="day__icon__2 wi wi_-data"></i>
-                </span>
-                <span class="day__temperature">-3 °C / 25 °C</span>
-                <span class="day__precipitation">250 ml</span>
-                <strong class="day__day-of-week">Donnerstag</strong>
-                <strong class="day__date">30.03.2023</strong>
-            </button>
-            <button class="day hoverable tile" onclick="switchDay(8)">
-                <span class="day__icon">
-                    <i class="day__icon__1 wi wi_-data"></i>
-                    <i class="day__icon__2 wi wi_-data"></i>
-                </span>
-                <span class="day__temperature">-3 °C / 25 °C</span>
-                <span class="day__precipitation">250 ml</span>
-                <strong class="day__day-of-week">Donnerstag</strong>
-                <strong class="day__date">30.03.2023</strong>
-            </button>
-            <button class="day hoverable tile" onclick="switchDay(9)">
-                <span class="day__icon">
-                    <i class="day__icon__1 wi wi_-data"></i>
-                    <i class="day__icon__2 wi wi_-data"></i>
-                </span>
-                <span class="day__temperature">-3 °C / 25 °C</span>
-                <span class="day__precipitation">250 ml</span>
-                <strong class="day__day-of-week">Donnerstag</strong>
-                <strong class="day__date">30.03.2023</strong>
-            </button>
+    <div id="starred">
+        <div class="starred__station">
+            <button class="hoverable starred__station-name">Berlin-Marzahn</button>
+            <div class="line--accent"></div>
         </div>
-        <div class="day-indicator-container indicator-line-container">
-            <div class="line--accent indicator indicator__animation-to-right" id="day-indicator">
+        <div class="starred__station">
+            <button class="hoverable starred__station-name">München Stadt</button>
+            <div class="line--accent"></div>
+        </div>
+        <div class="starred__station starred__station--active">
+            <button class="hoverable starred__station-name">Garching</button>
+            <div class="line--accent"></div>
+        </div>
+    </div>
+    <h1 id="station-name">Garching</h1>
+    <div class="day-select-container">
+        <div class="day-select">
+            <div class="days">
+                <button class="day hoverable tile" onclick="switchDay(0)">
+                <span class="day__icon">
+                    <i class="day__icon__1 wi wi_-data"></i>
+                    <i class="day__icon__2 wi wi_-data"></i>
+                </span>
+                    <span class="day__temperature">Temperatur</span>
+                    <span class="day__precipitation">Niederschlag</span>
+                    <strong class="day__day-of-week">Wochentag</strong>
+                    <strong class="day__date">XX.XX.XXXX</strong>
+                </button>
+                <button class="day hoverable tile" onclick="switchDay(1)">
+                <span class="day__icon">
+                    <i class="day__icon__1 wi wi_-data"></i>
+                    <i class="day__icon__2 wi wi_-data"></i>
+                </span>
+                    <span class="day__temperature">Temperatur</span>
+                    <span class="day__precipitation">Niederschlag</span>
+                    <strong class="day__day-of-week">Wochentag</strong>
+                    <strong class="day__date">XX.XX.XXXX</strong>
+                </button>
+                <button class="day hoverable tile" onclick="switchDay(2)">
+                <span class="day__icon">
+                    <i class="day__icon__1 wi wi_-data"></i>
+                    <i class="day__icon__2 wi wi_-data"></i>
+                </span>
+                    <span class="day__temperature">Temperatur</span>
+                    <span class="day__precipitation">Niederschlag</span>
+                    <strong class="day__day-of-week">Wochentag</strong>
+                    <strong class="day__date">XX.XX.XXXX</strong>
+                </button>
+                <button class="day hoverable tile" onclick="switchDay(3)">
+                <span class="day__icon">
+                    <i class="day__icon__1 wi wi_-data"></i>
+                    <i class="day__icon__2 wi wi_-data"></i>
+                </span>
+                    <span class="day__temperature">Temperatur</span>
+                    <span class="day__precipitation">Niederschlag</span>
+                    <strong class="day__day-of-week">Wochentag</strong>
+                    <strong class="day__date">XX.XX.XXXX</strong>
+                </button>
+                <button class="day hoverable tile" onclick="switchDay(4)">
+                <span class="day__icon">
+                    <i class="day__icon__1 wi wi_-data"></i>
+                    <i class="day__icon__2 wi wi_-data"></i>
+                </span>
+                    <span class="day__temperature">Temperatur</span>
+                    <span class="day__precipitation">Niederschlag</span>
+                    <strong class="day__day-of-week">Wochentag</strong>
+                    <strong class="day__date">XX.XX.XXXX</strong>
+                </button>
+                <button class="day hoverable tile" onclick="switchDay(5)">
+                <span class="day__icon">
+                    <i class="day__icon__1 wi wi_-data"></i>
+                    <i class="day__icon__2 wi wi_-data"></i>
+                </span>
+                    <span class="day__temperature">Temperatur</span>
+                    <span class="day__precipitation">Niederschlag</span>
+                    <strong class="day__day-of-week">Wochentag</strong>
+                    <strong class="day__date">XX.XX.XXXX</strong>
+                </button>
+                <button class="day hoverable tile" onclick="switchDay(6)">
+                <span class="day__icon">
+                    <i class="day__icon__1 wi wi_-data"></i>
+                    <i class="day__icon__2 wi wi_-data"></i>
+                </span>
+                    <span class="day__temperature">Temperatur</span>
+                    <span class="day__precipitation">Niederschlag</span>
+                    <strong class="day__day-of-week">Wochentag</strong>
+                    <strong class="day__date">XX.XX.XXXX</strong>
+                </button>
+                <button class="day hoverable tile" onclick="switchDay(7)">
+                <span class="day__icon">
+                    <i class="day__icon__1 wi wi_-data"></i>
+                    <i class="day__icon__2 wi wi_-data"></i>
+                </span>
+                    <span class="day__temperature">Temperatur</span>
+                    <span class="day__precipitation">Niederschlag</span>
+                    <strong class="day__day-of-week">Wochentag</strong>
+                    <strong class="day__date">XX.XX.XXXX</strong>
+                </button>
+                <button class="day hoverable tile" onclick="switchDay(8)">
+                <span class="day__icon">
+                    <i class="day__icon__1 wi wi_-data"></i>
+                    <i class="day__icon__2 wi wi_-data"></i>
+                </span>
+                    <span class="day__temperature">Temperatur</span>
+                    <span class="day__precipitation">Niederschlag</span>
+                    <strong class="day__day-of-week">Wochentag</strong>
+                    <strong class="day__date">XX.XX.XXXX</strong>
+                </button>
+                <button class="day hoverable tile" onclick="switchDay(9)">
+                <span class="day__icon">
+                    <i class="day__icon__1 wi wi_-data"></i>
+                    <i class="day__icon__2 wi wi_-data"></i>
+                </span>
+                    <span class="day__temperature">Temperatur</span>
+                    <span class="day__precipitation">Niederschlag</span>
+                    <strong class="day__day-of-week">Wochentag</strong>
+                    <strong class="day__date">XX.XX.XXXX</strong>
+                </button>
+            </div>
+            <div class="day-indicator-container indicator-line-container">
+                <div class="line--accent indicator indicator__animation-to-right" id="day-indicator">
 
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<div class="content-wrapper">
-    <div class="tab-row">
-        <button type="button" class="hoverable tab-row__tab" onclick="switchTab(0)">Verlauf</button>
-        <button type="button" class="hoverable tab-row__tab" onclick="switchTab(1)">Tagesdaten</button>
-        <button type="button" class="hoverable tab-row__tab" onclick="switchTab(2)">Unwetterwarnungen</button>
-    </div>
-    <div class="tab-indicator-container indicator-line-container">
-        <div class="line--accent indicator indicator__animation-to-right" id="tab-indicator"></div>
-    </div>
-    <div id="tab-content">
-        <div id="tab-content-0">
-            <div class="table">
-                <div class="forecast__header table__header table__row">
-                    <div class="table__cell">
-                        Uhrzeit
-                    </div>
-                    <div class="table__cell">
-                        Icon
-                    </div>
-                    <div class="table__cell">
-                        Temperatur
-                    </div>
-                    <div class="table__cell">
-                        Niederschlag
-                    </div>
-                    <div class="table__cell">
-                        Windgeschw.
-                    </div>
-                    <div class="table__cell">
-                        Windböen
-                    </div>
-                    <div class="table__cell">
-                        Windrichtung
-                    </div>
-                </div>
-                <div class="line--regular line--horizontal"></div>
-                <div class="table__content" id="forecast__content">
-
-                </div>
-                <template>
-                    <div class="forecast__row table__row">
-                        <div class="table__cell forecast__time">
-                            0 Uhr
+    <div class="content-wrapper">
+        <div class="tab-row">
+            <button type="button" class="hoverable tab-row__tab" onclick="switchTab(0)">Verlauf</button>
+            <button type="button" class="hoverable tab-row__tab" onclick="switchTab(1)">Tagesdaten</button>
+            <button type="button" class="hoverable tab-row__tab" onclick="switchTab(2)">Unwetterwarnungen</button>
+        </div>
+        <div class="tab-indicator-container indicator-line-container">
+            <div class="line--accent indicator indicator__animation-to-right" id="tab-indicator"></div>
+        </div>
+        <div id="tab-content">
+            <div id="tab-content-0">
+                <div class="table">
+                    <div class="forecast__header table__header table__row">
+                        <div class="table__cell">
+                            Uhrzeit
                         </div>
                         <div class="table__cell">
-                            <i class="wi wi-na wi_-data tooltip forecast__icon"></i>
-                        </div>
-                        <div class="table__cell forecast__temperature">
-                            35 °C
-                        </div>
-                        <div class="table__cell forecast__precipitation">
-                            150 mm
-                        </div>
-                        <div class="table__cell forecast__windSpeed">
-                            25 km/h
-                        </div>
-                        <div class="table__cell forecast__windGust">
-                            235 km/h
+                            Icon
                         </div>
                         <div class="table__cell">
-                            <i class="wi wi-na wi_-data forecast__windDirection"></i>
+                            Temperatur
+                        </div>
+                        <div class="table__cell">
+                            Niederschlag
+                        </div>
+                        <div class="table__cell">
+                            Windgeschw.
+                        </div>
+                        <div class="table__cell">
+                            Windböen
+                        </div>
+                        <div class="table__cell">
+                            Windrichtung
                         </div>
                     </div>
-                </template>
-            </div>
-        </div>
-        <div id="tab-content-1">
-            <div class="day-data__tiles-container">
-                <div class="day-data-tile tile">
-                <span class="day__icon">
-                    <i class="wi wi-thunderstorm wi_-data tooltip day-data__icon1"></i>
-                </span>
-                    <span>Vormittag</span>
+                    <div class="line--regular line--horizontal"></div>
+                    <div class="table__content" id="forecast__content">
+
+                    </div>
+                    <template>
+                        <div class="forecast__row table__row">
+                            <div class="table__cell forecast__time">
+                                Uhrzeit
+                            </div>
+                            <div class="table__cell">
+                                <i class="wi wi-na wi_-data tooltip forecast__icon"></i>
+                            </div>
+                            <div class="table__cell forecast__temperature">
+                                Temperatur
+                            </div>
+                            <div class="table__cell forecast__precipitation">
+                                Niederschlag
+                            </div>
+                            <div class="table__cell forecast__windSpeed">
+                                Windgeschw.
+                            </div>
+                            <div class="table__cell forecast__windGust">
+                                Windböen
+                            </div>
+                            <div class="table__cell">
+                                <i class="wi wi-na wi_-data forecast__windDirection"></i>
+                            </div>
+                        </div>
+                    </template>
                 </div>
-                <div class="day-data-tile tile">
-                <span class="day__icon">
-                    <i class="wi wi-day-sprinkle wi_-data tooltip day-data__icon2"></i>
-                </span>
-                    <span>Nachmittag</span>
-                </div>
             </div>
-            <div class="day-data__tiles-container">
-                <div class="day-data-tile tile">
+            <div id="tab-content-1">
+                <div class="day-data__tiles-container">
+                    <div class="day-data-tile tile">
+                <span class="day__icon">
+                    <i class="wi wi-na wi_-data tooltip day-data__icon1"></i>
+                </span>
+                        <span>Vormittag</span>
+                    </div>
+                    <div class="day-data-tile tile">
+                <span class="day__icon">
+                    <i class="wi wi-na wi_-data tooltip day-data__icon2"></i>
+                </span>
+                        <span>Nachmittag</span>
+                    </div>
+                </div>
+                <div class="day-data__tiles-container">
+                    <div class="day-data-tile tile">
                 <span class="day__icon">
                     <i class="wi wi-thermometer"></i>
                     <i class="wi wi-direction-down"></i>
                 </span>
-                    <span class="day-data__temperatureMin">-10 °C</span>
-                </div>
-                <div class="day-data-tile tile">
+                        <span class="day-data__temperatureMin">Tiefsttemperatur</span>
+                    </div>
+                    <div class="day-data-tile tile">
                 <span class="day__icon">
                     <i class="wi wi-thermometer"></i>
                     <i class="wi wi-direction-up"></i>
                 </span>
-                    <span class="day-data__temperatureMax">35 °C</span>
-                </div>
-                <div class="day-data-tile tile">
+                        <span class="day-data__temperatureMax">Höchsttemperatur</span>
+                    </div>
+                    <div class="day-data-tile tile">
                 <span class="day__icon">
                     <i class="wi wi-umbrella"></i>
                 </span>
-                    <span class="day-data__precipitation">350 mm</span>
-                </div>
-                <div class="day-data-tile tile">
+                        <span class="day-data__precipitation">Niederschlag</span>
+                    </div>
+                    <div class="day-data-tile tile">
                 <span class="day__icon">
                     <i class="wi wi-day-sunny"></i>
                 </span>
-                    <span class="day-data__sunshine">10,5 Stunden</span>
+                        <span class="day-data__sunshine">Sonnenstunden</span>
+                    </div>
                 </div>
-            </div>
-            <div class="day-data__tiles-container">
-                <div class="day-data-tile tile">
+                <div class="day-data__tiles-container">
+                    <div class="day-data-tile tile">
                 <span class="day__icon">
                     <i class="wi wi-sunrise"></i>
                 </span>
-                    <span class="day-data__sunrise">07.30 Uhr</span>
-                </div>
-                <div class="day-data-tile tile">
+                        <span class="day-data__sunrise">Sonnenaufgang</span>
+                    </div>
+                    <div class="day-data-tile tile">
                 <span class="day__icon">
                     <i class="wi wi-sunset"></i>
                 </span>
-                    <span class="day-data__sunset">19.30 Uhr</span>
-                </div>
-                <div class="day-data-tile tile">
-                <span class="day__icon">
-                    <i class="wi wi-moonrise"></i>
-                </span>
-                    <span class="day-data__moonrise">16.45 Uhr</span>
-                </div>
-                <div class="day-data-tile tile">
+                        <span class="day-data__sunset">Sonnenuntergang</span>
+                    </div>
+                    <div class="day-data-tile tile">
                 <span class="day__icon">
                     <i class="wi wi-moonset"></i>
                 </span>
-                    <span class="day-data__moonset">04.20 Uhr</span>
+                        <span class="day-data__moonset">Monduntergang</span>
+                    </div>
+                    <div class="day-data-tile tile">
+                    <span class="day__icon">
+                    <i class="wi wi-moonrise"></i>
+                </span>
+                        <span class="day-data__moonrise">Mondaufgang</span>
+                    </div>
                 </div>
-            </div>
-            <div class="day-data__tiles-container">
-                <div class="day-data-tile tile">
+                <div class="day-data__tiles-container">
+                    <div class="day-data-tile tile">
                 <span class="day__icon">
                     <i class="wi wi-windy"></i>
                 </span>
-                    <span class="day-data__windSpeed">10 km/h</span>
-                </div>
-                <div class="day-data-tile tile">
+                        <span class="day-data__windSpeed">Mittelwind</span>
+                    </div>
+                    <div class="day-data-tile tile">
                 <span class="day__icon">
                     <i class="wi wi-strong-wind"></i>
                 </span>
-                    <span class="day-data__windGust">130 km/h</span>
-                </div>
-                <div class="day-data-tile tile">
+                        <span class="day-data__windGust">Windböen</span>
+                    </div>
+                    <div class="day-data-tile tile">
                 <span class="day__icon">
-                    <i class="wi wi-wind from-120-deg wi_-data day-data__windDirection"></i>
+                    <i class="wi wi-wind wi_-data day-data__windDirection"></i>
                 </span>
-                    <span>Windrichtung</span>
-                </div>
-                <div class="day-data-tile tile">
+                        <span>Windrichtung</span>
+                    </div>
+                    <div class="day-data-tile tile">
                 <span class="day__icon">
                     <i class="wi wi-moon-alt-waxing-crescent-2 wi_-data day-data__moonPhase"></i>
                 </span>
-                    <span>Mondphase</span>
+                        <span>Mondphase</span>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div id="tab-content-2">
-            Noch nicht fertig.
+            <div id="tab-content-2">
+                Noch nicht fertig.
+            </div>
         </div>
     </div>
 </div>

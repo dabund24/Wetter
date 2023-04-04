@@ -64,10 +64,8 @@ export function setForecastDisplay() {
     const forecast = document.getElementById("tab-content-0");
     const template = forecast.querySelector("template").content;
     const day = days[currentDay];
-    console.log(days[currentDay]);
     let toBeAdded;
     for (let i = 0; i < day.times.length; i++) {
-        console.log(day.times[i]);
         toBeAdded = document.importNode(template, true);
         setHTMLOfChildOfParent(toBeAdded, ".forecast__time", day.times[i]);
         replaceNaClassFromChildOfParent(toBeAdded, ".forecast__icon", day.icons[i]);

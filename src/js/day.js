@@ -23,9 +23,11 @@ export default class Day {
         this.temperatureMin = data.temperatureMin / 10 + " °C";
         this.temperatureMax = data.temperatureMax / 10 + " °C";
         this.precipitation = data.precipitation / 10 + " mm";
-        this.sunshine = (data.sunshine / 650).toFixed(1) + " Stunden"; /* TODO check if correct*/
+        this.sunshine = (data.sunshine / 500).toFixed(1) + " Stunden"; /* TODO check if correct*/
         this.sunrise = unixToHoursString(data.sunrise);
+        this.sunriseTime = data.sunrise;
         this.sunset = unixToHoursString(data.sunset);
+        this.sunsetTime = data.sunset;
         this.moonrise = unixToHoursString(data.moonrise);
         this.moonset = unixToHoursString(data.moonset);
         this.windSpeed = data.windSpeed / 10 + " km/h";
@@ -38,7 +40,7 @@ export default class Day {
         let determinedDate = new Date(determined);
         this.dayOfWeek = daysOfWeek[determinedDate.getDay()];
         this.stringDate = leadingZeros(determinedDate.getDate(), 2) + "."
-            + leadingZeros(determinedDate.getMonth(), 2) + "."
+            + leadingZeros(determinedDate.getMonth() + 1, 2) + "."
             + leadingZeros(determinedDate.getFullYear(), 4);
     }
     
@@ -54,7 +56,11 @@ export default class Day {
     
     pushData(time, icon, temperature, precipitation, windSpeed, windGust, windDirection) {
         this.times.push(time.getHours() + " Uhr");
-        this.icons.push(icons_day[icon]);
+        if (this.sunriseTime != null && (this.sunriseTime > time || this.sunsetTime < time)) {
+            this.icons.push(icons_night[icon]);
+        } else {
+            this.icons.push(icons_day[icon]);
+        }
         this.temperatures.push(temperature / 10 + " °C");
         this.precipitations.push(precipitation / 10 + " mm");
         this.windSpeeds.push(windSpeed / 10 + " km/h");

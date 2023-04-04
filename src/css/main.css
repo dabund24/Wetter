@@ -32,6 +32,14 @@ body {
     background-color: var(--background-color);
     min-height: 100vh;
     margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-rows: 1fr auto;
+    overflow-x: clip;
+}
+
+#content {
+    width: calc(100vw - 1rem);
     padding: 0 .5rem;
 }
 
@@ -332,7 +340,7 @@ h1, h2 {
 }
 
 #tab-content {
-    height: 25rem;
+    height: 24rem;
     overflow-y: scroll;
 }
 
@@ -392,9 +400,10 @@ h1, h2 {
 }
 
 footer {
+    background-color: var(--background-color);
     display: flex;
     flex-direction: row;
-    padding: .5rem;
+    padding: .2rem 1rem;
     position: sticky;
     bottom: 0;
 }
