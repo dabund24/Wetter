@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de" data-theme="light" data-color="green">
+<html lang="de" data-theme="dark" data-color="green">
 
 <head>
     <meta charset="UTF-8"/>
@@ -16,22 +16,24 @@
 <script src="https://s3.eu-central-1.amazonaws.com/app-prod-static.warnwetter.de/v16/forecast_mosmix_10863.json"></script>
 
 <script type="module">
-    import {switchTab, switchTheme, switchColor, switchDay, switchStation, fetchData} from "../js/main.js";
+    import {switchTab, switchTheme, switchColor, switchDay, switchStation, resetData} from "../js/main.js";
     window.switchTab = switchTab;
     window.switchTheme = switchTheme;
     window.switchColor = switchColor;
     window.switchDay = switchDay;
     window.switchStation = switchStation;
-    window.fetchData = fetchData;
+    window.resetData = resetData;
 </script>
 <div id="content">
     <div id="load-indicator" class="line--accent"></div>
     <div class="search">
-        <input type="text" class="search__input" placeholder="Suche">
+        <label>
+            <input type="text" class="search__input" placeholder="Suche">
+        </label>
         <div class="line--regular"></div>
     </div>
     <div class="action-bar">
-        <button class="hoverable refresh" onclick="fetchData()">
+        <button class="hoverable refresh" onclick="resetData()">
             <i class="wi wi-fw wi-refresh"></i>
         </button>
         <button class="hoverable star" onclick="switchColor()">
@@ -74,8 +76,7 @@
             <div class="days">
                 <button class="day hoverable tile" onclick="switchDay(0)">
                 <span class="day__icon">
-                    <i class="day__icon__1 wi wi_-data tooltip"></i>
-                    <i class="day__icon__2 wi wi_-data"></i>
+                    <i class="day__icon__0 wi wi_-data"></i>
                 </span>
                     <span class="day__temperature">Temperatur</span>
                     <span class="day__precipitation">Niederschlag</span>
@@ -84,8 +85,7 @@
                 </button>
                 <button class="day hoverable tile" onclick="switchDay(1)">
                 <span class="day__icon">
-                    <i class="day__icon__1 wi wi_-data"></i>
-                    <i class="day__icon__2 wi wi_-data"></i>
+                    <i class="day__icon__0 wi wi_-data"></i>
                 </span>
                     <span class="day__temperature">Temperatur</span>
                     <span class="day__precipitation">Niederschlag</span>
@@ -94,8 +94,7 @@
                 </button>
                 <button class="day hoverable tile" onclick="switchDay(2)">
                 <span class="day__icon">
-                    <i class="day__icon__1 wi wi_-data"></i>
-                    <i class="day__icon__2 wi wi_-data"></i>
+                    <i class="day__icon__0 wi wi_-data"></i>
                 </span>
                     <span class="day__temperature">Temperatur</span>
                     <span class="day__precipitation">Niederschlag</span>
@@ -104,8 +103,7 @@
                 </button>
                 <button class="day hoverable tile" onclick="switchDay(3)">
                 <span class="day__icon">
-                    <i class="day__icon__1 wi wi_-data"></i>
-                    <i class="day__icon__2 wi wi_-data"></i>
+                    <i class="day__icon__0 wi wi_-data"></i>
                 </span>
                     <span class="day__temperature">Temperatur</span>
                     <span class="day__precipitation">Niederschlag</span>
@@ -114,8 +112,7 @@
                 </button>
                 <button class="day hoverable tile" onclick="switchDay(4)">
                 <span class="day__icon">
-                    <i class="day__icon__1 wi wi_-data"></i>
-                    <i class="day__icon__2 wi wi_-data"></i>
+                    <i class="day__icon__0 wi wi_-data"></i>
                 </span>
                     <span class="day__temperature">Temperatur</span>
                     <span class="day__precipitation">Niederschlag</span>
@@ -124,8 +121,7 @@
                 </button>
                 <button class="day hoverable tile" onclick="switchDay(5)">
                 <span class="day__icon">
-                    <i class="day__icon__1 wi wi_-data"></i>
-                    <i class="day__icon__2 wi wi_-data"></i>
+                    <i class="day__icon__0 wi wi_-data"></i>
                 </span>
                     <span class="day__temperature">Temperatur</span>
                     <span class="day__precipitation">Niederschlag</span>
@@ -134,8 +130,7 @@
                 </button>
                 <button class="day hoverable tile" onclick="switchDay(6)">
                 <span class="day__icon">
-                    <i class="day__icon__1 wi wi_-data"></i>
-                    <i class="day__icon__2 wi wi_-data"></i>
+                    <i class="day__icon__0 wi wi_-data"></i>
                 </span>
                     <span class="day__temperature">Temperatur</span>
                     <span class="day__precipitation">Niederschlag</span>
@@ -144,8 +139,7 @@
                 </button>
                 <button class="day hoverable tile" onclick="switchDay(7)">
                 <span class="day__icon">
-                    <i class="day__icon__1 wi wi_-data"></i>
-                    <i class="day__icon__2 wi wi_-data"></i>
+                    <i class="day__icon__0 wi wi_-data"></i>
                 </span>
                     <span class="day__temperature">Temperatur</span>
                     <span class="day__precipitation">Niederschlag</span>
@@ -154,8 +148,7 @@
                 </button>
                 <button class="day hoverable tile" onclick="switchDay(8)">
                 <span class="day__icon">
-                    <i class="day__icon__1 wi wi_-data"></i>
-                    <i class="day__icon__2 wi wi_-data"></i>
+                    <i class="day__icon__0 wi wi_-data"></i>
                 </span>
                     <span class="day__temperature">Temperatur</span>
                     <span class="day__precipitation">Niederschlag</span>
@@ -164,8 +157,7 @@
                 </button>
                 <button class="day hoverable tile" onclick="switchDay(9)">
                 <span class="day__icon">
-                    <i class="day__icon__1 wi wi_-data"></i>
-                    <i class="day__icon__2 wi wi_-data"></i>
+                    <i class="day__icon__0 wi wi_-data"></i>
                 </span>
                     <span class="day__temperature">Temperatur</span>
                     <span class="day__precipitation">Niederschlag</span>
@@ -251,15 +243,9 @@
                 <div class="day-data__tiles-container">
                     <div class="day-data-tile tile">
                 <span class="day__icon">
-                    <i class="wi wi-na wi_-data tooltip day-data__icon1"></i>
+                    <i class="wi wi-na wi_-data tooltip day-data__icon"></i>
                 </span>
-                        <span>Vormittag</span>
-                    </div>
-                    <div class="day-data-tile tile">
-                <span class="day__icon">
-                    <i class="wi wi-na wi_-data tooltip day-data__icon2"></i>
-                </span>
-                        <span>Nachmittag</span>
+                        <span>Icon</span>
                     </div>
                 </div>
                 <div class="day-data__tiles-container">

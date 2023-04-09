@@ -41,12 +41,9 @@ export function resetForecastDisplay() {
 export function setDayDisplay() {
     const dayTiles = document.getElementsByClassName("day");
     for (let i = 0; i < dayTiles.length; i++) {
-        replaceNaClassFromChildOfParent(dayTiles[i], ".day__icon__1", days[i].icon1);
-        if (i < 4) {
-            replaceNaClassFromChildOfParent(dayTiles[i], ".day__icon__2", days[i].icon2);
-            setHTMLOfChildOfParent(dayTiles[i], ".day__temperature", days[i].temperatureMin + " / " + days[i].temperatureMax);
-            setHTMLOfChildOfParent(dayTiles[i], ".day__precipitation", days[i].precipitation);
-        }
+        replaceNaClassFromChildOfParent(dayTiles[i], ".day__icon__0", days[i].icon);
+        setHTMLOfChildOfParent(dayTiles[i], ".day__temperature", days[i].temperatureMin + " / " + days[i].temperatureMax);
+        setHTMLOfChildOfParent(dayTiles[i], ".day__precipitation", days[i].precipitation);
         setHTMLOfChildOfParent(dayTiles[i], ".day__date", days[i].stringDate);
         setHTMLOfChildOfParent(dayTiles[i], ".day__day-of-week", days[i].dayOfWeek);
     }
@@ -58,8 +55,7 @@ export function setDayDisplay() {
 export function setOverviewDisplay() {
     const dayData = document.getElementById("tab-content-1");
     const day = days[currentDay];
-    replaceNaClassFromChildOfParent(dayData, ".day-data__icon1", day.icon1);
-    replaceNaClassFromChildOfParent(dayData, ".day-data__icon2", day.icon2);
+    replaceNaClassFromChildOfParent(dayData, ".day-data__icon", day.icon);
     setHTMLOfChildOfParent(dayData, ".day-data__temperatureMin", day.temperatureMin);
     setHTMLOfChildOfParent(dayData, ".day-data__temperatureMax", day.temperatureMax);
     setHTMLOfChildOfParent(dayData, ".day-data__precipitation", day.precipitation);

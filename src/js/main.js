@@ -1,15 +1,24 @@
 import Day from "./day.js";
 import Station from "./station.js";
 import {
-    root, switchTab as sTab, switchTheme as sTheme, switchDay as sDay, switchStation as sStation, switchColor as sColor
+    root,
+    switchColor as sColor,
+    switchDay as sDay,
+    switchStation as sStation,
+    switchTab as sTab,
+    switchTheme as sTheme
 } from "./navigation.js";
 import {
-    resetOverviewDisplay, resetDisplay, resetForecastDisplay, setDayDisplay, setForecastDisplay, setOverviewDisplay
+    resetDisplay,
+    resetForecastDisplay,
+    resetOverviewDisplay,
+    setDayDisplay,
+    setForecastDisplay,
+    setOverviewDisplay
 } from "./data.js";
-import {addHours, addDays, dayDifference, unixToHoursString} from "./util.js";
+import {addDays, addHours, dayDifference, unixToHoursString} from "./util.js";
 
 let data;
-let dayZero;
 export const days = [new Day()];
 
 for (let i = 1; i < 10; i++) {
@@ -24,16 +33,44 @@ const stations = [
     new Station("N3951", "Wertheim-Eichel")
 ]
 let currentStation = 0;
-switchStation(0);
+document.getElementById("station-name").innerHTML = stations[currentStation].name;
+resetData();
+/*switchStation(0);*/
+
+export async function resetData() {
+    root.classList.add("loading");
+    printNotication("Hole Daten für " + stations[currentStation].name + "...");
+    
+    if (!(await fetchData())) {
+        // if data fetch failed
+        //printNotication(unixToHoursString(Date.now()) + ": Fehler, Holen der Daten gescheitert.");
+        root.classList.remove("loading");
+        return false;
+    }
+    console.log(data);
+
+    resetDisplay();
+    resetForecastDisplay();
+    
+    //setDates();
+    setOverviewData();
+    //setForecastData();
+    setDayDisplay();
+    setOverviewDisplay();
+    //setForecastDisplay();
+    printNotication(unixToHoursString(Date.now()) + ": Daten erfolgreich aktualisiert.")
+    root.classList.remove("loading");
+    return true;
+}
 
 /**
  * fetches data for current station and displays it
  * @returns {Promise<boolean>} - success of data fetch
  */
-export function fetchData() {
-    root.classList.add("loading");
+export async function fetchData() {
+    /*root.classList.add("loading");
     printNotication("Hole Daten für " + stations[currentStation].name + "...");
-    return fetch("https://s3.eu-central-1.amazonaws.com/app-prod-static.warnwetter.de/v16/forecast_mosmix_" + stations[currentStation].id + ".json" + "?t=" + Date.now())
+    return fetch("https://s3.eu-central-1.amazonaws.com/app-prod-static.warnwetter.de/v16/forecast_mosmix_" + stations[currentStation].id + ".json" + "&t=" + Date.now())
         .then(response => response.json(), () => {
             printNotication(unixToHoursString(Date.now()) + ": Fehler, Holen der Daten gescheitert.");
         }).then(freshData => {
@@ -56,17 +93,20 @@ export function fetchData() {
         printNotication(unixToHoursString(Date.now()) + ": Daten erfolgreich aktualisiert.")
         root.classList.remove("loading");
         return true;
-    });
-}
-
-/**
- * sets date and day of week data for all days
- */
-function setDates() {
-    dayZero = data.days[0].dayDate;
-    for (let i in days) {
-        days[i].setDate(addDays(dayZero, i));
-    }
+    });*/
+    return fetch("https://api.allorigins.win/raw?url=https://dwd.api.proxy.bund.dev/v30/stationOverviewExtended?stationIds=" + stations[currentStation].id/* + "&t=" + Date.now()*/)
+        .then(response => response.json())
+        .then(freshData => {
+            console.log(stations[currentStation].id);
+            data = freshData[stations[currentStation].id];
+            console.log(data)
+            return true;
+        })
+        .catch((err) => {
+            console.log(err);
+            printNotication(err);
+            return false;
+        });
 }
 
 /**
@@ -88,7 +128,7 @@ function setForecastData() {
     for (let day of days) {
         day.resetData();
     }
-    const forecastRoot = data.forecast;
+    const forecastRoot = data.forecast1;
     const forecastStart = new Date(forecastRoot.start);
     let currentTime;
     let currentDayIndex;
@@ -144,8 +184,7 @@ export function switchDay(index) {
 export async function switchStation(index) {
     let oldStation = currentStation;
     currentStation = index;
-    if (await fetchData()) {
-        currentStation = index;
+    if (await resetData()) {
         sStation(currentStation);
         document.getElementById("station-name").innerHTML = stations[currentStation].name;
     } else {

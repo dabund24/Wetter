@@ -4,8 +4,8 @@ export default class Day {
     
 
     constructor() {
-        this.icon1 = icons_day[0];
-        this.icon2 = icons_day[0];
+        this.date = new Date(0);
+        this.icon = icons_day[0];
         this.moonPhase = icons_day[0];
         this.times = [];
         this.icons = [];
@@ -17,8 +17,13 @@ export default class Day {
     }
     
     setOverviewData(data) {
-        this.icon1 = icons_day[data.icon1];
-        this.icon2 = icons_day[data.icon2];
+        this.date = new Date(data.dayDate);
+        this.dayOfWeek = daysOfWeek[this.date.getDay()]
+        this.stringDate = leadingZeros(this.date.getDate(), 2) + "."
+            + leadingZeros(this.date.getMonth() + 1, 2) + "."
+            + leadingZeros(this.date.getFullYear(), 4);
+        
+        this.icon = icons_day[data.icon];
         this.temperatureMin = data.temperatureMin / 10 + " °C";
         this.temperatureMax = data.temperatureMax / 10 + " °C";
         this.precipitation = data.precipitation / 10 + " mm";
@@ -33,14 +38,6 @@ export default class Day {
         this.windGust = data.windGust / 10 + " km/h";
         this.windDirection = "from-" + data.windDirection / 10 + "-deg";
         this.moonPhase = moonPhases[data.moonPhase]; /* TODO figure out how this works */
-    }
-
-    setDate(determined) {
-        let determinedDate = new Date(determined);
-        this.dayOfWeek = daysOfWeek[determinedDate.getDay()];
-        this.stringDate = leadingZeros(determinedDate.getDate(), 2) + "."
-            + leadingZeros(determinedDate.getMonth() + 1, 2) + "."
-            + leadingZeros(determinedDate.getFullYear(), 4);
     }
     
     resetData() {
