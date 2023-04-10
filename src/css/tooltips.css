@@ -7,7 +7,7 @@
     font-size: 0;
     position: absolute;
     transform: translateX(-50%);
-    bottom: 1em;
+    bottom: 1.5em;
     left:50%;
     border-radius: .5rem;
     line-height: initial;
@@ -16,6 +16,7 @@
     backdrop-filter: blur(1px);
     opacity: 0;
     transition: opacity .5s;
+    z-index: 100;
 }
 
 .wi:hover:after {
@@ -186,4 +187,30 @@
 /* loading */
 .loading .tooltip.wi-data:after, .tooltip.wi-na:after {
     content: "nicht verfügbar";
+}
+
+/* moon phases */
+.tooltip.wi-moon-new:after {
+    content: "Neumond";
+}
+.tooltip.wi-moon-waxing-crescent-4:after {
+    content: "zunehmende Sichel";
+}
+.tooltip.wi-moon-first-quarter:after {
+    content: "zunehmender Halbmond";
+}
+.tooltip.wi-moon-waxing-gibbous-3:after {
+    content: "zweites Viertel";
+}
+.tooltip.wi-moon-full:after {
+    content: "Vollmond";
+}
+.tooltip.wi-moon-waning-gibbous-4:after {
+    content: "drittes Viertel";
+}
+.tooltip.wi-moon-third-quarter:after {
+    content: "abnehmender Halbmond";
+}
+.tooltip.wi-moon-waning-crescent-3:after {
+    content: "abnehmende Sichel";
 }

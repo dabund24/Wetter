@@ -37,14 +37,26 @@ export const daysOfWeek = [
     "Samstag",
 ]
 
+export const daysOfWeekShort = [
+    "So",
+    "Mo",
+    "Di",
+    "Mi",
+    "Do",
+    "Fr",
+    "Sa",
+    "So"
+]
+
 export const moonPhases = [
-    "wi-moon-new",
     "wi-moon-waxing-crescent-4",
-    "wi-moon-waxing-gibbous-1",
-    "wi-moon-waxing-gibbous-5",
-    "wi-moon-waning-gibbous-2",
-    "wi-moon-waning-gibbous-6",
-    "wi-moon-waning-crescent-3"
+    "wi-moon-first-quarter",
+    "wi-moon-waxing-gibbous-3",
+    "wi-moon-full",
+    "wi-moon-waning-gibbous-4",
+    "wi-moon-third-quarter",
+    "wi-moon-waning-crescent-3",
+    "wi-moon-new"
 ]
 
 export const icons_day = [
@@ -116,6 +128,22 @@ export const icons_night = [
     "wi-thunderstorm" /* TODO thunderstorm + strong hail */,
     "wi-strong-wind"
 ];
+
+export const warningIcons = [
+    "wi-lightning",
+    "wi-strong-wind",
+    "wi-rain",
+    "wi-snow-wind",
+    "wi-fog",
+    "wi-snowflake-cold",
+    "wi-stars",
+    "wi-flood",
+    "wi-fire",
+    "wi-hot",
+    "wi-na",
+    "wi-na",
+    "wi-na"
+]
 
 export function addClassToChildOfParent(parent, classSelector, newClass) {
     parent.querySelector(classSelector).classList.add(newClass);

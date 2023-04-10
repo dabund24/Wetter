@@ -35,6 +35,11 @@ export function resetForecastDisplay() {
     forecastContent.replaceChildren();
 }
 
+export function resetWarningDisplay() {
+    const warningDisplay = document.querySelector("#warning__display");
+    warningDisplay.replaceChildren();
+}
+
 /**
  * displays preview data for all days
  */
@@ -42,6 +47,10 @@ export function setDayDisplay() {
     const dayTiles = document.getElementsByClassName("day");
     for (let i = 0; i < dayTiles.length; i++) {
         replaceNaClassFromChildOfParent(dayTiles[i], ".day__icon__0", days[i].icon);
+        setHTMLOfChildOfParent(dayTiles[i], ".day__icon__warning", "");
+        if (days[i].warnings.length !== 0) {
+            setHTMLOfChildOfParent(dayTiles[i], ".day__icon__warning", "!");
+        }
         setHTMLOfChildOfParent(dayTiles[i], ".day__temperature", days[i].temperatureMin + " / " + days[i].temperatureMax);
         setHTMLOfChildOfParent(dayTiles[i], ".day__precipitation", days[i].precipitation);
         setHTMLOfChildOfParent(dayTiles[i], ".day__date", days[i].stringDate);
@@ -85,10 +94,25 @@ export function setForecastDisplay() {
         replaceNaClassFromChildOfParent(toBeAdded, ".forecast__icon", day.icons[i]);
         setHTMLOfChildOfParent(toBeAdded, ".forecast__temperature", day.temperatures[i]);
         setHTMLOfChildOfParent(toBeAdded, ".forecast__precipitation", day.precipitations[i]);
-        setHTMLOfChildOfParent(toBeAdded, ".forecast__windSpeed", day.windSpeeds[i]);
-        setHTMLOfChildOfParent(toBeAdded, ".forecast__windGust", day.windGusts[i]);
-        replaceNaClassFromChildOfParent(toBeAdded, ".forecast__windDirection", "wi-wind");
-        addClassToChildOfParent(toBeAdded, ".forecast__windDirection", day.windDirections[i]);
+        setHTMLOfChildOfParent(toBeAdded, ".forecast__surfacePressure", day.surfacePressures[i]);
+        setHTMLOfChildOfParent(toBeAdded, ".forecast__humidity", day.humidities[i]);
+        setHTMLOfChildOfParent(toBeAdded, ".forecast__dewPoint2m", day.dewPoints2m[i]);
         forecast.querySelector("#forecast__content").appendChild(toBeAdded);
+    }
+}
+
+export function setWarningDisplay() {
+    const warningDisplay = document.getElementById("tab-content-2");
+    const template = warningDisplay.querySelector("template").content;
+    const day = days[currentDay];
+    let toBeAdded;
+    for (let warning of day.warnings) {
+        toBeAdded = document.importNode(template, true);
+        setHTMLOfChildOfParent(toBeAdded, ".warning__title", warning.title);
+        addClassToChildOfParent(toBeAdded, ".warning__level","warning__level--" + warning.level);
+        replaceNaClassFromChildOfParent(toBeAdded, ".warning__type-icon", warning.typeIcon);
+        setHTMLOfChildOfParent(toBeAdded, ".warning__text__description", warning.description);
+        setHTMLOfChildOfParent(toBeAdded, ".warning__text__instruction", warning.instruction);
+        warningDisplay.querySelector("#warning__display").appendChild(toBeAdded);
     }
 }

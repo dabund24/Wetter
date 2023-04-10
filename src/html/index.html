@@ -77,6 +77,7 @@
                 <button class="day hoverable tile" onclick="switchDay(0)">
                 <span class="day__icon">
                     <i class="day__icon__0 wi wi_-data"></i>
+                    <strong class="day__icon__warning"></strong>
                 </span>
                     <span class="day__temperature">Temperatur</span>
                     <span class="day__precipitation">Niederschlag</span>
@@ -86,6 +87,7 @@
                 <button class="day hoverable tile" onclick="switchDay(1)">
                 <span class="day__icon">
                     <i class="day__icon__0 wi wi_-data"></i>
+                    <strong class="day__icon__warning"></strong>
                 </span>
                     <span class="day__temperature">Temperatur</span>
                     <span class="day__precipitation">Niederschlag</span>
@@ -95,6 +97,7 @@
                 <button class="day hoverable tile" onclick="switchDay(2)">
                 <span class="day__icon">
                     <i class="day__icon__0 wi wi_-data"></i>
+                    <strong class="day__icon__warning"></strong>
                 </span>
                     <span class="day__temperature">Temperatur</span>
                     <span class="day__precipitation">Niederschlag</span>
@@ -104,6 +107,7 @@
                 <button class="day hoverable tile" onclick="switchDay(3)">
                 <span class="day__icon">
                     <i class="day__icon__0 wi wi_-data"></i>
+                    <strong class="day__icon__warning"></strong>
                 </span>
                     <span class="day__temperature">Temperatur</span>
                     <span class="day__precipitation">Niederschlag</span>
@@ -113,6 +117,7 @@
                 <button class="day hoverable tile" onclick="switchDay(4)">
                 <span class="day__icon">
                     <i class="day__icon__0 wi wi_-data"></i>
+                    <strong class="day__icon__warning"></strong>
                 </span>
                     <span class="day__temperature">Temperatur</span>
                     <span class="day__precipitation">Niederschlag</span>
@@ -122,6 +127,7 @@
                 <button class="day hoverable tile" onclick="switchDay(5)">
                 <span class="day__icon">
                     <i class="day__icon__0 wi wi_-data"></i>
+                    <strong class="day__icon__warning"></strong>
                 </span>
                     <span class="day__temperature">Temperatur</span>
                     <span class="day__precipitation">Niederschlag</span>
@@ -131,6 +137,7 @@
                 <button class="day hoverable tile" onclick="switchDay(6)">
                 <span class="day__icon">
                     <i class="day__icon__0 wi wi_-data"></i>
+                    <strong class="day__icon__warning"></strong>
                 </span>
                     <span class="day__temperature">Temperatur</span>
                     <span class="day__precipitation">Niederschlag</span>
@@ -140,6 +147,7 @@
                 <button class="day hoverable tile" onclick="switchDay(7)">
                 <span class="day__icon">
                     <i class="day__icon__0 wi wi_-data"></i>
+                    <strong class="day__icon__warning"></strong>
                 </span>
                     <span class="day__temperature">Temperatur</span>
                     <span class="day__precipitation">Niederschlag</span>
@@ -149,6 +157,7 @@
                 <button class="day hoverable tile" onclick="switchDay(8)">
                 <span class="day__icon">
                     <i class="day__icon__0 wi wi_-data"></i>
+                    <strong class="day__icon__warning"></strong>
                 </span>
                     <span class="day__temperature">Temperatur</span>
                     <span class="day__precipitation">Niederschlag</span>
@@ -158,6 +167,7 @@
                 <button class="day hoverable tile" onclick="switchDay(9)">
                 <span class="day__icon">
                     <i class="day__icon__0 wi wi_-data"></i>
+                    <strong class="day__icon__warning"></strong>
                 </span>
                     <span class="day__temperature">Temperatur</span>
                     <span class="day__precipitation">Niederschlag</span>
@@ -185,30 +195,32 @@
         <div id="tab-content">
             <div id="tab-content-0">
                 <div class="table">
-                    <div class="forecast__header table__header table__row">
-                        <div class="table__cell">
-                            Uhrzeit
+                    <div class="table__header">
+                        <div class="forecast__header table__row">
+                            <div class="table__cell">
+                                Uhrzeit
+                            </div>
+                            <div class="table__cell">
+                                Icon
+                            </div>
+                            <div class="table__cell">
+                                Temperatur
+                            </div>
+                            <div class="table__cell">
+                                Niederschlag
+                            </div>
+                            <div class="table__cell">
+                                Luftdruck
+                            </div>
+                            <div class="table__cell">
+                                Luftfeuchte
+                            </div>
+                            <div class="table__cell">
+                                Taupunkt
+                            </div>
                         </div>
-                        <div class="table__cell">
-                            Icon
-                        </div>
-                        <div class="table__cell">
-                            Temperatur
-                        </div>
-                        <div class="table__cell">
-                            Niederschlag
-                        </div>
-                        <div class="table__cell">
-                            Windgeschw.
-                        </div>
-                        <div class="table__cell">
-                            Windböen
-                        </div>
-                        <div class="table__cell">
-                            Windrichtung
-                        </div>
+                        <div class="line--regular line--horizontal"></div>
                     </div>
-                    <div class="line--regular line--horizontal"></div>
                     <div class="table__content" id="forecast__content">
 
                     </div>
@@ -226,14 +238,14 @@
                             <div class="table__cell forecast__precipitation">
                                 Niederschlag
                             </div>
-                            <div class="table__cell forecast__windSpeed">
-                                Windgeschw.
+                            <div class="table__cell forecast__surfacePressure">
+                                Luftdruck
                             </div>
-                            <div class="table__cell forecast__windGust">
-                                Windböen
+                            <div class="table__cell forecast__humidity">
+                                Luftfeuchte
                             </div>
-                            <div class="table__cell">
-                                <i class="wi wi-na wi_-data forecast__windDirection"></i>
+                            <div class="table__cell forecast__dewPoint2m">
+                                Taupunkt
                             </div>
                         </div>
                     </template>
@@ -323,14 +335,66 @@
                     </div>
                     <div class="day-data-tile tile">
                 <span class="day__icon">
-                    <i class="wi wi-na wi_-data day-data__moonPhase"></i>
+                    <i class="wi wi-na wi_-data day-data__moonPhase tooltip"></i>
                 </span>
                         <span>Mondphase</span>
                     </div>
                 </div>
             </div>
             <div id="tab-content-2">
-                Noch nicht fertig.
+                <div class="table" id="warning__display">
+                    <div class="warning">
+                        <div class="warning__header">
+                            <div class="warning__date">
+                                <strong>FROST</strong><br/><i>Mi, 10.04.2023 – Do, 11.04.2023</i>
+                            </div>
+                            <div class="warning__level">
+                                <div class="line--regular"></div>
+                                <div class="line--regular"></div>
+                                <div class="line--regular"></div>
+                                <div class="line--regular"></div>
+                            </div>
+                            <div class="warning__icon">
+                                <i class="wi wi-fw wi-snowflake-cold"></i>
+                            </div>
+                        </div>
+                        <div class="warning__content">
+                            <div class="warning__text">
+                                <div class="warning__text__description">
+                                    Es tritt leichter Frost bis -2 °C auf.
+                                </div>
+                                <i class="warning__text__instruction">
+                                </i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <template class="warning">
+                    <div class="warning__header">
+                        <div class="warning__title">
+                            <strong>WINDBÖEN</strong><br/><i>Mi, 10.04.2023, 11 Uhr – Do, 11.04.2023, 22 Uhr</i>
+                        </div>
+                        <div class="warning__level wi-warning__level--3">
+                            <div class="line--regular"></div>
+                            <div class="line--regular"></div>
+                            <div class="line--regular"></div>
+                            <div class="line--regular"></div>
+                        </div>
+                        <div class="warning__icon">
+                            <i class="wi wi_-data wi-fw wi-na warning__type-icon"></i>
+                        </div>
+                    </div>
+                    <div class="warning__content">
+                        <div class="warning__text">
+                            <div class="warning__text__description">
+                                Es treten oberhalb 1000 m Sturmböen mit Geschwindigkeiten zwischen 70 km/h (20 m/s, 38 kn, Bft 8) und 85 km/h (24 m/s, 47 kn, Bft 9) anfangs aus südwestlicher, später aus westlicher Richtung auf. In exponierten Lagen muss mit schweren Sturmböen bis 100 km/h (28 m/s, 55 kn, Bft 10) gerechnet werden.
+                            </div>
+                            <div class="warning__text__instruction">
+                                ACHTUNG! Hinweis auf mögliche Gefahren: Es können zum Beispiel einzelne Äste herabstürzen. Achten Sie besonders auf herabfallende Gegenstände.
+                            </div>
+                        </div>
+                    </div>
+                </template>
             </div>
         </div>
     </div>

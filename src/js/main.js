@@ -1,4 +1,5 @@
 import Day from "./day.js";
+import Warning from "./warning.js";
 import Station from "./station.js";
 import {
     root,
@@ -12,9 +13,11 @@ import {
     resetDisplay,
     resetForecastDisplay,
     resetOverviewDisplay,
+    resetWarningDisplay,
     setDayDisplay,
     setForecastDisplay,
-    setOverviewDisplay
+    setOverviewDisplay,
+    setWarningDisplay
 } from "./data.js";
 import {addDays, addHours, dayDifference, unixToHoursString} from "./util.js";
 
@@ -35,12 +38,13 @@ const stations = [
 let currentStation = 0;
 document.getElementById("station-name").innerHTML = stations[currentStation].name;
 resetData();
+
 /*switchStation(0);*/
 
 export async function resetData() {
     root.classList.add("loading");
     printNotication("Hole Daten für " + stations[currentStation].name + "...");
-    
+
     if (!(await fetchData())) {
         // if data fetch failed
         //printNotication(unixToHoursString(Date.now()) + ": Fehler, Holen der Daten gescheitert.");
@@ -51,14 +55,16 @@ export async function resetData() {
 
     resetDisplay();
     resetForecastDisplay();
-    
-    //setDates();
+    resetWarningDisplay();
+
     setOverviewData();
-    //setForecastData();
+    setForecastData();
+    setWarningData();
     setDayDisplay();
     setOverviewDisplay();
-    //setForecastDisplay();
-    printNotication(unixToHoursString(Date.now()) + ": Daten erfolgreich aktualisiert.")
+    setForecastDisplay();
+    setWarningDisplay();
+    printNotication("Daten erfolgreich aktualisiert.")
     root.classList.remove("loading");
     return true;
 }
@@ -97,9 +103,7 @@ export async function fetchData() {
     return fetch("https://api.allorigins.win/raw?url=https://dwd.api.proxy.bund.dev/v30/stationOverviewExtended?stationIds=" + stations[currentStation].id/* + "&t=" + Date.now()*/)
         .then(response => response.json())
         .then(freshData => {
-            console.log(stations[currentStation].id);
             data = freshData[stations[currentStation].id];
-            console.log(data)
             return true;
         })
         .catch((err) => {
@@ -128,28 +132,62 @@ function setForecastData() {
     for (let day of days) {
         day.resetData();
     }
-    const forecastRoot = data.forecast1;
-    const forecastStart = new Date(forecastRoot.start);
+    let forecastRoot = data.forecast1;
+    let forecastStart = new Date(forecastRoot.start);
+    let forecastStep = forecastRoot.timeStep;
     let currentTime;
     let currentDayIndex;
 
     for (let i = 0; i < forecastRoot.temperature.length; i++) {
-        currentTime = addHours(forecastStart, i * 6);
+        currentTime = addHours(forecastStart, i * (forecastStep / 3600000));
         currentDayIndex = dayDifference(forecastStart, currentTime);
+        if (Date.now() > addHours(currentTime, 1)) {
+            continue;
+        }
+        if (currentDayIndex >= days.length) {
+            break;
+        }
         days[currentDayIndex].pushData(
             currentTime,
             forecastRoot.icon[i],
             forecastRoot.temperature[i],
             forecastRoot.precipitationTotal[i],
-            forecastRoot.windSpeed[i],
-            forecastRoot.windGust[i],
-            forecastRoot.windDirection[i]);
+            forecastRoot.surfacePressure[i],
+            forecastRoot.humidity[i],
+            forecastRoot.dewPoint2m[i]);
+    }
+}
+
+function setWarningData() {
+    let warningRoot = data.warnings;
+    // loop through all warnings
+    for (let warningData of warningRoot) {
+        const warning = new Warning(warningData.event,
+            warningData.start,
+            warningData.end,
+            warningData.level,
+            warningData.type,
+            warningData.description,
+            warningData.instruction);
+        const warningStart = new Date(warning.start);
+        const warningEnd = new Date(warning.end);
+        // loop through all days to check if warning fits in
+        for (let day of days) {
+            const dayStart = day.date;
+            const dayEnd = addHours(day.date, 24);
+            // check if warning is within day
+            if ((warningStart > dayStart && warningStart < dayEnd) ||
+                (warningEnd > dayStart && warningEnd < dayEnd) ||
+                (warningStart < dayStart && warningEnd > dayEnd)) {
+                day.pushWarning(warning);
+            }
+        }
     }
 }
 
 // displays a notification in page footer //
 function printNotication(notification) {
-    document.getElementById("status-bar").innerHTML = notification;
+    document.getElementById("status-bar").innerHTML = unixToHoursString(Date.now()) + ": " + notification;
 }
 
 // switches tab to parameter //
@@ -171,9 +209,11 @@ export function switchColor() {
 export function switchDay(index) {
     sDay(index);
     resetOverviewDisplay();
-    resetForecastDisplay()
+    resetForecastDisplay();
+    resetWarningDisplay();
     setOverviewDisplay();
     setForecastDisplay();
+    setWarningDisplay();
 }
 
 /**
@@ -182,6 +222,9 @@ export function switchDay(index) {
  * @returns {Promise<void>}
  */
 export async function switchStation(index) {
+    if (index === currentStation) {
+        return;
+    }
     let oldStation = currentStation;
     currentStation = index;
     if (await resetData()) {
