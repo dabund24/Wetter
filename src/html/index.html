@@ -33,7 +33,7 @@
         <div class="line--regular"></div>
     </div>
     <div class="action-bar">
-        <button class="hoverable refresh" onclick="resetData()">
+        <button class="hoverable refresh" onclick="resetData(true)">
             <i class="wi wi-fw wi-refresh"></i>
         </button>
         <button class="hoverable star" onclick="switchColor()">
@@ -342,11 +342,14 @@
                 </div>
             </div>
             <div id="tab-content-2">
+                <div id="no-warning">Keine Warnungen.</div>
                 <div class="table" id="warning__display">
+                </div>
+                <template class="warning">
                     <div class="warning">
                         <div class="warning__header">
-                            <div class="warning__date">
-                                <strong>FROST</strong><br/><i>Mi, 10.04.2023 – Do, 11.04.2023</i>
+                            <div class="warning__title">
+                                <strong>WARNTYP</strong><br/><i>Xx, XX.XX.XXXX, XX Uhr – Xx, XX.XX.XXXX, XX Uhr</i>
                             </div>
                             <div class="warning__level">
                                 <div class="line--regular"></div>
@@ -355,42 +358,17 @@
                                 <div class="line--regular"></div>
                             </div>
                             <div class="warning__icon">
-                                <i class="wi wi-fw wi-snowflake-cold"></i>
+                                <i class="wi wi_-data wi-fw wi-na warning__type-icon"></i>
                             </div>
                         </div>
                         <div class="warning__content">
                             <div class="warning__text">
                                 <div class="warning__text__description">
-                                    Es tritt leichter Frost bis -2 °C auf.
+                                    Warnungsbeschreibung
                                 </div>
-                                <i class="warning__text__instruction">
-                                </i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <template class="warning">
-                    <div class="warning__header">
-                        <div class="warning__title">
-                            <strong>WINDBÖEN</strong><br/><i>Mi, 10.04.2023, 11 Uhr – Do, 11.04.2023, 22 Uhr</i>
-                        </div>
-                        <div class="warning__level wi-warning__level--3">
-                            <div class="line--regular"></div>
-                            <div class="line--regular"></div>
-                            <div class="line--regular"></div>
-                            <div class="line--regular"></div>
-                        </div>
-                        <div class="warning__icon">
-                            <i class="wi wi_-data wi-fw wi-na warning__type-icon"></i>
-                        </div>
-                    </div>
-                    <div class="warning__content">
-                        <div class="warning__text">
-                            <div class="warning__text__description">
-                                Es treten oberhalb 1000 m Sturmböen mit Geschwindigkeiten zwischen 70 km/h (20 m/s, 38 kn, Bft 8) und 85 km/h (24 m/s, 47 kn, Bft 9) anfangs aus südwestlicher, später aus westlicher Richtung auf. In exponierten Lagen muss mit schweren Sturmböen bis 100 km/h (28 m/s, 55 kn, Bft 10) gerechnet werden.
-                            </div>
-                            <div class="warning__text__instruction">
-                                ACHTUNG! Hinweis auf mögliche Gefahren: Es können zum Beispiel einzelne Äste herabstürzen. Achten Sie besonders auf herabfallende Gegenstände.
+                                <div class="warning__text__instruction">
+                                    Handlungshinweise
+                                </div>
                             </div>
                         </div>
                     </div>

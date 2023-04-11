@@ -1,8 +1,10 @@
 import {unixToHoursString, daysOfWeek, leadingZeros, moonPhases, icons_day, icons_night} from "./util.js";
 
 export default class Day {
-    
 
+    /**
+     * initialises new station with date and empty arrays for forecast and warnings
+     */
     constructor() {
         this.date = new Date(0);
         this.icon = icons_day[0];
@@ -16,7 +18,11 @@ export default class Day {
         this.dewPoints2m = [];
         this.warnings = [];
     }
-    
+
+    /**
+     * sets correct strings of day for overview
+     * @param {Object} data - the object storing necessary data for this day
+     */
     setOverviewData(data) {
         this.date = new Date(data.dayDate);
         this.dayOfWeek = daysOfWeek[this.date.getDay()]
@@ -40,7 +46,10 @@ export default class Day {
         this.windDirection = "from-" + data.windDirection / 10 + "-deg";
         this.moonPhase = moonPhases[data.moonPhase];
     }
-    
+
+    /**
+     * resets arrays for forecast and warnings
+     */
     resetData() {
         this.times.length = 0;
         this.icons.length = 0;
@@ -51,7 +60,17 @@ export default class Day {
         this.dewPoints2m.length = 0;
         this.warnings.length = 0;
     }
-    
+
+    /**
+     * adds a data point for each data array of this day
+     * @param {Date} time - the time the data is for
+     * @param {number} icon - the icon number specified in api docs
+     * @param {number} temperature - unit: `0.1 °C`
+     * @param {number} precipitation - unit: `0.1 mm`
+     * @param {number} surfacePressure - unit: `0.1 hPa`
+     * @param {number} humidity - unit: `0.1 %`
+     * @param {number} dewPoint2m - unit: `0.1 °C`
+     */
     pushData(time, icon, temperature, precipitation, surfacePressure, humidity, dewPoint2m) {
         this.times.push(time.getHours() + " Uhr");
         if (this.sunriseTime != null && (this.sunriseTime > time || this.sunsetTime < time)) {
@@ -65,7 +84,11 @@ export default class Day {
         this.humidities.push((humidity / 10).toLocaleString() + " %");
         this.dewPoints2m.push((dewPoint2m / 10).toLocaleString() + " °C");
     }
-    
+
+    /**
+     * adds warning object to warnings array of this day
+     * @param {Warning} warning
+     */
     pushWarning(warning) {
         this.warnings.push(warning);
     }

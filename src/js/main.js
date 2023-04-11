@@ -19,15 +19,27 @@ import {
     setOverviewDisplay,
     setWarningDisplay
 } from "./data.js";
-import {addDays, addHours, dayDifference, unixToHoursString} from "./util.js";
+import {addDays, addHours, cancelTimezoneOffset, dayDifference, unixToHoursString, printNotification} from "./util.js";
 
+/**
+ * json data of current station
+ * @type {Object}
+ */
 let data;
-export const days = [new Day()];
 
-for (let i = 1; i < 10; i++) {
+/**
+ * an array storing all (10) days
+ * @type {Day[]}
+ */
+export const days = [];
+for (let i = 0; i < 10; i++) {
     days.push(new Day());
 }
 
+/**
+ * an array storing all pinned stations
+ * @type {Station[]}
+ */
 const stations = [
     new Station("10382", "Berlin-Tegel"),
     new Station("10865", "München Stadt"),
@@ -35,23 +47,31 @@ const stations = [
     new Station("10863", "Weihenstephan-Dürnast"),
     new Station("N3951", "Wertheim-Eichel")
 ]
+/**
+ * the index of the station in stations that is displayed
+ * @type {number}
+ */
 let currentStation = 0;
 document.getElementById("station-name").innerHTML = stations[currentStation].name;
-resetData();
+resetData(false);
 
-/*switchStation(0);*/
-
-export async function resetData() {
+/**
+ * fetches data, resets and sets display
+ * @param {boolean} noCache - if set to true, fetch of fresh data is guaranteed
+ * @returns {Promise<boolean>} - success of data fetch
+ */
+export async function resetData(noCache) {
     root.classList.add("loading");
-    printNotication("Hole Daten für " + stations[currentStation].name + "...");
+    if (noCache) {
+        stations[currentStation].resetURL();
+        printNotification("Hole Daten für " + stations[currentStation].name + "...");
+    }
 
     if (!(await fetchData())) {
         // if data fetch failed
-        //printNotication(unixToHoursString(Date.now()) + ": Fehler, Holen der Daten gescheitert.");
         root.classList.remove("loading");
         return false;
     }
-    console.log(data);
 
     resetDisplay();
     resetForecastDisplay();
@@ -60,54 +80,33 @@ export async function resetData() {
     setOverviewData();
     setForecastData();
     setWarningData();
+    
     setDayDisplay();
     setOverviewDisplay();
     setForecastDisplay();
     setWarningDisplay();
-    printNotication("Daten erfolgreich aktualisiert.")
+    
+    if (noCache) {
+        printNotification("Daten für " + stations[currentStation].name + " erfolgreich aktualisiert.");
+    } else {
+        printNotification("Zeige Daten von " + unixToHoursString(stations[currentStation].lastRefresh) + ".");
+    }
     root.classList.remove("loading");
     return true;
 }
 
 /**
- * fetches data for current station and displays it
+ * fetches data for current station
  * @returns {Promise<boolean>} - success of data fetch
  */
 export async function fetchData() {
-    /*root.classList.add("loading");
-    printNotication("Hole Daten für " + stations[currentStation].name + "...");
-    return fetch("https://s3.eu-central-1.amazonaws.com/app-prod-static.warnwetter.de/v16/forecast_mosmix_" + stations[currentStation].id + ".json" + "&t=" + Date.now())
-        .then(response => response.json(), () => {
-            printNotication(unixToHoursString(Date.now()) + ": Fehler, Holen der Daten gescheitert.");
-        }).then(freshData => {
-        resetDisplay();
-        resetForecastDisplay();
-        if (freshData == null) {
-            setDayDisplay();
-            setOverviewDisplay();
-            setForecastDisplay();
-            root.classList.remove("loading");
-            return false;
-        }
-        data = freshData;
-        setDates();
-        setOverviewData();
-        setForecastData();
-        setDayDisplay();
-        setOverviewDisplay();
-        setForecastDisplay();
-        printNotication(unixToHoursString(Date.now()) + ": Daten erfolgreich aktualisiert.")
-        root.classList.remove("loading");
-        return true;
-    });*/
-    return fetch("https://api.allorigins.win/raw?url=https://dwd.api.proxy.bund.dev/v30/stationOverviewExtended?stationIds=" + stations[currentStation].id/* + "&t=" + Date.now()*/)
+    return fetch(stations[currentStation].url)
         .then(response => response.json())
         .then(freshData => {
             data = freshData[stations[currentStation].id];
             return true;
         })
         .catch((err) => {
-            console.log(err);
             printNotication(err);
             return false;
         });
@@ -123,8 +122,7 @@ function setOverviewData() {
     }
 }
 
-// TODO figure out why some data of last days is misaligned //
-// TODO set trend data                                      //
+// TODO set trend data
 /**
  * sets forecast data for all days
  */
@@ -158,6 +156,9 @@ function setForecastData() {
     }
 }
 
+/**
+ * sets warning data for all days
+ */
 function setWarningData() {
     let warningRoot = data.warnings;
     // loop through all warnings
@@ -173,39 +174,44 @@ function setWarningData() {
         const warningEnd = new Date(warning.end);
         // loop through all days to check if warning fits in
         for (let day of days) {
-            const dayStart = day.date;
-            const dayEnd = addHours(day.date, 24);
+            const dayStart = new Date(cancelTimezoneOffset(day.date));
+            const dayEnd = new Date(cancelTimezoneOffset(addDays(day.date, 1)));
             // check if warning is within day
-            if ((warningStart > dayStart && warningStart < dayEnd) ||
-                (warningEnd > dayStart && warningEnd < dayEnd) ||
-                (warningStart < dayStart && warningEnd > dayEnd)) {
+            if ((warningStart >= dayStart && warningStart < dayEnd) ||
+                (warningEnd >= dayStart && warningEnd < dayEnd) ||
+                (warningStart <= dayStart && warningEnd >= dayEnd)) {
                 day.pushWarning(warning);
             }
         }
     }
 }
 
-// displays a notification in page footer //
-function printNotication(notification) {
-    document.getElementById("status-bar").innerHTML = unixToHoursString(Date.now()) + ": " + notification;
-}
-
-// switches tab to parameter //
+/**
+ * allows switching between forecast, overview and warning tabs
+ * @param {number} index - the index of the selected tab
+ */
 export function switchTab(index) {
     sTab(index);
 }
 
-// switches between light and dark theme //
+/**
+ * allows switching between light and dark theme
+ */
 export function switchTheme() {
     sTheme();
 }
 
-// switches between green, red and blue accent color //
+/**
+ * allows switching between green, red and blue accent color
+ */
 export function switchColor() {
     sColor();
 }
 
-// switches day to parameter; resets and displays forecast and overview data //
+/**
+ * allows switching to specified day, resets and displays forecast and overview data
+ * @param {number} index - index of day to be switched to
+ */
 export function switchDay(index) {
     sDay(index);
     resetOverviewDisplay();
@@ -219,11 +225,11 @@ export function switchDay(index) {
 /**
  * switches station by fetching data
  * @param {number} index - index of station in stations
- * @returns {Promise<void>}
+ * @returns {Promise<boolean>} - success of station switch
  */
 export async function switchStation(index) {
     if (index === currentStation) {
-        return;
+        return false;
     }
     let oldStation = currentStation;
     currentStation = index;
@@ -232,7 +238,9 @@ export async function switchStation(index) {
         document.getElementById("station-name").innerHTML = stations[currentStation].name;
     } else {
         currentStation = oldStation;
+        return false;
     }
+    return true;
 }
 
 export function addStation(index) {

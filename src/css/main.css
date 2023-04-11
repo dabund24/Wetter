@@ -349,6 +349,7 @@ h1, h2 {
     height: 24rem;
     overflow-y: scroll;
     overflow-x: clip;
+    margin: .5rem 0;
 }
 
 #tab-content-1 {
@@ -404,6 +405,12 @@ h1, h2 {
 .warning {
     display: flex;
     flex-direction: column;
+    padding: .5rem 0;
+}
+
+#no-warning {
+    text-align: center;
+    margin: auto;
     padding: .5rem 0;
 }
 

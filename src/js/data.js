@@ -1,6 +1,6 @@
 import {days} from "./main.js";
 import {currentDay} from "./navigation.js";
-import {addClassToChildOfParent, replaceNaClassFromChildOfParent, setHTMLOfChildOfParent} from "./util.js";
+import {addClassToChildOfParent, replaceNaClassOfChildOfParent, setHTMLOfChildOfParent} from "./util.js";
 
 /**
  * resets data icons globally
@@ -41,12 +41,12 @@ export function resetWarningDisplay() {
 }
 
 /**
- * displays preview data for all days
+ * displays day preview data for all days
  */
 export function setDayDisplay() {
     const dayTiles = document.getElementsByClassName("day");
     for (let i = 0; i < dayTiles.length; i++) {
-        replaceNaClassFromChildOfParent(dayTiles[i], ".day__icon__0", days[i].icon);
+        replaceNaClassOfChildOfParent(dayTiles[i], ".day__icon__0", days[i].icon);
         setHTMLOfChildOfParent(dayTiles[i], ".day__icon__warning", "");
         if (days[i].warnings.length !== 0) {
             setHTMLOfChildOfParent(dayTiles[i], ".day__icon__warning", "!");
@@ -64,7 +64,7 @@ export function setDayDisplay() {
 export function setOverviewDisplay() {
     const dayData = document.getElementById("tab-content-1");
     const day = days[currentDay];
-    replaceNaClassFromChildOfParent(dayData, ".day-data__icon", day.icon);
+    replaceNaClassOfChildOfParent(dayData, ".day-data__icon", day.icon);
     setHTMLOfChildOfParent(dayData, ".day-data__temperatureMin", day.temperatureMin);
     setHTMLOfChildOfParent(dayData, ".day-data__temperatureMax", day.temperatureMax);
     setHTMLOfChildOfParent(dayData, ".day-data__precipitation", day.precipitation);
@@ -75,9 +75,9 @@ export function setOverviewDisplay() {
     setHTMLOfChildOfParent(dayData, ".day-data__moonset", day.moonset);
     setHTMLOfChildOfParent(dayData, ".day-data__windSpeed", day.windSpeed);
     setHTMLOfChildOfParent(dayData, ".day-data__windGust", day.windGust);
-    replaceNaClassFromChildOfParent(dayData, ".day-data__windDirection", "wi-wind");
+    replaceNaClassOfChildOfParent(dayData, ".day-data__windDirection", "wi-wind");
     addClassToChildOfParent(dayData, ".day-data__windDirection", day.windDirection);
-    replaceNaClassFromChildOfParent(dayData, ".day-data__moonPhase", day.moonPhase);
+    replaceNaClassOfChildOfParent(dayData, ".day-data__moonPhase", day.moonPhase);
 }
 
 /**
@@ -91,7 +91,7 @@ export function setForecastDisplay() {
     for (let i = 0; i < day.times.length; i++) {
         toBeAdded = document.importNode(template, true);
         setHTMLOfChildOfParent(toBeAdded, ".forecast__time", day.times[i]);
-        replaceNaClassFromChildOfParent(toBeAdded, ".forecast__icon", day.icons[i]);
+        replaceNaClassOfChildOfParent(toBeAdded, ".forecast__icon", day.icons[i]);
         setHTMLOfChildOfParent(toBeAdded, ".forecast__temperature", day.temperatures[i]);
         setHTMLOfChildOfParent(toBeAdded, ".forecast__precipitation", day.precipitations[i]);
         setHTMLOfChildOfParent(toBeAdded, ".forecast__surfacePressure", day.surfacePressures[i]);
@@ -101,18 +101,26 @@ export function setForecastDisplay() {
     }
 }
 
+/**
+ * displays warning data for current day
+ */
 export function setWarningDisplay() {
     const warningDisplay = document.getElementById("tab-content-2");
-    const template = warningDisplay.querySelector("template").content;
     const day = days[currentDay];
+    if (day.warnings.length === 0) {
+        document.getElementById("no-warning").style.setProperty("display", "block");
+        return;
+    }
+    const template = warningDisplay.querySelector("template").content;
     let toBeAdded;
     for (let warning of day.warnings) {
         toBeAdded = document.importNode(template, true);
         setHTMLOfChildOfParent(toBeAdded, ".warning__title", warning.title);
         addClassToChildOfParent(toBeAdded, ".warning__level","warning__level--" + warning.level);
-        replaceNaClassFromChildOfParent(toBeAdded, ".warning__type-icon", warning.typeIcon);
+        replaceNaClassOfChildOfParent(toBeAdded, ".warning__type-icon", warning.typeIcon);
         setHTMLOfChildOfParent(toBeAdded, ".warning__text__description", warning.description);
         setHTMLOfChildOfParent(toBeAdded, ".warning__text__instruction", warning.instruction);
         warningDisplay.querySelector("#warning__display").appendChild(toBeAdded);
     }
+    document.getElementById("no-warning").style.setProperty("display", "none");
 }

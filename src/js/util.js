@@ -1,20 +1,43 @@
+/**
+ * converts unix timestamp to human-readable string in German
+ * @param {number} unix - timestamp
+ * @returns {string} - a string following this scheme: `hh.mm Uhr`
+ */
 export function unixToHoursString(unix) {
     let date = new Date(unix);
     return leadingZeros(date.getHours(), 2) + "." + leadingZeros(date.getMinutes(), 2) + " Uhr"
 }
 
+/**
+ * a function for adding hours to a date
+ * @param {Date} date - the base date
+ * @param {number} toBeAdded - the amount of to be added hours
+ * @returns {Date} - the result as a `Date` object
+ */
 export function addHours(date, toBeAdded) {
     let result = new Date(date);
     result.setHours(result.getHours() + Number(toBeAdded), result.getMinutes(), result.getSeconds(), result.getMilliseconds());
     return result;
 }
 
+/**
+ * a function for adding days to a date
+ * @param {Date} date - the base date
+ * @param {Date} toBeAdded - the amount of to be added days
+ * @returns {Date} - the result
+ */
 export function addDays(date, toBeAdded) {
     let result = new Date(date);
     result.setDate(result.getDate() + Number(toBeAdded));
     return result;
 }
 
+/**
+ * a function for subtracting a day from another one
+ * @param {Date} dateA - the earlier date
+ * @param {Date} dateB - the later date
+ * @returns {number} - the amount of days in the time span `dateB - dateA`
+ */
 export function dayDifference(dateA, dateB) {
     const ms_per_day = 1000 * 60 * 60 * 24;
     // Discard the time and time-zone information.
@@ -24,9 +47,32 @@ export function dayDifference(dateA, dateB) {
     return Math.floor((utc2 - utc1) / ms_per_day);
 }
 
+/**
+ * adds, if necessary, leading zeroes to a number to reach an amount of digits
+ * @param {number} number - the number that needs leading zeroes
+ * @param {number} digits - the amount of digits the number is supposed to have
+ * @returns {string} - the number with leading zeroes
+ */
+export function leadingZeros(number, digits) {
+    return String(number).padStart(digits, '0');
+}
 
-export const leadingZeros = (number, digits) => String(number).padStart(digits, '0');
+/**
+ * takes a `Date` in utc time and translates it to local time by adding/subtracting hours
+ * @param {Date, number} date - the date in utc time
+ * @returns {Date} - the same date in local time
+ */
+export function cancelTimezoneOffset(date) {
+    const utcDate = new Date(date);
+    const timezoneOffset = new Date().getTimezoneOffset();
+    console.log("f " + timezoneOffset);
+    return utcDate.setMinutes(utcDate.getMinutes() + timezoneOffset);
+}
 
+/**
+ * stores German representations of weekdays starting with `Sonntag` and ending with `Montag`
+ * @type {string[]}
+ */
 export const daysOfWeek = [
     "Sonntag",
     "Montag",
@@ -37,6 +83,10 @@ export const daysOfWeek = [
     "Samstag",
 ]
 
+/**
+ * stores short German representations of weekdays starting with `So` and ending with `Sa`
+ * @type {string[]}
+ */
 export const daysOfWeekShort = [
     "So",
     "Mo",
@@ -48,6 +98,10 @@ export const daysOfWeekShort = [
     "So"
 ]
 
+/**
+ * stores css classes for eight moon phases starting with `wi-moon-waxing-crescent-4` and ending with `wi-moon-new`
+ * @type {string[]}
+ */
 export const moonPhases = [
     "wi-moon-waxing-crescent-4",
     "wi-moon-first-quarter",
@@ -59,6 +113,10 @@ export const moonPhases = [
     "wi-moon-new"
 ]
 
+/**
+ * stores `wi-na` at index 0 and all day css classes for every icon specified in the dwd api
+ * @type {string[]}
+ */
 export const icons_day = [
     "wi-na",
     "wi-day-sunny",
@@ -94,6 +152,10 @@ export const icons_day = [
     "wi-day-wind"
 ];
 
+/**
+ * stores `wi-na` at index 0 and all day css classes for every icon specified in the dwd api
+ * @type {string[]}
+ */
 export const icons_night = [
     "wi-na",
     "wi-night-clear",
@@ -129,6 +191,10 @@ export const icons_night = [
     "wi-strong-wind"
 ];
 
+/**
+ * stores css classes for icons shown in warning display
+ * @type {string[]}
+ */
 export const warningIcons = [
     "wi-lightning",
     "wi-strong-wind",
@@ -145,16 +211,43 @@ export const warningIcons = [
     "wi-na"
 ]
 
-export function addClassToChildOfParent(parent, classSelector, newClass) {
-    parent.querySelector(classSelector).classList.add(newClass);
+/**
+ * adds a class to a child of a parent
+ * @param {DocumentFragment} parent - the parent
+ * @param {string} childSelector - a selector of the child
+ * @param {string} newClass - the class the child should have
+ */
+export function addClassToChildOfParent(parent, childSelector, newClass) {
+    parent.querySelector(childSelector).classList.add(newClass);
 }
 
-export function replaceNaClassFromChildOfParent(parent, classSelector, newClass) {
-    parent.querySelector(classSelector).classList.replace("wi-na", newClass);
+/**
+ * replaces the class `wi-na` of a child of a parent
+ * @param {DocumentFragment} parent - the parent
+ * @param {string} childSelector - a selector of the child
+ * @param {string} newClass - the class that should replace `wi-na`
+ */
+export function replaceNaClassOfChildOfParent(parent, childSelector, newClass) {
+    parent.querySelector(childSelector).classList.replace("wi-na", newClass);
 }
 
-export function setHTMLOfChildOfParent(parent, classSelector, innerHTML) {
+/**
+ * sets the innerHTML of a child of a parent
+ * @param {DocumentFragment} parent - the parent
+ * @param {string} childSelector - a selector of the child
+ * @param {InnerHTML} innerHTML - the innerHTML the child should have
+ */
+export function setHTMLOfChildOfParent(parent, childSelector, innerHTML) {
     if (parent != null) {
-        parent.querySelector(classSelector).innerHTML = innerHTML;
+        parent.querySelector(childSelector).innerHTML = innerHTML;
     }
+}
+
+/**
+ * displays a notification in page footer in this scheme:
+ * `hh.mm Uhr: <notification>`
+ * @param {string} notification - the notification to be displayed
+ */
+export function printNotification(notification) {
+    document.getElementById("status-bar").innerHTML = unixToHoursString(Date.now()) + ": " + notification;
 }
