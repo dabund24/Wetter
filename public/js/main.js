@@ -107,7 +107,7 @@ export async function fetchData() {
             return true;
         })
         .catch((err) => {
-            printNotication(err);
+            printNotification(err);
             return false;
         });
 }
@@ -130,15 +130,25 @@ function setForecastData() {
     for (let day of days) {
         day.resetData();
     }
-    let forecastRoot = data.forecast1;
-    let forecastStart = new Date(forecastRoot.start);
-    let forecastStep = forecastRoot.timeStep;
+    const forecastRoot1 = data.forecast1;
+    const forecastRoot2 = data.forecast2;
+    const forecastStart1 = new Date(forecastRoot1.start);
+    const forecastStart2 = new Date(forecastRoot2.start);
+    const forecastStep1 = forecastRoot1.timeStep / 3600000;
+    const forecastStep2 = forecastRoot2.timeStep / 3600000;
     let currentTime;
     let currentDayIndex;
 
-    for (let i = 0; i < forecastRoot.temperature.length; i++) {
-        currentTime = addHours(forecastStart, i * (forecastStep / 3600000));
-        currentDayIndex = dayDifference(forecastStart, currentTime);
+    let forecast2IndexBase;
+
+    for (let i = 0; i < forecastRoot1.temperature.length; i++) {
+        currentTime = addHours(forecastStart1, i * forecastStep1);
+        // if forecastRoot2 starts
+        if (currentTime >= forecastStart2) {
+            forecast2IndexBase = i;
+            break;
+        }
+        currentDayIndex = dayDifference(forecastStart1, currentTime);
         if (Date.now() > addHours(currentTime, 1)) {
             continue;
         }
@@ -147,12 +157,29 @@ function setForecastData() {
         }
         days[currentDayIndex].pushData(
             currentTime,
-            forecastRoot.icon[i],
-            forecastRoot.temperature[i],
-            forecastRoot.precipitationTotal[i],
-            forecastRoot.surfacePressure[i],
-            forecastRoot.humidity[i],
-            forecastRoot.dewPoint2m[i]);
+            forecastRoot1.icon[i],
+            forecastRoot1.temperature[i],
+            forecastRoot1.precipitationTotal[i],
+            forecastRoot1.surfacePressure[i],
+            forecastRoot1.humidity[i],
+            forecastRoot1.dewPoint2m[i]);
+    }
+
+    for (let i = 0; i < forecastRoot2.icon.length; i++) {
+        currentTime = addHours(forecastStart2, i * forecastStep2);
+        currentDayIndex = dayDifference(forecastStart1, currentTime);
+        if (currentDayIndex >= days.length) {
+            break;
+        }
+        console.log(forecast2IndexBase + (forecastStep2 / forecastStep1) * i);
+        days[currentDayIndex].pushData(
+            currentTime,
+            forecastRoot2.icon[i],
+            forecastRoot1.temperature[forecast2IndexBase + (forecastStep2 / forecastStep1) * i],
+            forecastRoot2.precipitationTotal[i],
+            forecastRoot2.surfacePressure[i],
+            forecastRoot2.humidity[i],
+            forecastRoot2.dewPoint2m[i]);
     }
 }
 

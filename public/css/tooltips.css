@@ -189,6 +189,20 @@
     content: "nicht verfügbar";
 }
 
+/*overview icons*/
+.tooltip.wi-sunrise:after {
+    content: "Sonnenaufgang";
+}
+.tooltip.wi-sunset:after {
+    content: "Sonnenaufgang";
+}
+.tooltip.wi-moonrise:after {
+    content: "Sonnenaufgang";
+}
+.tooltip.wi-moonset:after {
+    content: "Sonnenaufgang";
+}
+
 /* moon phases */
 .tooltip.wi-moon-new:after {
     content: "Neumond";

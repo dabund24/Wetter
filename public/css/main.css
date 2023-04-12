@@ -346,10 +346,11 @@ h1, h2 {
 }
 
 #tab-content {
-    height: 24rem;
+    height: 24.5rem;
     overflow-y: scroll;
     overflow-x: clip;
     margin: .5rem 0;
+    transition: height .5s ease-in-out;
 }
 
 #tab-content-1 {
@@ -358,6 +359,14 @@ h1, h2 {
 
 #tab-content-2 {
     display: none;
+}
+
+#tab-content-expander {
+    text-align: center;
+}
+
+.tab-content--expanded #tab-content {
+    height: 90rem;
 }
 
 .table {
