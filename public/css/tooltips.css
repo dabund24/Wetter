@@ -194,13 +194,13 @@
     content: "Sonnenaufgang";
 }
 .tooltip.wi-sunset:after {
-    content: "Sonnenaufgang";
+    content: "Sonnenuntergang";
 }
 .tooltip.wi-moonrise:after {
-    content: "Sonnenaufgang";
+    content: "Mondaufgang";
 }
 .tooltip.wi-moonset:after {
-    content: "Sonnenaufgang";
+    content: "Monduntergang";
 }
 
 /* moon phases */
@@ -227,4 +227,18 @@
 }
 .tooltip.wi-moon-waning-crescent-3:after {
     content: "abnehmende Sichel";
+}
+
+/* warning levels */
+.tooltip.warning__level--1:after {
+    content: "Warnstufe 1";
+}
+.tooltip.warning__level--1:after {
+    content: "Warnstufe 2";
+}
+.tooltip.warning__level--1:after {
+    content: "Warnstufe 3";
+}
+.tooltip.warning__level--1:after {
+    content: "Warnstufe 4";
 }

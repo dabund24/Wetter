@@ -60,12 +60,11 @@ export function leadingZeros(number, digits) {
 /**
  * takes a `Date` in utc time and translates it to local time by adding/subtracting hours
  * @param {Date, number} date - the date in utc time
- * @returns {Date} - the same date in local time
+ * @returns {number} - the same date in local time
  */
 export function cancelTimezoneOffset(date) {
     const utcDate = new Date(date);
     const timezoneOffset = new Date().getTimezoneOffset();
-    console.log("f " + timezoneOffset);
     return utcDate.setMinutes(utcDate.getMinutes() + timezoneOffset);
 }
 
