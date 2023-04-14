@@ -14,11 +14,12 @@
 </head>
 <body>
 <script type="module">
-    import {switchTab, switchTheme, switchColor, switchDay, switchStation, resetData} from "/js/main.js";
+    import {switchTab, switchTheme, switchColor, switchDay, toggleNowcast, switchStation, resetData} from "/js/main.js";
     window.switchTab = switchTab;
     window.switchTheme = switchTheme;
     window.switchColor = switchColor;
     window.switchDay = switchDay;
+    window.toggleNowcast = toggleNowcast;
     window.switchStation = switchStation;
     window.resetData = resetData;
 </script>
@@ -68,11 +69,90 @@
             <div class="line--accent"></div>
         </template>
     </div>
-    <h1 id="station-name">Stationsname</h1>
+    <h1 id="station">
+        <span id="station__name">Stationsname</span>
+        <button id="station__icon" class="hoverable" onclick="toggleNowcast()">
+            <i class="station__icon__0 wi wi_-data"></i>
+        </button>
+    </h1>
+    <div class="content-wrapper">
+        <div id="nowcast" data-nowcast="0">
+            <div class="day-data__tiles-container flex-row">
+                <div class="nowcast-tile tile flex-column">
+                        <span class="nowcast__icon">
+                            <i class="wi wi-thermometer"></i>
+                        </span>
+                    <span class="nowcast__temperature">Temperatur</span>
+                </div>
+                <div class="nowcast-tile tile flex-column">
+                        <span class="nowcast__icon">
+                            <i class="wi wi-umbrella"></i>
+                        </span>
+                    <span class="nowcast__precipitation">Niederschlag</span>
+                </div>
+                <div class="nowcast-tile tile flex-column">
+                        <span class="nowcast__icon">
+                            <i class="wi wi-snowflake-cold"></i>
+                        </span>
+                    <span class="nowcast__totalSnow">Schneefall</span>
+                </div>
+                <div class="nowcast-tile tile flex-column">
+                        <span class="nowcast__icon">
+                            <i class="wi wi-day-sunny"></i>
+                        </span>
+                    <span class="nowcast__sunshine">Sonnenstunden</span>
+                </div>
+            </div>
+            <div class="nowcast__tiles-container flex-row">
+                <div class="nowcast-tile tile flex-column">
+                        <span class="nowcast__icon">
+                            <i class="wi wi-windy"></i>
+                        </span>
+                    <span class="nowcast__meanWind">Mittelwind</span>
+                </div>
+                <div class="nowcast-tile tile flex-column">
+                        <span class="nowcast__icon">
+                            <i class="wi wi-strong-wind"></i>
+                        </span>
+                    <span class="nowcast__maxWind">Windböen</span>
+                </div>
+                <div class="nowcast-tile tile flex-column">
+                        <span class="nowcast__icon">
+                            <i class="wi wi-wind wi_-data nowcast__windDirection"></i>
+                        </span>
+                    <span>Windrichtung</span>
+                </div>
+            </div>
+            <div class="nowcast__tiles-container flex-row">
+                <div class="nowcast-tile tile flex-column">
+                        <span class="nowcast__icon">
+                            <i class="wi wi-barometer tooltip"></i>
+                        </span>
+                    <span class="nowcast__pressure">Luftdruck</span>
+                </div>
+                <div class="nowcast-tile tile flex-column">
+                        <span class="nowcast__icon">
+                            <i class="wi wi-humidity tooltip"></i>
+                        </span>
+                    <span class="nowcast__humidity">Luftfeuchte</span>
+                </div>
+                <div class="nowcast-tile tile flex-column">
+                        <span class="nowcast__icon tooltip-dewPoint tooltip">
+                            <i class="wi wi-thermometer"></i>
+                            <i class="wi wi-raindrop"></i>
+                        </span>
+                    <span class="nowcast__dewPoint">Taupunkt</span>
+                </div>
+            </div>
+            <div class="nowcast__time day-data__tiles-container flex-row">
+                Wetterdaten von 12.00 Uhr
+            </div>
+        </div>
+    </div>
     <div class="day-select-container">
         <div class="day-select">
             <div class="days flex-row">
-                <button class="day hoverable tile" onclick="switchDay(0)">
+                <button class="day hoverable tile flex-column" onclick="switchDay(0)">
                 <span class="day__icon">
                     <i class="day__icon__0 wi wi_-data"></i>
                     <strong class="day__icon__warning"></strong>
@@ -349,7 +429,7 @@
                             <div class="warning__title">
                                 <strong>WARNTYP</strong><br/><i>Xx, XX.XX.XXXX, XX Uhr – Xx, XX.XX.XXXX, XX Uhr</i>
                             </div>
-                            <div class="warning__level flex-row">
+                            <div class="warning__level flex-row tooltip">
                                 <div class="line--regular"></div>
                                 <div class="line--regular"></div>
                                 <div class="line--regular"></div>

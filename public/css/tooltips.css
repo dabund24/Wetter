@@ -19,7 +19,7 @@
     z-index: 100;
 }
 
-.wi:hover:after {
+.tooltip:hover:after {
     font-size: 20px;
     border: 4px solid var(--foreground-color--opaque);
     padding: 0 .5rem;
@@ -189,7 +189,7 @@
     content: "nicht verfügbar";
 }
 
-/*overview icons*/
+/* nowcast and overview icons */
 .tooltip.wi-sunrise:after {
     content: "Sonnenaufgang";
 }
@@ -201,6 +201,16 @@
 }
 .tooltip.wi-moonset:after {
     content: "Monduntergang";
+}
+
+.tooltip.wi-barometer:after {
+    content: "Luftdruck";
+}
+.tooltip.wi-humidity:after {
+    content: "Luftfeuchte";
+}
+.tooltip.tooltip-dewPoint:after {
+    content: "Taupunkt";
 }
 
 /* moon phases */
@@ -233,12 +243,12 @@
 .tooltip.warning__level--1:after {
     content: "Warnstufe 1";
 }
-.tooltip.warning__level--1:after {
+.tooltip.warning__level--2:after {
     content: "Warnstufe 2";
 }
-.tooltip.warning__level--1:after {
+.tooltip.warning__level--3:after {
     content: "Warnstufe 3";
 }
-.tooltip.warning__level--1:after {
+.tooltip.warning__level--4:after {
     content: "Warnstufe 4";
 }

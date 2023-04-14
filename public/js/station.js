@@ -1,3 +1,5 @@
+import {icons_day, unixToHoursString} from "./util.js";
+
 export default class Station {
 
     /**
@@ -8,15 +10,18 @@ export default class Station {
     constructor(id, name) {
         this.id = id;
         this.name = name;
-        this.url = "";
+        this.overviewURL = "";
         this.lastRefresh = Date.now();
         const proxyURL = "https://api.allorigins.win/raw?url=";
-        this.baseURL = "https://dwd.api.proxy.bund.dev/v30/stationOverviewExtended?stationIds=" + id;
+        this.overviewBaseURL = "https://dwd.api.proxy.bund.dev/v30/stationOverviewExtended?stationIds=" + id;
+        // this.overviewBaseURL = "https://app-prod-ws.warnwetter.de/v30/stationOverviewExtended?stationIds=" + id;
+        this.nowcastBaseURL = "https://s3.eu-central-1.amazonaws.com/app-prod-static.warnwetter.de/v16/current_measurement_" + id + ".json"
         const addProxy = true;
         if (addProxy) {
-            this.baseURL = proxyURL + this.baseURL;
+            this.overviewBaseURL = proxyURL + this.overviewBaseURL;
         }
-        this.url = this.baseURL;
+        this.overviewURL = this.overviewBaseURL;
+        this.nowcastURL = this.nowcastBaseURL;
     }
 
     /**
@@ -25,6 +30,21 @@ export default class Station {
      */
     resetURL() {
         this.lastRefresh = Date.now();
-        this.url = this.baseURL + "&t=" + this.lastRefresh;
+        this.overviewURL = this.overviewBaseURL + "&t=" + this.lastRefresh;
+    }
+
+    setNowcast(data) {
+        this.time = unixToHoursString(data.time);
+        this.icon = icons_day[data.icon];
+        this.temperature = (data.temperature / 10).toLocaleString() + " °C";
+        this.precipitation = (data.precipitation / 10).toLocaleString() + " mm";
+        this.totalSnow = (data.totalsnow / 10).toLocaleString() + " cm";
+        this.sunshine = (data.sunshine / 10).toLocaleString() + " Minuten";
+        this.meanWind = (data.meanwind / 10).toLocaleString() + " km/h";
+        this.maxWind = (data.maxwind / 10).toLocaleString() + " km/h";
+        this.windDirection = "from-" + (data.winddirection / 10) + "-deg";
+        this.pressure = (data.pressure / 10).toLocaleString() + " hPa";
+        this.humidity = (data.humidity / 10).toLocaleString() + " %";
+        this.dewPoint = (data.dewpoint / 10).toLocaleString() + " °C";
     }
 }

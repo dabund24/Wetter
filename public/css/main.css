@@ -97,6 +97,8 @@ h1, h2 {
 .line--regular {
     background-color: var(--foreground-color);
     border-radius: 2px;
+    width: 100%;
+    height: 4px;
 }
 
 .hoverable {
@@ -233,7 +235,27 @@ h1, h2 {
     width: 2rem;
 }
 
-#station-name {
+#station__name {
+    text-align: center;
+    margin: 0 .5rem;
+}
+
+#station__icon, #station__icon .wi {
+    font-size: inherit;
+    margin: 0 .5rem;
+}
+
+#nowcast {
+    overflow-y: clip;
+    height: 0;
+    transition: height .3s ease-in-out;
+}
+
+#nowcast[data-nowcast="1"] {
+    height: 20rem;
+}
+
+.nowcast__time {
     text-align: center;
 }
 
@@ -352,6 +374,10 @@ h1, h2 {
     display: none;
 }
 
+#tab-content-3 {
+    display: none;
+}
+
 #tab-content-expander {
     text-align: center;
 }
@@ -384,7 +410,7 @@ h1, h2 {
     overflow-x: visible;
 }
 
-.day-data-tile {
+.day-data-tile, .nowcast-tile {
     width: 100%;
 }
 
@@ -453,6 +479,7 @@ footer {
     padding: 0 1rem .2rem;
     position: sticky;
     bottom: 0;
+    z-index: 1000;
 }
 
 footer > * {
@@ -465,6 +492,10 @@ footer #status-bar {
 
 footer > :last-child {
     text-align: right;
+}
+
+footer > :first-child, footer > :last-child {
+    width: 12rem;
 }
 
 footer a {

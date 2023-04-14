@@ -7,7 +7,8 @@ import {
     switchDay as sDay,
     switchStation as sStation,
     switchTab as sTab,
-    switchTheme as sTheme
+    switchTheme as sTheme,
+    toggleNowcast as tNowcast
 } from "./navigation.js";
 import {
     resetDisplay,
@@ -15,17 +16,23 @@ import {
     resetOverviewDisplay,
     resetWarningDisplay,
     setDayDisplay,
-    setForecastDisplay,
+    setForecastDisplay, setNowcastDisplay,
     setOverviewDisplay,
     setWarningDisplay
 } from "./data.js";
 import {addDays, addHours, cancelTimezoneOffset, dayDifference, unixToHoursString, printNotification} from "./util.js";
 
 /**
- * json data of current station
+ * json overviewData of current station
  * @type {Object}
  */
-let data;
+let baseData;
+
+/**
+ * json nowcastData of current station
+ * @type {Object}
+ */
+let nowcastData;
 
 /**
  * an array storing all (10) days
@@ -40,7 +47,7 @@ for (let i = 0; i < 10; i++) {
  * an array storing all pinned stations
  * @type {Station[]}
  */
-const stations = [
+export const stations = [
     new Station("10382", "Berlin-Tegel"),
     new Station("10865", "München Stadt"),
     new Station("P0532", "Garching"),
@@ -51,27 +58,31 @@ const stations = [
  * the index of the station in stations that is displayed
  * @type {number}
  */
-let currentStation = 0;
-document.getElementById("station-name").innerHTML = stations[currentStation].name;
+export let currentStation = 0;
+document.getElementById("station__name").innerHTML = stations[currentStation].name;
 resetData(false);
 
 /**
- * fetches data, resets and sets display
- * @param {boolean} noCache - if set to true, fetch of fresh data is guaranteed
- * @returns {Promise<boolean>} - success of data fetch
+ * fetches overviewData, resets and sets display
+ * @param {boolean} noCache - if set to true, fetch of fresh overviewData is guaranteed
+ * @returns {Promise<boolean>} - success of overviewData fetch
  */
 export async function resetData(noCache) {
     root.classList.add("loading");
     if (noCache) {
-        stations[currentStation].resetURL();
-        printNotification("Hole Daten für " + stations[currentStation].name + "...");
+        for (let station of stations) {
+            station.resetURL();
+        }
     }
+    printNotification("Hole Daten für " + stations[currentStation].name + "...");
 
     if (!(await fetchData())) {
-        // if data fetch failed
+        // if overviewData fetch failed
         root.classList.remove("loading");
         return false;
     }
+
+    console.log(currentStation)
 
     resetDisplay();
     resetForecastDisplay();
@@ -80,12 +91,17 @@ export async function resetData(noCache) {
     setOverviewData();
     setForecastData();
     setWarningData();
-    
+
+    if (nowcastData !== undefined) {
+        setNowcastData();
+    }
+
+    setNowcastDisplay();
     setDayDisplay();
     setOverviewDisplay();
     setForecastDisplay();
     setWarningDisplay();
-    
+
     if (noCache) {
         printNotification("Daten für " + stations[currentStation].name + " erfolgreich aktualisiert.");
     } else {
@@ -96,42 +112,59 @@ export async function resetData(noCache) {
 }
 
 /**
- * fetches data for current station
- * @returns {Promise<boolean>} - success of data fetch
+ * fetches overviewData for current station
+ * @returns {Promise<boolean>} - success of overviewData fetch
  */
 export async function fetchData() {
-    return fetch(stations[currentStation].url)
+    const overviewFetch = fetch(stations[currentStation].overviewURL)
         .then(response => response.json())
         .then(freshData => {
-            data = freshData[stations[currentStation].id];
+            baseData = freshData[stations[currentStation].id];
             return true;
         })
         .catch((err) => {
             printNotification(err);
             return false;
         });
+
+    await fetch(stations[currentStation].nowcastURL)
+        .then(response => response.json())
+        .then(freshData => {
+            nowcastData = freshData;
+            return true;
+        })
+        .catch((err) => {
+            printNotification(err);
+            nowcastData = undefined;
+            return false;
+        });
+
+    return await overviewFetch;
+}
+
+function setNowcastData() {
+    stations[currentStation].setNowcast(nowcastData);
 }
 
 /**
- * sets overview data for all days
+ * sets overview overviewData for all days
  */
 function setOverviewData() {
-    let daysData = data.days;
+    let daysData = baseData.days;
     for (let i in daysData) {
         days[i].setOverviewData(daysData[i]);
     }
 }
 
-// TODO set trend data
 /**
- * sets forecast data for all days
+ * sets forecast overviewData for all days
  */
 function setForecastData() {
     for (let day of days) {
         day.resetData();
     }
-    const forecastRoot1 = data.forecast1;
-    const forecastRoot2 = data.forecast2;
+    const forecastRoot1 = baseData.forecast1;
+    const forecastRoot2 = baseData.forecast2;
     const forecastStart1 = new Date(forecastRoot1.start);
     const forecastStart2 = new Date(forecastRoot2.start);
     const forecastStep1 = forecastRoot1.timeStep / 3600000;
@@ -171,7 +204,6 @@ function setForecastData() {
         if (currentDayIndex >= days.length) {
             break;
         }
-        console.log(forecast2IndexBase + (forecastStep2 / forecastStep1) * i);
         days[currentDayIndex].pushData(
             currentTime,
             forecastRoot2.icon[i],
@@ -184,10 +216,10 @@ function setForecastData() {
 }
 
 /**
- * sets warning data for all days
+ * sets warning overviewData for all days
  */
 function setWarningData() {
-    let warningRoot = data.warnings;
+    let warningRoot = baseData.warnings;
     // loop through all warnings
     for (let warningData of warningRoot) {
         const warning = new Warning(warningData.event,
@@ -235,8 +267,12 @@ export function switchColor() {
     sColor();
 }
 
+export function toggleNowcast() {
+    tNowcast();
+}
+
 /**
- * allows switching to specified day, resets and displays forecast and overview data
+ * allows switching to specified day, resets and displays forecast and overview overviewData
  * @param {number} index - index of day to be switched to
  */
 export function switchDay(index) {
@@ -250,7 +286,7 @@ export function switchDay(index) {
 }
 
 /**
- * switches station by fetching data
+ * switches station by fetching overviewData
  * @param {number} index - index of station in stations
  * @returns {Promise<boolean>} - success of station switch
  */
@@ -260,9 +296,9 @@ export async function switchStation(index) {
     }
     let oldStation = currentStation;
     currentStation = index;
-    if (await resetData()) {
+    if (await resetData(false)) {
         sStation(currentStation);
-        document.getElementById("station-name").innerHTML = stations[currentStation].name;
+        document.getElementById("station__name").innerHTML = stations[currentStation].name;
     } else {
         currentStation = oldStation;
         return false;

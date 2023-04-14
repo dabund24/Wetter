@@ -1,4 +1,4 @@
-import {days} from "./main.js";
+import {days, stations, currentStation} from "./main.js";
 import {currentDay} from "./navigation.js";
 import {addClassToChildOfParent, replaceNaClassOfChildOfParent, setHTMLOfChildOfParent} from "./util.js";
 
@@ -38,6 +38,26 @@ export function resetForecastDisplay() {
 export function resetWarningDisplay() {
     const warningDisplay = document.querySelector("#warning__display");
     warningDisplay.replaceChildren();
+}
+
+export function setNowcastDisplay() {
+    const station = stations[currentStation];
+    const stationIcon = document.getElementById("station__icon");
+    const nowcast = document.getElementById("nowcast");
+    replaceNaClassOfChildOfParent(stationIcon, ".station__icon__0", station.icon);
+    setHTMLOfChildOfParent(nowcast, ".nowcast__temperature", station.temperature);
+    setHTMLOfChildOfParent(nowcast, ".nowcast__precipitation", station.precipitation);
+    setHTMLOfChildOfParent(nowcast, ".nowcast__totalSnow", station.totalSnow);
+    setHTMLOfChildOfParent(nowcast, ".nowcast__sunshine", station.sunshine);
+    setHTMLOfChildOfParent(nowcast, ".nowcast__meanWind", station.meanWind);
+    setHTMLOfChildOfParent(nowcast, ".nowcast__maxWind", station.maxWind);
+    replaceNaClassOfChildOfParent(nowcast, ".nowcast__windDirection", "wi-wind");
+    addClassToChildOfParent(nowcast, ".nowcast__windDirection", station.windDirection);
+    setHTMLOfChildOfParent(nowcast, ".nowcast__pressure", station.pressure);
+    setHTMLOfChildOfParent(nowcast, ".nowcast__humidity", station.humidity);
+    setHTMLOfChildOfParent(nowcast, ".nowcast__dewPoint", station.dewPoint);
+    setHTMLOfChildOfParent(nowcast, ".nowcast__time", "Um " + station.time + " gemessene Daten.");
+
 }
 
 /**

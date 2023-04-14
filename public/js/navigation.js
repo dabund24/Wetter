@@ -92,3 +92,15 @@ export function switchColor() {
     currentColor = (currentColor + 1) % 3;
     document.documentElement.setAttribute("data-color", colors[currentColor]);
 }
+
+/**
+ * show nowcast
+ */
+export function toggleNowcast() {
+    const nowcast = document.getElementById("nowcast");
+    if (nowcast.getAttribute("data-nowcast") === "0") {
+        nowcast.setAttribute("data-nowcast", "1");
+    } else {
+        nowcast.setAttribute("data-nowcast", "0");
+    }
+}

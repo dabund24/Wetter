@@ -12,7 +12,7 @@ export function unixToHoursString(unix) {
  * a function for adding hours to a date
  * @param {Date} date - the base date
  * @param {number} toBeAdded - the amount of to be added hours
- * @returns {Date} - the result as a `Date` object
+ * @returns {Date} - the result
  */
 export function addHours(date, toBeAdded) {
     let result = new Date(date);
@@ -222,19 +222,22 @@ export function addClassToChildOfParent(parent, childSelector, newClass) {
 
 /**
  * replaces the class `wi-na` of a child of a parent
- * @param {DocumentFragment} parent - the parent
+ * @param {HTMLElement} parent - the parent
  * @param {string} childSelector - a selector of the child
  * @param {string} newClass - the class that should replace `wi-na`
  */
 export function replaceNaClassOfChildOfParent(parent, childSelector, newClass) {
+    if (newClass === undefined) {
+        return;
+    }
     parent.querySelector(childSelector).classList.replace("wi-na", newClass);
 }
 
 /**
  * sets the innerHTML of a child of a parent
- * @param {DocumentFragment} parent - the parent
+ * @param {HTMLElement} parent - the parent
  * @param {string} childSelector - a selector of the child
- * @param {InnerHTML} innerHTML - the innerHTML the child should have
+ * @param {string} innerHTML - the innerHTML the child should have
  */
 export function setHTMLOfChildOfParent(parent, childSelector, innerHTML) {
     if (parent != null) {
