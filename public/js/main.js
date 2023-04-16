@@ -2,6 +2,7 @@ import Day from "./day.js";
 import Warning from "./warning.js";
 import Station from "./station.js";
 import {
+    currentDay, currentTab,
     root,
     switchColor as sColor,
     switchDay as sDay,
@@ -48,11 +49,11 @@ for (let i = 0; i < 10; i++) {
  * @type {Station[]}
  */
 export const stations = [
-    new Station("10382", "Berlin-Tegel"),
+    new Station("10389", "Berlin-Alexanderplatz"),
+    new Station("P0489", "Hamburg Innenstadt"),
     new Station("10865", "München Stadt"),
     new Station("P0532", "Garching"),
-    new Station("10863", "Weihenstephan-Dürnast"),
-    new Station("N3951", "Wertheim-Eichel")
+    new Station("10863", "Weihenstephan-Dürnast")
 ]
 /**
  * the index of the station in stations that is displayed
@@ -105,12 +106,10 @@ export async function resetData() {
  * @returns {Promise<boolean>} - success of overviewData fetch
  */
 export async function fetchData() {
-    console.log(stations[currentStation].overviewURL);
     const overviewFetch = fetch(stations[currentStation].overviewURL)
         .then(response => response.json())
         .then(freshData => {
             baseData = freshData[stations[currentStation].id];
-            console.log(baseData);
             return true;
         })
         .catch((err) => {
@@ -125,7 +124,6 @@ export async function fetchData() {
             return true;
         })
         .catch((err) => {
-            printNotification(err);
             nowcastData = undefined;
             return false;
         });
@@ -300,3 +298,29 @@ export async function switchStation(index) {
 export function addStation(index) {
 
 }
+
+document.addEventListener("keydown", ev => {
+    switch (ev.key.toLowerCase()) {
+        case "p":
+            sTheme();
+            break;
+        case "o":
+            sColor();
+            break;
+        case "i":
+            resetData();
+            break;
+        case "s":
+            switchStation((currentStation + 1) % stations.length);
+            break;
+        case "n":
+            tNowcast();
+            break;
+        case "d":
+            switchDay((currentDay + 1) % days.length);
+            break;
+        case "t":
+            switchTab((currentTab + 1) % 3);
+            break;
+    }
+})

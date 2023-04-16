@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de" data-theme="dark" data-color="green">
+<html lang="de" data-theme="light" data-color="green">
 
 <head>
     <meta charset="UTF-8"/>
@@ -45,23 +45,23 @@
     </div>
     <div id="starred" class="flex-row">
         <div class="starred__station starred__station--active">
-            <button class="hoverable starred__station-name" onclick="switchStation(0)">Berlin-Tegel</button>
+            <button class="hoverable starred__station-name" onclick="switchStation(0)">Berlin-Alexanderplatz</button>
             <div class="line--accent"></div>
         </div>
         <div class="starred__station">
-            <button class="hoverable starred__station-name" onclick="switchStation(1)">München Stadt</button>
+            <button class="hoverable starred__station-name" onclick="switchStation(1)">Hamburg Innenstadt</button>
             <div class="line--accent"></div>
         </div>
         <div class="starred__station">
-            <button class="hoverable starred__station-name" onclick="switchStation(2)">Garching</button>
+            <button class="hoverable starred__station-name" onclick="switchStation(2)">München Stadt</button>
             <div class="line--accent"></div>
         </div>
         <div class="starred__station">
-            <button class="hoverable starred__station-name" onclick="switchStation(3)">Weihenstephan-Dürnast</button>
+            <button class="hoverable starred__station-name" onclick="switchStation(3)">Garching</button>
             <div class="line--accent"></div>
         </div>
         <div class="starred__station">
-            <button class="hoverable starred__station-name" onclick="switchStation(4)">Wertheim-Eichel</button>
+            <button class="hoverable starred__station-name" onclick="switchStation(4)">Weihenstephan-Dürnast</button>
             <div class="line--accent"></div>
         </div>
         <template class="starred__station">
@@ -460,11 +460,24 @@
         -->
     </div>
 </div>
-<footer class="flex-row">
-    <div>Daniel Bund, 2023</div>
-    <div id="status-bar">Lol</div>
-    <div>
-        <a href="https://github.com/dabund24/WetterLOL">Github</a>
+<footer class="flex-column">
+    <div id="status-bar">XX.XX Uhr: Status</div>
+    <div id="additional-content" class="flex-column">
+        <div class="line--regular"></div>
+        <div id="keyboard-shortcuts" class="flex-column">
+            Tastenkürzel:
+            <div class="ident">[i] Daten neu laden</div>
+            <div class="ident">[o] Akzentfarbe wechseln</div>
+            <div class="ident">[p] Farbschema wechseln</div>
+            <div class="ident">[s] Station wechseln</div>
+            <div class="ident">[n] aktuelle Wetterdaten anzeigen</div>
+            <div class="ident">[d] Tag wechseln</div>
+            <div class="ident">[t] Datenanzeige wechseln</div>
+        </div>
+        <div id="final-row" class="flex-row">
+            <div>Daniel Bund, 2023</div>
+            <a href="https://github.com/dabund24/WetterLOL">Github</a>
+        </div>
     </div>
 </footer>
 </body>

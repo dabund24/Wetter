@@ -15,7 +15,7 @@ export function switchStation(newStation) {
 /**************/
 // tab switch //
 /**************/
-let currentTab = 0;
+export let currentTab = 0;
 const tabPercentages = ["17%", "50%", "83%"];
 
 export function switchTab(newTab) {

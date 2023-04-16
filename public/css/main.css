@@ -17,6 +17,7 @@
 :root {
     --background-color: #ffffff;
     --foreground-color: #000000;
+    --background-color--opaque: #ffffffc0;
     --foreground-color--opaque: #00000011;
     --accent-color: var(--accent-light);
 }
@@ -24,8 +25,13 @@
 [data-theme="dark"] {
     --background-color: #121212;
     --foreground-color: #ffffff;
+    --background-color--opaque: #121212c0;
     --foreground-color--opaque: #ffffff11;
     --accent-color: var(--accent-dark);
+}
+
+button:focus {
+    /*outline: var(--accent-color) dotted 4px;*/
 }
 
 body {
@@ -52,6 +58,10 @@ body, input, button, .tooltip:after {
 input, button {
     background-color: transparent;
     border: none;
+}
+
+a {
+    color: var(--foreground-color);
 }
 
 .loading {
@@ -86,6 +96,10 @@ strong, h1, h2 {
 .flex-column {
     display: flex;
     flex-direction: column;
+}
+
+.ident {
+    text-indent: 1rem;
 }
 
 .content-wrapper {
@@ -190,7 +204,7 @@ strong, h1, h2 {
     height: 4px;
     width: 100%;
     margin: auto;
-    transition: .3s ease-in-out;
+    transition: width .3s ease-in-out;
 }
 
 .search:focus-within .line--regular {
@@ -480,31 +494,36 @@ strong, h1, h2 {
 }
 
 footer {
-    background-color: var(--background-color);
+    background-color: var(--background-color--opaque);
+    backdrop-filter: blur(1px);
     padding: 0 1rem .2rem;
     position: sticky;
     bottom: 0;
     z-index: 1000;
+    height: 1.7rem;
+    transition: height .3s ease-in-out;
+    overflow-y: clip;
 }
 
-footer > * {
-    width: 100%;
+footer .line--regular {
+    margin: .3rem 0;
+}
+
+footer:hover {
+    height: 18.7rem;
 }
 
 footer #status-bar {
     text-align: center;
 }
 
-footer > :last-child {
+#keyboard-shortcuts {
+    margin-bottom: 1rem;
+}
+
+#final-row > :last-child {
     text-align: right;
-}
-
-footer > :first-child, footer > :last-child {
-    width: 12rem;
-}
-
-footer a {
-    color: var(--foreground-color);
+    margin-left: auto;
 }
 
 @media screen and (max-width: 1000px) {
@@ -514,5 +533,13 @@ footer a {
 
     .forecast__row > :nth-child(5), .forecast__row > :nth-child(6), .forecast__row > :nth-child(7) {
         display: none;
+    }
+
+    #keyboard-shortcuts {
+        display: none;
+    }
+
+    footer:hover {
+        height: 4.5rem;
     }
 }
