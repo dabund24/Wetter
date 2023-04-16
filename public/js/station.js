@@ -11,28 +11,16 @@ export default class Station {
         this.id = id;
         this.name = name;
         this.overviewURL = "";
-        this.lastRefresh = Date.now();
-        const proxyURL = "https://api.allorigins.win/raw?url=";
-        this.overviewBaseURL = "https://dwd.api.proxy.bund.dev/v30/stationOverviewExtended?stationIds=" + id;
-        // this.overviewBaseURL = "https://app-prod-ws.warnwetter.de/v30/stationOverviewExtended?stationIds=" + id;
+        this.overviewBaseURL = "/data?stationIDs=" + id;
         this.nowcastBaseURL = "https://s3.eu-central-1.amazonaws.com/app-prod-static.warnwetter.de/v16/current_measurement_" + id + ".json"
-        const addProxy = true;
-        if (addProxy) {
-            this.overviewBaseURL = proxyURL + this.overviewBaseURL;
-        }
         this.overviewURL = this.overviewBaseURL;
         this.nowcastURL = this.nowcastBaseURL;
     }
 
     /**
-     * adds attribute consisting of timestamp to url of station to disallow caching of data,
-     * sets lastRefresh attribute of station
+     * sets nowcast data of station
+     * @param {Object} data - nowcast data of station
      */
-    resetURL() {
-        this.lastRefresh = Date.now();
-        this.overviewURL = this.overviewBaseURL + "&t=" + this.lastRefresh;
-    }
-
     setNowcast(data) {
         this.time = unixToHoursString(data.time);
         this.icon = icons_day[data.icon];

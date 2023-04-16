@@ -20,7 +20,7 @@ import {
     setOverviewDisplay,
     setWarningDisplay
 } from "./data.js";
-import {addDays, addHours, cancelTimezoneOffset, dayDifference, unixToHoursString, printNotification} from "./util.js";
+import {addDays, addHours, cancelTimezoneOffset, dayDifference, printNotification} from "./util.js";
 
 /**
  * json overviewData of current station
@@ -60,20 +60,14 @@ export const stations = [
  */
 export let currentStation = 0;
 document.getElementById("station__name").innerHTML = stations[currentStation].name;
-resetData(false);
+resetData();
 
 /**
  * fetches overviewData, resets and sets display
- * @param {boolean} noCache - if set to true, fetch of fresh overviewData is guaranteed
  * @returns {Promise<boolean>} - success of overviewData fetch
  */
-export async function resetData(noCache) {
+export async function resetData() {
     root.classList.add("loading");
-    if (noCache) {
-        for (let station of stations) {
-            station.resetURL();
-        }
-    }
     printNotification("Hole Daten für " + stations[currentStation].name + "...");
 
     if (!(await fetchData())) {
@@ -81,8 +75,6 @@ export async function resetData(noCache) {
         root.classList.remove("loading");
         return false;
     }
-
-    console.log(currentStation)
 
     resetDisplay();
     resetForecastDisplay();
@@ -102,11 +94,8 @@ export async function resetData(noCache) {
     setForecastDisplay();
     setWarningDisplay();
 
-    if (noCache) {
-        printNotification("Daten für " + stations[currentStation].name + " erfolgreich aktualisiert.");
-    } else {
-        printNotification("Zeige Daten von " + unixToHoursString(stations[currentStation].lastRefresh) + ".");
-    }
+    printNotification("Daten für " + stations[currentStation].name + " erfolgreich aktualisiert.");
+
     root.classList.remove("loading");
     return true;
 }
@@ -116,10 +105,12 @@ export async function resetData(noCache) {
  * @returns {Promise<boolean>} - success of overviewData fetch
  */
 export async function fetchData() {
+    console.log(stations[currentStation].overviewURL);
     const overviewFetch = fetch(stations[currentStation].overviewURL)
         .then(response => response.json())
         .then(freshData => {
             baseData = freshData[stations[currentStation].id];
+            console.log(baseData);
             return true;
         })
         .catch((err) => {
@@ -296,7 +287,7 @@ export async function switchStation(index) {
     }
     let oldStation = currentStation;
     currentStation = index;
-    if (await resetData(false)) {
+    if (await resetData()) {
         sStation(currentStation);
         document.getElementById("station__name").innerHTML = stations[currentStation].name;
     } else {

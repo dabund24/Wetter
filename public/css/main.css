@@ -70,6 +70,10 @@ h1, h2 {
     text-align: center;
 }
 
+strong, h1, h2 {
+    font-weight: 600;
+}
+
 .wi {
     font-size: 1.5rem;
 }
@@ -213,11 +217,12 @@ h1, h2 {
     width: fit-content;
     align-items: center;
     justify-items: end;
+    flex-wrap: wrap;
 }
 
 .starred__station {
     height: 100%;
-    margin: 0;
+    margin: 0 auto;
 }
 
 .starred__station-name {
@@ -237,12 +242,12 @@ h1, h2 {
 
 #station__name {
     text-align: center;
-    margin: 0 .5rem;
+    margin: 0 .7rem;
 }
 
 #station__icon, #station__icon .wi {
     font-size: inherit;
-    margin: 0 .5rem;
+    margin: 0;
 }
 
 #nowcast {
