@@ -50,6 +50,10 @@ export function switchTab(newTab) {
 export let currentDay = 0;
 const dayPercentages = ["5%", "15%", "25%", "35%", "45%", "55%", "65%", "75%", "85%", "95%"];
 
+/**
+ * switch day
+ * @param newDay - index of new day
+ */
 export function switchDay(newDay) {
     if (newDay === currentDay) {
         return;
