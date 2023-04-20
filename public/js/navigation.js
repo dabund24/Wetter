@@ -12,12 +12,14 @@ export function switchStation(newStation) {
     currentStation = newStation;
 }
 
-/**************/
-// tab switch //
-/**************/
+
 export let currentTab = 0;
 const tabPercentages = ["17%", "50%", "83%"];
 
+/**
+ * switches to tab with index
+ * @param newTab - index of new tab: 0 -> forecast, 1 -> dayData, 2 -> warnings
+ */
 export function switchTab(newTab) {
     if (newTab === currentTab) {
         return;
@@ -44,9 +46,6 @@ export function switchTab(newTab) {
     currentTab = newTab;
 }
 
-/**************/
-// day switch //
-/**************/
 export let currentDay = 0;
 const dayPercentages = ["5%", "15%", "25%", "35%", "45%", "55%", "65%", "75%", "85%", "95%"];
 
@@ -76,9 +75,6 @@ export function switchDay(newDay) {
     currentDay = newDay;
 }
 
-/****************/
-// theme switch //
-/****************/
 export function switchTheme() {
     if (document.documentElement.getAttribute("data-theme") === "light") {
         document.documentElement.setAttribute("data-theme", "dark");
@@ -87,9 +83,6 @@ export function switchTheme() {
     }
 }
 
-/****************/
-// color switch //
-/****************/
 const colors = ["green", "red", "blue"];
 let currentColor = 0;
 export function switchColor() {

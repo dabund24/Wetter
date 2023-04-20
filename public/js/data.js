@@ -2,6 +2,9 @@ import {days, stations, currentStation} from "./main.js";
 import {currentDay} from "./navigation.js";
 import {addClassToChildOfParent, replaceNaClassOfChildOfParent, setHTMLOfChildOfParent} from "./util.js";
 
+/**
+ * shows all stations below search bar
+ */
 export function setStarredDisplay() {
     const starredDisplay = document.getElementById("starred-wrapper")
     const template = starredDisplay.querySelector("template").content;
