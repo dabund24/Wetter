@@ -1,10 +1,10 @@
 export const root = document.querySelector(':root');
 
-/******************/
-// station switch //
-/******************/
-
 let currentStation = 0;
+/**
+ * switch station
+ * @param newStation - index of new station
+ */
 export function switchStation(newStation) {
     let stations = document.getElementById("starred");
     stations.children[currentStation].classList.remove("starred__station--active");
