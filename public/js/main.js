@@ -18,7 +18,7 @@ import {
     resetWarningDisplay,
     setDayDisplay,
     setForecastDisplay, setNowcastDisplay,
-    setOverviewDisplay,
+    setOverviewDisplay, setStarredDisplay,
     setWarningDisplay
 } from "./data.js";
 import {addDays, addHours, cancelTimezoneOffset, dayDifference, printNotification} from "./util.js";
@@ -60,6 +60,10 @@ export const stations = [
  * @type {number}
  */
 export let currentStation = 0;
+
+setStarredDisplay();
+document.getElementsByClassName("starred__station")[0].classList.add("starred__station--active");
+
 document.getElementById("station__name").innerHTML = stations[currentStation].name;
 resetData();
 

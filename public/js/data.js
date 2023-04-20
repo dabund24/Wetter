@@ -2,6 +2,18 @@ import {days, stations, currentStation} from "./main.js";
 import {currentDay} from "./navigation.js";
 import {addClassToChildOfParent, replaceNaClassOfChildOfParent, setHTMLOfChildOfParent} from "./util.js";
 
+export function setStarredDisplay() {
+    const starredDisplay = document.getElementById("starred-wrapper")
+    const template = starredDisplay.querySelector("template").content;
+    let toBeAdded;
+    for (let i = 0; i < stations.length; i++) {
+        toBeAdded = document.importNode(template, true);
+        setHTMLOfChildOfParent(toBeAdded, ".starred__station-name", stations[i].name);
+        starredDisplay.querySelector("#starred").append(toBeAdded);
+        starredDisplay.getElementsByClassName("starred__station")[i].setAttribute("onclick", "switchStation(" + i + ")");
+    }
+}
+
 /**
  * resets data icons globally
  */

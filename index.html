@@ -43,30 +43,35 @@
             <i class="wi wi-fw wi-night-clear"></i>
         </button>
     </div>
-    <div id="starred" class="flex-row">
-        <div class="starred__station starred__station--active">
-            <button class="hoverable starred__station-name" onclick="switchStation(0)">Berlin-Alexanderplatz</button>
-            <div class="line--accent"></div>
+    <div id="starred-wrapper">
+        <div id="starred" class="flex-row">
+            <!--
+            <div class="starred__station starred__station--active">
+                <button class="hoverable starred__station-name" onclick="switchStation(0)">Berlin-Alexanderplatz</button>
+                <div class="line--accent"></div>
+            </div>
+            <div class="starred__station">
+                <button class="hoverable starred__station-name" onclick="switchStation(1)">Hamburg Innenstadt</button>
+                <div class="line--accent"></div>
+            </div>
+            <div class="starred__station">
+                <button class="hoverable starred__station-name" onclick="switchStation(2)">München Stadt</button>
+                <div class="line--accent"></div>
+            </div>
+            <div class="starred__station">
+                <button class="hoverable starred__station-name" onclick="switchStation(3)">Garching</button>
+                <div class="line--accent"></div>
+            </div>
+            <div class="starred__station">
+                <button class="hoverable starred__station-name" onclick="switchStation(4)">Weihenstephan-Dürnast</button>
+                <div class="line--accent"></div>
+            </div>-->
         </div>
-        <div class="starred__station">
-            <button class="hoverable starred__station-name" onclick="switchStation(1)">Hamburg Innenstadt</button>
-            <div class="line--accent"></div>
-        </div>
-        <div class="starred__station">
-            <button class="hoverable starred__station-name" onclick="switchStation(2)">München Stadt</button>
-            <div class="line--accent"></div>
-        </div>
-        <div class="starred__station">
-            <button class="hoverable starred__station-name" onclick="switchStation(3)">Garching</button>
-            <div class="line--accent"></div>
-        </div>
-        <div class="starred__station">
-            <button class="hoverable starred__station-name" onclick="switchStation(4)">Weihenstephan-Dürnast</button>
-            <div class="line--accent"></div>
-        </div>
-        <template class="starred__station">
-            <button class="hoverable starred__station-name" onclick="switchStation(0)">Gespeicherte Station</button>
-            <div class="line--accent"></div>
+        <template>
+            <div class="starred__station">
+                <button class="hoverable starred__station-name">Gespeicherte Station</button>
+                <div class="line--accent"></div>
+            </div>
         </template>
     </div>
     <h1 id="station">
