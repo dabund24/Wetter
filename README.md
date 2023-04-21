@@ -8,13 +8,13 @@ Enjoy :)
 Run `app.js` with Node.js and open [localhost:8080](http://localhost:8080) in your browser.
 
 In order to change the selectable stations while [#2](/../../issues/2) is unresolved, open `./public/js/main.js` and modify the `stations` array.
-Both the `name` and the `id` parameters of a station can be looked up [here](https://www.dwd.de/DE/leistungen/met_verfahren_mosmix/mosmix_stationskatalog.cfg?view=nasPublication&nn=16102).
+Both the `name` and the `id` parameter of a station can be looked up [here](https://www.dwd.de/DE/leistungen/met_verfahren_mosmix/mosmix_stationskatalog.cfg?view=nasPublication&nn=16102).
 
 ## Resources
 
 ### Data
 
-The data displayed in this app is fetched fron the API of the *WarnWetter-App* by the *DWD*. Learn more about it at [here](https://dwd.api.bund.dev/) (unofficial).
+The data displayed in this app is fetched from the API of *WarnWetter-App* by the *DWD*. Learn more about it [here](https://dwd.api.bund.dev/) (unofficial).
 
 ### Icons
 

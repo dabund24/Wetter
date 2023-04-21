@@ -34,7 +34,7 @@ export default class Day {
         this.temperatureMin = (data.temperatureMin / 10).toLocaleString() + " °C";
         this.temperatureMax = (data.temperatureMax / 10).toLocaleString() + " °C";
         this.precipitation = (data.precipitation / 10).toLocaleString() + " mm";
-        this.sunshine = Number((data.sunshine / 500).toFixed(1)).toLocaleString() + " Stunden"; /* TODO check if correct*/
+        this.sunshine = Number((data.sunshine / 600).toFixed(1)).toLocaleString() + " Stunden";
         this.sunrise = unixToHoursString(data.sunrise);
         this.sunriseTime = data.sunrise;
         this.sunset = unixToHoursString(data.sunset);
