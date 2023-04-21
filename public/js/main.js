@@ -22,6 +22,7 @@ import {
     setWarningDisplay
 } from "./data.js";
 import {addDays, addHours, cancelTimezoneOffset, dayDifference, printNotification} from "./util.js";
+import {collectAllStations} from "./search.js";
 
 /**
  * json overviewData of current station
@@ -66,6 +67,8 @@ document.getElementsByClassName("starred__station")[0].classList.add("starred__s
 
 document.getElementById("station__name").innerHTML = stations[currentStation].name;
 resetData();
+
+collectAllStations();
 
 /**
  * fetches overviewData, resets and sets display
