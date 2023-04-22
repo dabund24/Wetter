@@ -14,7 +14,18 @@
 </head>
 <body>
 <script type="module">
-    import {switchTab, switchTheme, switchColor, switchDay, toggleNowcast, switchStation, resetData} from "/js/main.js";
+    import {
+        refreshAutocomplete,
+        switchTab,
+        switchTheme,
+        switchColor,
+        switchDay,
+        toggleNowcast,
+        switchStation,
+        resetData
+    } from "/js/main.js";
+
+    window.refreshAutocomplete = refreshAutocomplete;
     window.switchTab = switchTab;
     window.switchTheme = switchTheme;
     window.switchColor = switchColor;
@@ -25,10 +36,19 @@
 </script>
 <div id="content">
     <div id="load-indicator" class="line--accent"></div>
-    <div class="search">
+    <div id="search">
         <label>
-            <input type="text" class="search__input" placeholder="Suche">
+            <input type="text" name="search" id="search__input" class="search__input" placeholder="Suche">
         </label>
+        <div id="search__suggestions" class="flex-column hoverable">
+        </div>
+        <template>
+            <div class="search__suggestion flex-row">
+                <div class="line--accent"></div>
+                <div class="search__suggestion__text"></div>
+                <input class="search__suggestion__click" type="hidden">
+            </div>
+        </template>
         <div class="line--regular"></div>
     </div>
     <div class="action-bar flex-row">

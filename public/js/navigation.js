@@ -7,8 +7,12 @@ let currentStation = 0;
  */
 export function switchStation(newStation) {
     let stations = document.getElementById("starred");
-    stations.children[currentStation].classList.remove("starred__station--active");
-    stations.children[newStation].classList.add("starred__station--active");
+    if (currentStation !== -1) {
+        stations.children[currentStation].classList.remove("starred__station--active");
+    }
+    if (newStation !== -1) {
+        stations.children[newStation].classList.add("starred__station--active");
+    }
     currentStation = newStation;
 }
 

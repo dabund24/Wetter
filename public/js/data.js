@@ -13,7 +13,7 @@ export function setStarredDisplay() {
         toBeAdded = document.importNode(template, true);
         setHTMLOfChildOfParent(toBeAdded, ".starred__station-name", stations[i].name);
         starredDisplay.querySelector("#starred").append(toBeAdded);
-        starredDisplay.getElementsByClassName("starred__station")[i].setAttribute("onclick", "switchStation(" + i + ")");
+        starredDisplay.getElementsByClassName("starred__station")[i].setAttribute("onclick", "switchStation(0, " + i + ")");
     }
 }
 
@@ -56,7 +56,7 @@ export function resetWarningDisplay() {
 }
 
 export function setNowcastDisplay() {
-    const station = stations[currentStation];
+    const station = currentStation;
     const stationIcon = document.getElementById("station__icon");
     const nowcast = document.getElementById("nowcast");
     replaceNaClassOfChildOfParent(stationIcon, ".station__icon__0", station.icon);

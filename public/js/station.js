@@ -4,15 +4,16 @@ export default class Station {
 
     /**
      * initialises new station with id, name, url and lastRefresh
-     * @param {string} id - the id of the station based on https://www.dwd.de/DE/leistungen/met_verfahren_mosmix/mosmix_stationskatalog.cfg?view=nasPublication&nn=16102
-     * @param {string} name - the name of the station
+     * @param {Object} stationObj - the id of the station based on https://www.dwd.de/DE/leistungen/met_verfahren_mosmix/mosmix_stationskatalog.cfg?view=nasPublication&nn=16102
      */
-    constructor(id, name) {
-        this.id = id;
-        this.name = name;
+    constructor(stationObj) {
+        //this.stationObj = allStations.find(station => station.ID === id);
+        this.stationObj = stationObj;
+        this.id = stationObj.ID
+        this.name = this.stationObj.Name;
         this.overviewURL = "";
-        this.overviewBaseURL = "/data?stationIDs=" + id;
-        this.nowcastBaseURL = "https://s3.eu-central-1.amazonaws.com/app-prod-static.warnwetter.de/v16/current_measurement_" + id + ".json"
+        this.overviewBaseURL = "/data?stationIDs=" + this.id;
+        this.nowcastBaseURL = "https://s3.eu-central-1.amazonaws.com/app-prod-static.warnwetter.de/v16/current_measurement_" + this.id + ".json"
         this.overviewURL = this.overviewBaseURL;
         this.nowcastURL = this.nowcastBaseURL;
     }
