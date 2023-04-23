@@ -227,6 +227,10 @@ strong, h1, h2 {
     display: flex;
 }
 
+#search__suggestions > :last-child:not(:first-child) {
+    display: none;
+}
+
 .search__suggestion {
     padding: .5rem 4px .5rem 0;
 }
@@ -244,7 +248,11 @@ strong, h1, h2 {
     margin: 0 auto;
 }
 
-#search__suggestions:not(:hover) .suggestion--focus .line--accent, .search__suggestion:hover .line--accent {
+.search__suggestion:last-child {
+    cursor: default;
+}
+
+.suggestion--focus:not(:last-child) .line--accent, .search__suggestion:hover:not(:last-child) .line--accent {
     height: 1.5rem;
 }
 

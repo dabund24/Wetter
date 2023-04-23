@@ -15,10 +15,11 @@ export function setupSearch() {
 
     searchInput.addEventListener("keydown", function(event){
         if (event.key === "Enter") {
-            if (suggestionsContainer.children.length === 0) {
+            if (suggestionsContainer.children.length === 1) {
                 return;
             }
             clickSuggestion(suggestionsContainer.children[selectedStation]);
+            searchInput.blur();
         } else if (event.key === "ArrowDown") {
             event.preventDefault();
             changeSuggestionFocus(suggestionsContainer.children, selectedStation + 1);
@@ -31,14 +32,14 @@ export function setupSearch() {
 
 function changeSuggestionFocus(suggestions, toBeFocused) {
     if (toBeFocused < 0) {
-        toBeFocused = suggestions.length - 1;
-    } else if (toBeFocused >= suggestions.length) {
+        toBeFocused = suggestions.length - 2;
+    } else if (toBeFocused >= suggestions.length - 1) {
         toBeFocused = 0;
     }
     if (toBeFocused < 0) {
         return;
     }
-    if (selectedStation < suggestions.length && selectedStation >= 0) {
+    if (selectedStation < suggestions.length - 1 && selectedStation >= 0) {
         console.log(selectedStation)
         suggestions[selectedStation].classList.remove("suggestion--focus");
     }
@@ -58,7 +59,6 @@ export async function getSearchSuggestions(text) {
     text = text.replaceAll(/ü/gi, "ue");
     text = text.replaceAll(/ß/gi, "ss");
 
-    console.log(text)
     let suggestions = [];
     return await fetch("/suggest?name=" + text)
         .then(response => response.json())
@@ -93,6 +93,11 @@ export function displaySearchSuggestions(suggestions) {
     if (selectedStation >= 0 && selectedStation < suggestions.length) {
         suggestionsContainer.children[selectedStation].classList.add("suggestion--focus");
     }
+
+    // add no suggestions
+    const noSuggestions = document.importNode(template, true);
+    setHTMLOfChildOfParent(noSuggestions, ".search__suggestion__text", "Keine Vorschläge");
+    suggestionsContainer.appendChild(noSuggestions)
 }
 
 function clickSuggestion(suggestion) {

@@ -41,6 +41,11 @@
             <input type="text" name="search" id="search__input" class="search__input" placeholder="Suche">
         </label>
         <div id="search__suggestions" class="flex-column hoverable">
+            <div class="search__suggestion flex-row">
+                <div class="line--accent"></div>
+                <div class="search__suggestion__text">Keine Vorschläge</div>
+                <input class="search__suggestion__click" type="hidden">
+            </div>
         </div>
         <template>
             <div class="search__suggestion flex-row">
@@ -65,27 +70,7 @@
     </div>
     <div id="starred-wrapper">
         <div id="starred" class="flex-row">
-            <!--
-            <div class="starred__station starred__station--active">
-                <button class="hoverable starred__station-name" onclick="switchStation(0)">Berlin-Alexanderplatz</button>
-                <div class="line--accent"></div>
-            </div>
-            <div class="starred__station">
-                <button class="hoverable starred__station-name" onclick="switchStation(1)">Hamburg Innenstadt</button>
-                <div class="line--accent"></div>
-            </div>
-            <div class="starred__station">
-                <button class="hoverable starred__station-name" onclick="switchStation(2)">München Stadt</button>
-                <div class="line--accent"></div>
-            </div>
-            <div class="starred__station">
-                <button class="hoverable starred__station-name" onclick="switchStation(3)">Garching</button>
-                <div class="line--accent"></div>
-            </div>
-            <div class="starred__station">
-                <button class="hoverable starred__station-name" onclick="switchStation(4)">Weihenstephan-Dürnast</button>
-                <div class="line--accent"></div>
-            </div>-->
+
         </div>
         <template>
             <div class="starred__station">
@@ -101,6 +86,9 @@
         </button>
     </h1>
     <div class="content-wrapper">
+        <div id="station-info">
+
+        </div>
         <div id="nowcast" data-nowcast="0">
             <div class="day-data__tiles-container flex-row">
                 <div class="nowcast-tile tile flex-column">

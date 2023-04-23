@@ -27,7 +27,7 @@ export default class Station {
         this.icon = icons_day[data.icon];
         this.temperature = (data.temperature / 10).toLocaleString() + " °C";
         this.precipitation = (data.precipitation / 10).toLocaleString() + " mm";
-        this.totalSnow = (data.totalsnow / 10).toLocaleString() + " cm";
+        this.totalSnow = (data.totalsnow / 100).toLocaleString() + " cm";
         this.sunshine = (data.sunshine / 10).toLocaleString() + " Minuten";
         this.meanWind = (data.meanwind / 10).toLocaleString() + " km/h";
         this.maxWind = (data.maxwind / 10).toLocaleString() + " km/h";

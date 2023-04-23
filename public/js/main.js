@@ -246,6 +246,7 @@ function setWarningData() {
 export async function refreshAutocomplete(text) {
     if (text === "") {
         document.getElementById("search__suggestions").replaceChildren();
+        displaySearchSuggestions([]);
         return;
     }
     let suggestions = await getSearchSuggestions(text);
