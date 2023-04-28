@@ -7,7 +7,7 @@ let currentStation = 0;
  */
 export function switchStation(newStation) {
     let stations = document.getElementById("starred");
-    if (currentStation !== -1) {
+    if (currentStation !== -1 && currentStation < stations.children.length) {
         stations.children[currentStation].classList.remove("starred__station--active");
     }
     if (newStation !== -1) {
@@ -97,11 +97,11 @@ export function switchColor() {
 /**
  * show nowcast
  */
-export function toggleNowcast() {
-    const nowcast = document.getElementById("nowcast");
-    if (nowcast.getAttribute("data-nowcast") === "0") {
-        nowcast.setAttribute("data-nowcast", "1");
+export function toggleNowcast(index) {
+    const bsn = document.getElementById("below-station-name");
+    if (bsn.getAttribute("data-nowcast") !== index) {
+        bsn.setAttribute("data-nowcast", index);
     } else {
-        nowcast.setAttribute("data-nowcast", "0");
+        bsn.setAttribute("data-nowcast", "0");
     }
 }

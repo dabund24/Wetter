@@ -6,7 +6,8 @@ import {addClassToChildOfParent, replaceNaClassOfChildOfParent, setHTMLOfChildOf
  * shows all stations below search bar
  */
 export function setStarredDisplay() {
-    const starredDisplay = document.getElementById("starred-wrapper")
+    const starredDisplay = document.getElementById("starred-wrapper");
+    starredDisplay.querySelector("#starred").replaceChildren();
     const template = starredDisplay.querySelector("template").content;
     let toBeAdded;
     for (let i = 0; i < stations.length; i++) {
@@ -53,6 +54,17 @@ export function resetForecastDisplay() {
 export function resetWarningDisplay() {
     const warningDisplay = document.querySelector("#warning__display");
     warningDisplay.replaceChildren();
+}
+
+export function setInfoDisplay() {
+    const station = currentStation;
+    const info = document.getElementById("station-info");
+
+    setHTMLOfChildOfParent(info, ".info__position", station.latitudeStr + ", " + station.longitudeStr);
+    info.querySelector(".info__position").setAttribute("href", station.mapURL);
+    setHTMLOfChildOfParent(info, ".info__elevation", station.elevation);
+    setHTMLOfChildOfParent(info, ".info__icao", station.icao);
+    setHTMLOfChildOfParent(info, ".info__id", station.id);
 }
 
 export function setNowcastDisplay() {

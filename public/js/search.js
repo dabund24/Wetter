@@ -7,6 +7,10 @@ const suggestionsContainer = document.getElementById("search__suggestions");
 export function setupSearch() {
     const searchInput = document.getElementById("search__input");
 
+    searchInput.addEventListener("focusin", function (event) {
+        refreshAutocomplete(this.value);
+    })
+
     searchInput.addEventListener("keyup", function (event) {
         if (event.key !== "Enter" && event.key !== "ArrowDown" && event.key !== "ArrowUp") {
             refreshAutocomplete(this.value);

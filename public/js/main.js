@@ -16,8 +16,11 @@ import {
     resetOverviewDisplay,
     resetWarningDisplay,
     setDayDisplay,
-    setForecastDisplay, setNowcastDisplay,
-    setOverviewDisplay, setStarredDisplay,
+    setForecastDisplay,
+    setInfoDisplay,
+    setNowcastDisplay,
+    setOverviewDisplay,
+    setStarredDisplay,
     setWarningDisplay
 } from "./data.js";
 import {addDays, addHours, cancelTimezoneOffset, dayDifference, getStationById, printNotification} from "./util.js";
@@ -65,7 +68,6 @@ export let currentStation = stations[0];
 setupSearch();
 
 setStarredDisplay();
-document.getElementsByClassName("starred__station")[0].classList.add("starred__station--active");
 
 document.getElementById("station__name").innerHTML = currentStation.name;
 resetData();
@@ -98,6 +100,7 @@ export async function resetData() {
         setNowcastData();
     }
 
+    setInfoDisplay();
     setNowcastDisplay();
     setDayDisplay();
     setOverviewDisplay();
@@ -275,8 +278,8 @@ export function switchColor() {
     sColor();
 }
 
-export function toggleNowcast() {
-    tNowcast();
+export function toggleNowcast(index) {
+    tNowcast(index);
 }
 
 /**
@@ -303,7 +306,6 @@ export async function switchStation(id, index) {
     let newStation;
     // if new station is not yet pinned
     const isNotPinned = index === -1 && stations.find(station => station.id === id) === undefined;
-    console.log(isNotPinned)
     if (isNotPinned) {
         console.log(id);
         newStation = new Station(await getStationById(id));
@@ -317,11 +319,9 @@ export async function switchStation(id, index) {
         }
     }
     let oldStation = currentStation;
-    console.log(newStation)
     currentStation = newStation;
     if (await resetData()) {
         sStation(index);
-        console.log(currentStation.name)
         document.getElementById("station__name").innerHTML = currentStation.name;
         return true;
     } else {
@@ -330,7 +330,16 @@ export async function switchStation(id, index) {
     }
 }
 
-export function addStation(index) {
+export function toggleStationStar() {
+    if (stations.includes(currentStation)) {
+        stations.splice(stations.indexOf(currentStation), 1);
+        setStarredDisplay();
+        sStation(-1);
+    } else {
+        stations.push(currentStation);
+        setStarredDisplay();
+        sStation(stations.length - 1);
+    }
 
 }
 

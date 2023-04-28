@@ -7,15 +7,19 @@ export default class Station {
      * @param {Object} stationObj - the id of the station based on https://www.dwd.de/DE/leistungen/met_verfahren_mosmix/mosmix_stationskatalog.cfg?view=nasPublication&nn=16102
      */
     constructor(stationObj) {
-        //this.stationObj = allStations.find(station => station.ID === id);
-        this.stationObj = stationObj;
         this.id = stationObj.ID
-        this.name = this.stationObj.Name;
-        this.overviewURL = "";
-        this.overviewBaseURL = "/data?stationIDs=" + this.id;
-        this.nowcastBaseURL = "https://s3.eu-central-1.amazonaws.com/app-prod-static.warnwetter.de/v16/current_measurement_" + this.id + ".json"
-        this.overviewURL = this.overviewBaseURL;
-        this.nowcastURL = this.nowcastBaseURL;
+        this.name = stationObj.Name;
+        this.latitude = stationObj.LAT;
+        const latMins = ~~((this.latitude * 100) % 100);
+        this.longitude = stationObj.LON
+        const lonMins = ~~((this.longitude) * 100  % 100);
+        this.latitudeStr = ~~this.latitude + "°" + latMins + "\' " + (this.latitude > 0 ? "N" : "S");
+        this.longitudeStr = ~~this.longitude + "°" + lonMins + "\' " + (this.longitude > 0 ? "W" : "O");
+        this.mapURL = "https://www.openstreetmap.org/?mlat=" + (~~this.latitude + latMins / 60) + "&mlon=" + (~~this.longitude + lonMins / 60) + "&zoom=12";
+        this.elevation = stationObj.ELEV + " m";
+        this.icao = stationObj.ICAO;
+        this.overviewURL = "/data?stationIDs=" + this.id;
+        this.nowcastURL = "https://s3.eu-central-1.amazonaws.com/app-prod-static.warnwetter.de/v16/current_measurement_" + this.id + ".json"
     }
 
     /**
