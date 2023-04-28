@@ -2,7 +2,6 @@ import Day from "./day.js";
 import Warning from "./warning.js";
 import Station from "./station.js";
 import {
-    currentDay, currentTab,
     root,
     switchColor as sColor,
     switchDay as sDay,
@@ -17,11 +16,15 @@ import {
     resetOverviewDisplay,
     resetWarningDisplay,
     setDayDisplay,
-    setForecastDisplay, setNowcastDisplay,
-    setOverviewDisplay, setStarredDisplay,
+    setForecastDisplay,
+    setInfoDisplay,
+    setNowcastDisplay,
+    setOverviewDisplay,
+    setStarredDisplay,
     setWarningDisplay
 } from "./data.js";
-import {addDays, addHours, cancelTimezoneOffset, dayDifference, printNotification} from "./util.js";
+import {addDays, addHours, cancelTimezoneOffset, dayDifference, getStationById, printNotification} from "./util.js";
+import {getSearchSuggestions, displaySearchSuggestions, setupSearch} from "./search.js";
 
 /**
  * json overviewData of current station
@@ -49,23 +52,26 @@ for (let i = 0; i < 10; i++) {
  * @type {Station[]}
  */
 export const stations = [
-    new Station("10389", "Berlin-Alexanderplatz"),
-    new Station("P0489", "Hamburg Innenstadt"),
-    new Station("10865", "München Stadt"),
-    new Station("P0532", "Garching"),
-    new Station("10863", "Weihenstephan-Dürnast")
-]
+    new Station(await getStationById("10389")), // B-A
+    new Station(await getStationById("P0489")), // H-I
+    new Station(await getStationById("10865")), //M-S
+    new Station(await getStationById("P0532")), // G
+    new Station(await getStationById("10863")) //W-D
+];
+
 /**
  * the index of the station in stations that is displayed
- * @type {number}
+ * @type {Station}
  */
-export let currentStation = 0;
+export let currentStation = stations[0];
+
+setupSearch();
 
 setStarredDisplay();
-document.getElementsByClassName("starred__station")[0].classList.add("starred__station--active");
 
-document.getElementById("station__name").innerHTML = stations[currentStation].name;
+document.getElementById("station__name").innerHTML = currentStation.name;
 resetData();
+
 
 /**
  * fetches overviewData, resets and sets display
@@ -73,11 +79,12 @@ resetData();
  */
 export async function resetData() {
     root.classList.add("loading");
-    printNotification("Hole Daten für " + stations[currentStation].name + "...");
+    printNotification("Hole Daten für " + currentStation.name + "...");
 
-    if (!(await fetchData())) {
+    if (!(await fetchData()) || baseData === undefined) {
         // if overviewData fetch failed
         root.classList.remove("loading");
+        printNotification("Daten konnten nicht geladen werden.")
         return false;
     }
 
@@ -93,13 +100,14 @@ export async function resetData() {
         setNowcastData();
     }
 
+    setInfoDisplay();
     setNowcastDisplay();
     setDayDisplay();
     setOverviewDisplay();
     setForecastDisplay();
     setWarningDisplay();
 
-    printNotification("Daten für " + stations[currentStation].name + " erfolgreich aktualisiert.");
+    printNotification("Daten für " + currentStation.name + " erfolgreich aktualisiert.");
 
     root.classList.remove("loading");
     return true;
@@ -110,10 +118,10 @@ export async function resetData() {
  * @returns {Promise<boolean>} - success of overviewData fetch
  */
 export async function fetchData() {
-    const overviewFetch = fetch(stations[currentStation].overviewURL)
+    const overviewFetch = fetch(currentStation.overviewURL)
         .then(response => response.json())
         .then(freshData => {
-            baseData = freshData[stations[currentStation].id];
+            baseData = freshData[currentStation.id];
             return true;
         })
         .catch((err) => {
@@ -121,13 +129,13 @@ export async function fetchData() {
             return false;
         });
 
-    await fetch(stations[currentStation].nowcastURL)
+    await fetch(currentStation.nowcastURL)
         .then(response => response.json())
         .then(freshData => {
             nowcastData = freshData;
             return true;
         })
-        .catch((err) => {
+        .catch(() => {
             nowcastData = undefined;
             return false;
         });
@@ -136,7 +144,7 @@ export async function fetchData() {
 }
 
 function setNowcastData() {
-    stations[currentStation].setNowcast(nowcastData);
+    currentStation.setNowcast(nowcastData);
 }
 
 /**
@@ -238,6 +246,16 @@ function setWarningData() {
     }
 }
 
+export async function refreshAutocomplete(text) {
+    if (text === "") {
+        document.getElementById("search__suggestions").replaceChildren();
+        displaySearchSuggestions([]);
+        return;
+    }
+    let suggestions = await getSearchSuggestions(text);
+    displaySearchSuggestions(suggestions);
+}
+
 /**
  * allows switching between forecast, overview and warning tabs
  * @param {number} index - the index of the selected tab
@@ -260,8 +278,8 @@ export function switchColor() {
     sColor();
 }
 
-export function toggleNowcast() {
-    tNowcast();
+export function toggleNowcast(index) {
+    tNowcast(index);
 }
 
 /**
@@ -280,30 +298,52 @@ export function switchDay(index) {
 
 /**
  * switches station by fetching overviewData
- * @param {number} index - index of station in stations
+ * @param {string} id - id of station, 0 if called from pinned bar
+ * @param {number} index - index of station in pinned stations, -1 if not called from pinned bar
  * @returns {Promise<boolean>} - success of station switch
  */
-export async function switchStation(index) {
-    if (index === currentStation) {
-        return false;
+export async function switchStation(id, index) {
+    let newStation;
+    // if new station is not yet pinned
+    const isNotPinned = index === -1 && stations.find(station => station.id === id) === undefined;
+    if (isNotPinned) {
+        console.log(id);
+        newStation = new Station(await getStationById(id));
+    } else if (index === -1) {
+        newStation = stations.find(station => station.id === id);
+        index = stations.indexOf(newStation);
+    } else {
+        newStation = stations[index];
+        if (newStation === currentStation) {
+            return false;
+        }
     }
     let oldStation = currentStation;
-    currentStation = index;
+    currentStation = newStation;
     if (await resetData()) {
-        sStation(currentStation);
-        document.getElementById("station__name").innerHTML = stations[currentStation].name;
+        sStation(index);
+        document.getElementById("station__name").innerHTML = currentStation.name;
+        return true;
     } else {
         currentStation = oldStation;
         return false;
     }
-    return true;
 }
 
-export function addStation(index) {
+export function toggleStationStar() {
+    if (stations.includes(currentStation)) {
+        stations.splice(stations.indexOf(currentStation), 1);
+        setStarredDisplay();
+        sStation(-1);
+    } else {
+        stations.push(currentStation);
+        setStarredDisplay();
+        sStation(stations.length - 1);
+    }
 
 }
 
-document.addEventListener("keydown", ev => {
+/*document.addEventListener("keydown", ev => {
     switch (ev.key.toLowerCase()) {
         case "p":
             sTheme();
@@ -327,4 +367,4 @@ document.addEventListener("keydown", ev => {
             switchTab((currentTab + 1) % 3);
             break;
     }
-})
+})*/

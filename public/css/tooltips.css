@@ -12,7 +12,7 @@
     border-radius: .5rem;
     line-height: initial;
     white-space: nowrap;
-    background-color: var(--foreground-color--opaque);
+    background-color: var(--background-color--opaque);
     backdrop-filter: blur(1px);
     opacity: 0;
     transition: opacity .5s;
@@ -114,7 +114,7 @@
 .tooltip.wi-day-rain:after {
     content: "Sonne, starker Regen";
 }
-.tooltip.wi-night-rain:after {
+.tooltip.wi-night-alt-rain:after {
     content: "Mond, starker Regen";
 }
 /* 20 */

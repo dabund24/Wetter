@@ -186,7 +186,7 @@ strong, h1, h2 {
     }
 }
 
-.search {
+#search {
     margin: .5rem auto 0;
     max-width: 25rem;
 }
@@ -200,16 +200,60 @@ strong, h1, h2 {
     padding: .5rem 0;
 }
 
-.search .line--regular {
+#search .line--regular {
     height: 4px;
     width: 100%;
     margin: auto;
     transition: width .3s ease-in-out;
 }
 
-.search:focus-within .line--regular {
+#search:focus-within .line--regular {
     width: 2rem;
     background-color: var(--accent-color);
+}
+
+#search__suggestions {
+    display: none;
+    position: absolute;
+    z-index: 50;
+    top: 4rem;
+    backdrop-filter: blur(1px);
+    border: 4px solid var(--foreground-color--opaque);
+    background-color: var(--background-color--opaque);
+    width: calc(25rem - 8px);
+}
+
+#search:focus-within #search__suggestions, #search__suggestions:hover {
+    display: flex;
+}
+
+#search__suggestions > :last-child:not(:first-child) {
+    display: none;
+}
+
+.search__suggestion {
+    padding: .5rem 4px .5rem 0;
+}
+
+.search__suggestion .line--accent {
+    width: 4px;
+    margin: auto 0;
+    height: 0;
+    background-color: var(--accent-color);
+    transition: height .2s ease-in-out;
+}
+
+.search__suggestion__text {
+    text-align: center;
+    margin: 0 auto;
+}
+
+.search__suggestion:last-child {
+    cursor: default;
+}
+
+.suggestion--focus:not(:last-child) .line--accent, .search__suggestion:hover:not(:last-child) .line--accent {
+    height: 1.5rem;
 }
 
 .action-bar {
@@ -254,24 +298,56 @@ strong, h1, h2 {
     width: 2rem;
 }
 
-#station__name {
-    text-align: center;
-    margin: 0 .7rem;
+#station {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background-color: var(--background-color--opaque);
+    backdrop-filter: blur(1px);
 }
 
-#station__icon, #station__icon .wi {
+#station__name {
+    text-align: center;
+    font: inherit;
+}
+
+#station #station__name, #station #station__icon {
+    padding: 0 1rem;
+}
+
+#station #station__icon, #station .wi {
     font-size: inherit;
-    margin: 0;
+}
+
+#below-station-name[data-nowcast="2"] #station-info {
+    height: 9rem;
+}
+
+#below-station-name[data-nowcast="1"] #nowcast {
+    height: 20rem;
+}
+
+#station-info {
+    overflow-y: clip;
+    height: 0;
+    text-align: center;
+    transition: height .3s ease-in-out;
+}
+
+#station-info .flex-row > * {
+    width: 100%;
+    padding: .5rem;
+}
+
+#remember-station {
+    padding: .5rem 1rem;
+    margin: auto;
 }
 
 #nowcast {
     overflow-y: clip;
     height: 0;
     transition: height .3s ease-in-out;
-}
-
-#nowcast[data-nowcast="1"] {
-    height: 20rem;
 }
 
 .nowcast__time {

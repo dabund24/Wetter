@@ -14,7 +14,19 @@
 </head>
 <body>
 <script type="module">
-    import {switchTab, switchTheme, switchColor, switchDay, toggleNowcast, switchStation, resetData} from "/js/main.js";
+    import {
+        refreshAutocomplete,
+        switchTab,
+        switchTheme,
+        switchColor,
+        switchDay,
+        toggleNowcast,
+        switchStation,
+        resetData,
+        toggleStationStar
+    } from "/js/main.js";
+
+    window.refreshAutocomplete = refreshAutocomplete;
     window.switchTab = switchTab;
     window.switchTheme = switchTheme;
     window.switchColor = switchColor;
@@ -22,13 +34,28 @@
     window.toggleNowcast = toggleNowcast;
     window.switchStation = switchStation;
     window.resetData = resetData;
+    window.toggleStationStar = toggleStationStar;
 </script>
 <div id="content">
     <div id="load-indicator" class="line--accent"></div>
-    <div class="search">
+    <div id="search">
         <label>
-            <input type="text" class="search__input" placeholder="Suche">
+            <input type="text" name="search" id="search__input" class="search__input" placeholder="Suche">
         </label>
+        <div id="search__suggestions" class="flex-column hoverable">
+            <div class="search__suggestion flex-row">
+                <div class="line--accent"></div>
+                <div class="search__suggestion__text">Keine Vorschläge</div>
+                <input class="search__suggestion__click" type="hidden">
+            </div>
+        </div>
+        <template>
+            <div class="search__suggestion flex-row">
+                <div class="line--accent"></div>
+                <div class="search__suggestion__text"></div>
+                <input class="search__suggestion__click" type="hidden">
+            </div>
+        </template>
         <div class="line--regular"></div>
     </div>
     <div class="action-bar flex-row">
@@ -45,27 +72,7 @@
     </div>
     <div id="starred-wrapper">
         <div id="starred" class="flex-row">
-            <!--
-            <div class="starred__station starred__station--active">
-                <button class="hoverable starred__station-name" onclick="switchStation(0)">Berlin-Alexanderplatz</button>
-                <div class="line--accent"></div>
-            </div>
-            <div class="starred__station">
-                <button class="hoverable starred__station-name" onclick="switchStation(1)">Hamburg Innenstadt</button>
-                <div class="line--accent"></div>
-            </div>
-            <div class="starred__station">
-                <button class="hoverable starred__station-name" onclick="switchStation(2)">München Stadt</button>
-                <div class="line--accent"></div>
-            </div>
-            <div class="starred__station">
-                <button class="hoverable starred__station-name" onclick="switchStation(3)">Garching</button>
-                <div class="line--accent"></div>
-            </div>
-            <div class="starred__station">
-                <button class="hoverable starred__station-name" onclick="switchStation(4)">Weihenstephan-Dürnast</button>
-                <div class="line--accent"></div>
-            </div>-->
+
         </div>
         <template>
             <div class="starred__station">
@@ -75,13 +82,42 @@
         </template>
     </div>
     <h1 id="station">
-        <span id="station__name">Stationsname</span>
-        <button id="station__icon" class="hoverable" onclick="toggleNowcast()">
+        <button id="station__name" class="hoverable" onclick="toggleNowcast('2')">
+            Stationsname
+        </button><button id="station__icon" class="hoverable" onclick="toggleNowcast('1')">
             <i class="station__icon__0 wi wi_-data"></i>
         </button>
     </h1>
-    <div class="content-wrapper">
-        <div id="nowcast" data-nowcast="0">
+    <div id="below-station-name" class="content-wrapper" data-nowcast="0">
+        <div id="station-info">
+            <div class="flex-row">
+                <div class="flex-column">
+                    <strong>Koordinaten</strong>
+                    <a class="info__position" href="https://www.openstreetmap.org/" target="_blank">00° 00'</a>
+                </div>
+                <div class="flex-column">
+                    <strong>Höhe über NN</strong>
+                    <div class="info__elevation">0 m</div>
+                </div>
+                <div class="flex-column">
+                    <strong>ICAO-Code</strong>
+                    <div class="info__icao">XXXX</div>
+                </div>
+                <div class="flex-column">
+                    <strong>Stations-ID (Mosmix)</strong>
+                    <div class="info__id">X0000</div>
+                </div>
+            </div>
+            <div class="flex-row">
+                <div class="flex-column">
+                    <button id="remember-station" class="hoverable" onclick="toggleStationStar()">
+                        Station merken
+                    </button>
+                    <div class="line--accent"></div>
+                </div>
+            </div>
+        </div>
+        <div id="nowcast">
             <div class="day-data__tiles-container flex-row">
                 <div class="nowcast-tile tile flex-column">
                         <span class="nowcast__icon">

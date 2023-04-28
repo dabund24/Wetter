@@ -253,3 +253,8 @@ export function setHTMLOfChildOfParent(parent, childSelector, innerHTML) {
 export function printNotification(notification) {
     document.getElementById("status-bar").innerHTML = unixToHoursString(Date.now()) + ": " + notification;
 }
+
+export async function getStationById(id) {
+    console.log(id);
+    return fetch("/suggest?id=" + id).then(response => response.json());
+}

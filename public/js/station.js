@@ -4,17 +4,22 @@ export default class Station {
 
     /**
      * initialises new station with id, name, url and lastRefresh
-     * @param {string} id - the id of the station based on https://www.dwd.de/DE/leistungen/met_verfahren_mosmix/mosmix_stationskatalog.cfg?view=nasPublication&nn=16102
-     * @param {string} name - the name of the station
+     * @param {Object} stationObj - the id of the station based on https://www.dwd.de/DE/leistungen/met_verfahren_mosmix/mosmix_stationskatalog.cfg?view=nasPublication&nn=16102
      */
-    constructor(id, name) {
-        this.id = id;
-        this.name = name;
-        this.overviewURL = "";
-        this.overviewBaseURL = "/data?stationIDs=" + id;
-        this.nowcastBaseURL = "https://s3.eu-central-1.amazonaws.com/app-prod-static.warnwetter.de/v16/current_measurement_" + id + ".json"
-        this.overviewURL = this.overviewBaseURL;
-        this.nowcastURL = this.nowcastBaseURL;
+    constructor(stationObj) {
+        this.id = stationObj.ID
+        this.name = stationObj.Name;
+        this.latitude = stationObj.LAT;
+        const latMins = ~~((this.latitude * 100) % 100);
+        this.longitude = stationObj.LON
+        const lonMins = ~~((this.longitude) * 100  % 100);
+        this.latitudeStr = ~~this.latitude + "°" + latMins + "\' " + (this.latitude > 0 ? "N" : "S");
+        this.longitudeStr = ~~this.longitude + "°" + lonMins + "\' " + (this.longitude > 0 ? "W" : "O");
+        this.mapURL = "https://www.openstreetmap.org/?mlat=" + (~~this.latitude + latMins / 60) + "&mlon=" + (~~this.longitude + lonMins / 60) + "&zoom=12";
+        this.elevation = stationObj.ELEV + " m";
+        this.icao = stationObj.ICAO;
+        this.overviewURL = "/data?stationIDs=" + this.id;
+        this.nowcastURL = "https://s3.eu-central-1.amazonaws.com/app-prod-static.warnwetter.de/v16/current_measurement_" + this.id + ".json"
     }
 
     /**
@@ -26,7 +31,7 @@ export default class Station {
         this.icon = icons_day[data.icon];
         this.temperature = (data.temperature / 10).toLocaleString() + " °C";
         this.precipitation = (data.precipitation / 10).toLocaleString() + " mm";
-        this.totalSnow = (data.totalsnow / 10).toLocaleString() + " cm";
+        this.totalSnow = (data.totalsnow / 100).toLocaleString() + " cm";
         this.sunshine = (data.sunshine / 10).toLocaleString() + " Minuten";
         this.meanWind = (data.meanwind / 10).toLocaleString() + " km/h";
         this.maxWind = (data.maxwind / 10).toLocaleString() + " km/h";
