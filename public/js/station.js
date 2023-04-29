@@ -1,4 +1,4 @@
-import {icons_day, unixToHoursString} from "./util.js";
+import {checkUndefined, icons_day, unixToHoursString} from "./util.js";
 
 export default class Station {
 
@@ -28,16 +28,19 @@ export default class Station {
      */
     setNowcast(data) {
         this.time = unixToHoursString(data.time);
-        this.icon = icons_day[data.icon];
-        this.temperature = (data.temperature / 10).toLocaleString() + " °C";
-        this.precipitation = (data.precipitation / 10).toLocaleString() + " mm";
-        this.totalSnow = (data.totalsnow / 100).toLocaleString() + " cm";
-        this.sunshine = (data.sunshine / 10).toLocaleString() + " Minuten";
-        this.meanWind = (data.meanwind / 10).toLocaleString() + " km/h";
-        this.maxWind = (data.maxwind / 10).toLocaleString() + " km/h";
+        if (data.icon !== undefined && data.icon !== 32767) {
+            console.log(data.icon);
+            this.icon = icons_day[data.icon];
+        }
+        this.temperature = checkUndefined((data.temperature / 10).toLocaleString(), " °C");
+        this.precipitation = checkUndefined((data.precipitation / 10).toLocaleString(), " mm");
+        this.totalSnow = checkUndefined((data.totalsnow / 10).toLocaleString(), " cm");
+        this.sunshine = checkUndefined((data.sunshine / 10).toLocaleString(), " Minuten");
+        this.meanWind = checkUndefined((data.meanwind / 10).toLocaleString(), " km/h");
+        this.maxWind = checkUndefined((data.maxwind / 10).toLocaleString(), " km/h");
         this.windDirection = "from-" + (data.winddirection / 10) + "-deg";
-        this.pressure = (data.pressure / 10).toLocaleString() + " hPa";
-        this.humidity = (data.humidity / 10).toLocaleString() + " %";
-        this.dewPoint = (data.dewpoint / 10).toLocaleString() + " °C";
+        this.pressure = checkUndefined((data.pressure / 10).toLocaleString(), " hPa");
+        this.humidity = checkUndefined((data.humidity / 10).toLocaleString(), " %");
+        this.dewPoint = checkUndefined((data.dewpoint / 10).toLocaleString(), " °C");
     }
 }

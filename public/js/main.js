@@ -98,6 +98,9 @@ export async function resetData() {
 
     if (nowcastData !== undefined) {
         setNowcastData();
+        document.getElementById("nowcast").setAttribute("data-nowcast-available", "1");
+    } else {
+        document.getElementById("nowcast").setAttribute("data-nowcast-available", "0");
     }
 
     setInfoDisplay();
@@ -214,6 +217,8 @@ function setForecastData() {
             forecastRoot2.humidity[i],
             forecastRoot2.dewPoint2m[i]);
     }
+
+    currentStation.icon = days[0].icons[0];
 }
 
 /**

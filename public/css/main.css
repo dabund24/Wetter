@@ -350,8 +350,16 @@ strong, h1, h2 {
     transition: height .3s ease-in-out;
 }
 
-.nowcast__time {
+.nowcast__time, #nowcast-unavailable {
     text-align: center;
+}
+
+#nowcast[data-nowcast-available="0"] > :not(#nowcast-unavailable) {
+    display: none;
+}
+
+#nowcast[data-nowcast-available="1"] #nowcast-unavailable {
+    display: none;
 }
 
 .day-select-container {

@@ -258,3 +258,7 @@ export async function getStationById(id) {
     console.log(id);
     return fetch("/suggest?id=" + id).then(response => response.json());
 }
+
+export function checkUndefined(value, suffix) {
+    return value === undefined || value === "3,276.7" ? "nicht verfügbar" : value + suffix;
+}

@@ -23,12 +23,12 @@ app.get('/', function(req, res) {
 
 app.get("/data", (req, res) => {
     const backendUrl = "https://app-prod-ws.warnwetter.de/v30/stationOverviewExtended?stationIds=" + req.query.stationIDs;
-    axios.get(backendUrl).then(response => res.send(response.data));
+    axios.get(backendUrl).then(response => res.send(response.data)).catch(e => console.log(e));
 });
 
 app.get("/stations", (req, res) => {
     const backendUrl = "https://www.dwd.de/DE/leistungen/met_verfahren_mosmix/mosmix_stationskatalog.cfg?view=nasPublication&nn=16102";
-    axios.get(backendUrl).then(response => res.send(response.data));
+    axios.get(backendUrl).then(response => res.send(response.data)).catch(e => console.log(e));
     res.contentType("text/plain");
 });
 
