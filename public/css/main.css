@@ -300,10 +300,28 @@ strong, h1, h2 {
 
 #station {
     position: sticky;
-    top: 0;
+    top: -1px;
     z-index: 40;
     background-color: var(--background-color--opaque);
     backdrop-filter: blur(1px);
+    transition: font-size .3s ease-in-out, padding .3s ease-in-out, margin .3s ease-in-out;
+    margin: 0;
+    padding: 1.5rem 0;
+}
+
+#station .wi {
+    transition: font-size .3s ease-in-out;
+}
+
+#station.sticks {
+    font-size: 1.25rem;
+    padding: 0;
+    margin-bottom: 4.5rem;
+}
+
+#station.sticks .wi {
+    font-size: 1.5rem;
+    line-height: 1;
 }
 
 #station__name {
@@ -313,6 +331,11 @@ strong, h1, h2 {
 
 #station #station__name, #station #station__icon {
     padding: 0 1rem;
+    transition: padding .3s ease-in-out, border .5s, background-color .5s;
+}
+
+#station.sticks #station__name, #station.sticks #station__icon {
+    padding: 0 .5rem;
 }
 
 #station #station__icon, #station .wi {
@@ -325,6 +348,10 @@ strong, h1, h2 {
 
 #below-station-name[data-nowcast="1"] #nowcast {
     height: 20rem;
+}
+
+#below-station-name[data-nowcast="1"] #nowcast[data-nowcast-available="0"] {
+    height: 3rem;
 }
 
 #station-info {
