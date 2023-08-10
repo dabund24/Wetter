@@ -2,7 +2,7 @@ import Day from "./day.js";
 import Warning from "./warning.js";
 import Station from "./station.js";
 import {
-    root,
+    root, setColor, setTheme,
     switchColor as sColor,
     switchDay as sDay,
     switchStation as sStation,
@@ -65,6 +65,8 @@ export const stations = [
  */
 export let currentStation = stations[0];
 
+await applyPreferences();
+
 setupSearch();
 
 setStarredDisplay();
@@ -72,6 +74,16 @@ setStarredDisplay();
 document.getElementById("station__name").innerHTML = currentStation.name;
 resetData();
 
+async function applyPreferences() {
+    const cookies = await fetch("/getcookies").then(res => res.json())
+    if (cookies.theme === undefined || cookies.color === undefined) {
+        setColor(0)
+        setTheme("light")
+        return
+    }
+    setColor(cookies.color)
+    setTheme(cookies.theme)
+}
 
 /**
  * fetches overviewData, resets and sets display

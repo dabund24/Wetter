@@ -82,9 +82,16 @@ export function switchDay(newDay) {
 export function switchTheme() {
     if (document.documentElement.getAttribute("data-theme") === "light") {
         document.documentElement.setAttribute("data-theme", "dark");
+        fetch("/setCookie?key=theme&value=dark")
     } else {
         document.documentElement.setAttribute("data-theme", "light");
+        fetch("/setCookie?key=theme&value=light")
     }
+}
+
+export function setTheme(theme) {
+    document.documentElement.setAttribute("data-theme", theme);
+    fetch("/setCookie?key=theme&value=" + theme)
 }
 
 const colors = ["green", "red", "blue"];
@@ -92,6 +99,13 @@ let currentColor = 0;
 export function switchColor() {
     currentColor = (currentColor + 1) % 3;
     document.documentElement.setAttribute("data-color", colors[currentColor]);
+    fetch("/setcookie?key=color&value=" + currentColor)//.then(res => console.log(res.body));
+}
+
+export function setColor(color) {
+    currentColor = color;
+    document.documentElement.setAttribute("data-color", colors[color]);
+    fetch("/setcookie?key=color&value=" + color)
 }
 
 /**

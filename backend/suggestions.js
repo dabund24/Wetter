@@ -3,7 +3,9 @@ function collectAllStations(stationsString) {
         const array = el.split(/\s+/);
         const start = array.slice(0, 2);
         const name = array.slice(2, array.length - 3).map(string => {
-            string = string.toLowerCase().replace(/([-(/.]\w)+/, word => word[0] + word[1].toUpperCase() + word.slice(2));
+            string =
+                string.toLowerCase().replace(/([-(/.]\w)+/, word => word[0] + word[1].toUpperCase()
+                + word.slice(2));
             return string[0].toUpperCase() + string.slice(1);
         }).join(" ");
         const end = array.slice(array.length - 3);
