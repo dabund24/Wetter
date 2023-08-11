@@ -12,7 +12,7 @@ export default class Station {
         this.latitude = stationObj.LAT;
         const latMins = ~~((this.latitude * 100) % 100);
         this.longitude = stationObj.LON
-        const lonMins = ~~((this.longitude) * 100  % 100);
+        const lonMins = ~~((this.longitude * 100) % 100);
         this.latitudeStr = ~~this.latitude + "°" + latMins + "\' " + (this.latitude > 0 ? "N" : "S");
         this.longitudeStr = ~~this.longitude + "°" + lonMins + "\' " + (this.longitude > 0 ? "W" : "O");
         this.mapURL = "https://www.openstreetmap.org/?mlat=" + (~~this.latitude + latMins / 60) + "&mlon=" + (~~this.longitude + lonMins / 60) + "&zoom=12";

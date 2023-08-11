@@ -2,7 +2,9 @@ import Day from "./day.js";
 import Warning from "./warning.js";
 import Station from "./station.js";
 import {
-    root, setColor, setTheme,
+    root,
+    setColor,
+    setTheme,
     switchColor as sColor,
     switchDay as sDay,
     switchStation as sStation,
@@ -51,38 +53,46 @@ for (let i = 0; i < 10; i++) {
  * an array storing all pinned stations
  * @type {Station[]}
  */
-export const stations = [
-    new Station(await getStationById("10389")), // B-A
-    new Station(await getStationById("P0489")), // H-I
-    new Station(await getStationById("10865")), //M-S
-    new Station(await getStationById("P0532")), // G
-    new Station(await getStationById("10863")) //W-D
-];
+export const stations = []
+
+await applyPreferences();
 
 /**
  * the index of the station in stations that is displayed
  * @type {Station}
  */
-export let currentStation = stations[0];
-
-await applyPreferences();
+export let currentStation;
 
 setupSearch();
 
 setStarredDisplay();
+if (stations.length === 0) {
+    currentStation = new Station(await getStationById("10389"))
+    document.getElementById("remember-station").innerText = "+";
+} else {
+    currentStation = stations[0];
+    document.getElementById("starred").children[0].classList.add("starred__station--active")
+}
 
 document.getElementById("station__name").innerHTML = currentStation.name;
+
 resetData();
 
 async function applyPreferences() {
     const cookies = await fetch("/getcookies").then(res => res.json())
-    if (cookies.theme === undefined || cookies.color === undefined) {
+    if (cookies.theme === undefined || cookies.color === undefined || cookies.stations === undefined) {
         setColor(0)
         setTheme("light")
+        stations.length = 0
         return
     }
     setColor(cookies.color)
     setTheme(cookies.theme)
+    const stationIDs = JSON.parse(cookies.stations)
+    stations.length = 0
+    for (let stationID of stationIDs) {
+        stations.push(new Station(await getStationById(stationID)));
+    }
 }
 
 /**
@@ -357,7 +367,8 @@ export function toggleStationStar() {
         setStarredDisplay();
         sStation(stations.length - 1);
     }
-
+    const stationIDs = stations.map(station => station.id);
+    fetch("/setcookie?key=stations&value=" + JSON.stringify(stationIDs))
 }
 
 /*document.addEventListener("keydown", ev => {

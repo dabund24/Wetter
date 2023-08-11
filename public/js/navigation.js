@@ -7,11 +7,13 @@ let currentStation = 0;
  */
 export function switchStation(newStation) {
     let stations = document.getElementById("starred");
+    document.getElementById("remember-station").innerText = "+";
     if (currentStation !== -1 && currentStation < stations.children.length) {
         stations.children[currentStation].classList.remove("starred__station--active");
     }
     if (newStation !== -1) {
         stations.children[newStation].classList.add("starred__station--active");
+        document.getElementById("remember-station").innerText = "–";
     }
     currentStation = newStation;
 }

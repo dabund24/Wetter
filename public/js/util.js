@@ -255,7 +255,6 @@ export function printNotification(notification) {
 }
 
 export async function getStationById(id) {
-    console.log(id);
     return fetch("/suggest?id=" + id).then(response => response.json());
 }
 

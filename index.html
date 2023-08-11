@@ -70,7 +70,7 @@
             <i class="wi wi-fw wi-night-clear"></i>
         </button>
     </div>
-    <div id="starred-wrapper">
+    <div id="starred-wrapper" class="flex-row">
         <div id="starred" class="flex-row">
 
         </div>
@@ -80,12 +80,15 @@
                 <div class="line--accent"></div>
             </div>
         </template>
+        <button class="starred__station-name hoverable" onclick=toggleStationStar() id="remember-station">
+            –
+        </button>
     </div>
     <h1 id="station">
         <button id="station__name" class="hoverable" onclick="toggleNowcast('2')">
             Lade Seite...
         </button><button id="station__icon" class="hoverable" onclick="toggleNowcast('1')">
-            <i class="station__icon__0 wi wi_-data"></i>
+            <i class="station__icon__0 wi wi-na wi_-data"></i>
         </button>
     </h1>
     <div id="below-station-name" class="content-wrapper" data-nowcast="0">
@@ -106,14 +109,6 @@
                 <div class="flex-column">
                     <strong>Stations-ID (Mosmix)</strong>
                     <div class="info__id">X0000</div>
-                </div>
-            </div>
-            <div class="flex-row">
-                <div class="flex-column">
-                    <button id="remember-station" class="hoverable" onclick="toggleStationStar()">
-                        Station merken
-                    </button>
-                    <div class="line--accent"></div>
                 </div>
             </div>
         </div>
@@ -198,7 +193,7 @@
             <div class="days flex-row">
                 <button class="day hoverable tile flex-column" onclick="switchDay(0)">
                 <span class="day__icon">
-                    <i class="day__icon__0 wi wi_-data"></i>
+                    <i class="day__icon__0 wi wi-na wi_-data"></i>
                     <strong class="day__icon__warning"></strong>
                 </span>
                     <span class="day__temperature">Temperatur</span>
@@ -208,7 +203,7 @@
                 </button>
                 <button class="day hoverable tile flex-column" onclick="switchDay(1)">
                 <span class="day__icon">
-                    <i class="day__icon__0 wi wi_-data"></i>
+                    <i class="day__icon__0 wi wi-na wi_-data"></i>
                     <strong class="day__icon__warning"></strong>
                 </span>
                     <span class="day__temperature">Temperatur</span>
@@ -218,7 +213,7 @@
                 </button>
                 <button class="day hoverable tile flex-column" onclick="switchDay(2)">
                 <span class="day__icon">
-                    <i class="day__icon__0 wi wi_-data"></i>
+                    <i class="day__icon__0 wi wi-na wi_-data"></i>
                     <strong class="day__icon__warning"></strong>
                 </span>
                     <span class="day__temperature">Temperatur</span>
@@ -228,7 +223,7 @@
                 </button>
                 <button class="day hoverable tile flex-column" onclick="switchDay(3)">
                 <span class="day__icon">
-                    <i class="day__icon__0 wi wi_-data"></i>
+                    <i class="day__icon__0 wi wi-na wi_-data"></i>
                     <strong class="day__icon__warning"></strong>
                 </span>
                     <span class="day__temperature">Temperatur</span>
@@ -238,7 +233,7 @@
                 </button>
                 <button class="day hoverable tile flex-column" onclick="switchDay(4)">
                 <span class="day__icon">
-                    <i class="day__icon__0 wi wi_-data"></i>
+                    <i class="day__icon__0 wi wi-na wi_-data"></i>
                     <strong class="day__icon__warning"></strong>
                 </span>
                     <span class="day__temperature">Temperatur</span>
@@ -248,7 +243,7 @@
                 </button>
                 <button class="day hoverable tile flex-column" onclick="switchDay(5)">
                 <span class="day__icon">
-                    <i class="day__icon__0 wi wi_-data"></i>
+                    <i class="day__icon__0 wi wi-na wi_-data"></i>
                     <strong class="day__icon__warning"></strong>
                 </span>
                     <span class="day__temperature">Temperatur</span>
@@ -258,7 +253,7 @@
                 </button>
                 <button class="day hoverable tile flex-column" onclick="switchDay(6)">
                 <span class="day__icon">
-                    <i class="day__icon__0 wi wi_-data"></i>
+                    <i class="day__icon__0 wi wi-na wi_-data"></i>
                     <strong class="day__icon__warning"></strong>
                 </span>
                     <span class="day__temperature">Temperatur</span>
@@ -268,7 +263,7 @@
                 </button>
                 <button class="day hoverable tile flex-column" onclick="switchDay(7)">
                 <span class="day__icon">
-                    <i class="day__icon__0 wi wi_-data"></i>
+                    <i class="day__icon__0 wi wi-na wi_-data"></i>
                     <strong class="day__icon__warning"></strong>
                 </span>
                     <span class="day__temperature">Temperatur</span>
@@ -278,7 +273,7 @@
                 </button>
                 <button class="day hoverable tile flex-column" onclick="switchDay(8)">
                 <span class="day__icon">
-                    <i class="day__icon__0 wi wi_-data"></i>
+                    <i class="day__icon__0 wi wi-na wi_-data"></i>
                     <strong class="day__icon__warning"></strong>
                 </span>
                     <span class="day__temperature">Temperatur</span>
@@ -288,7 +283,7 @@
                 </button>
                 <button class="day hoverable tile flex-column" onclick="switchDay(9)">
                 <span class="day__icon">
-                    <i class="day__icon__0 wi wi_-data"></i>
+                    <i class="day__icon__0 wi wi-na wi_-data"></i>
                     <strong class="day__icon__warning"></strong>
                 </span>
                     <span class="day__temperature">Temperatur</span>
@@ -505,7 +500,7 @@
     </div>
 </div>
 <footer class="flex-column">
-    <div id="status-bar">XX.XX Uhr: Status</div>
+    <div id="status-bar">Seite wird vorbereitet. Bitte warten...</div>
     <div id="additional-content" class="flex-column">
         <div class="line--regular"></div>
         <div id="keyboard-shortcuts" class="flex-column">

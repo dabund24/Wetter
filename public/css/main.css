@@ -270,11 +270,17 @@ strong, h1, h2 {
     display: none;
 }
 
-#starred {
+#starred-wrapper {
     margin: 1rem auto 0;
     width: fit-content;
     align-items: center;
     justify-items: end;
+    flex-wrap: wrap;
+}
+
+#starred {
+    width: fit-content;
+    align-items: center;
     flex-wrap: wrap;
 }
 
@@ -296,6 +302,10 @@ strong, h1, h2 {
 
 .starred__station--active .line--accent {
     width: 2rem;
+}
+
+#remember-station {
+    margin: auto .5rem;
 }
 
 #station {
@@ -343,7 +353,7 @@ strong, h1, h2 {
 }
 
 #below-station-name[data-nowcast="2"] #station-info {
-    height: 9rem;
+    height: 6rem;
 }
 
 #below-station-name[data-nowcast="1"] #nowcast {
@@ -364,11 +374,6 @@ strong, h1, h2 {
 #station-info .flex-row > * {
     width: 100%;
     padding: .5rem;
-}
-
-#remember-station {
-    padding: .5rem 1rem;
-    margin: auto;
 }
 
 #nowcast {
