@@ -32,6 +32,13 @@ export function setupSearch() {
             changeSuggestionFocus(suggestionsContainer.children, selectedStation - 1);
         }
     });
+
+    const stationHeader = document.getElementById("station");
+    const observer = new IntersectionObserver(
+        ([e]) => e.target.classList.toggle('sticks', e.intersectionRatio < 1),
+        {threshold: [1]}
+    );
+    observer.observe(stationHeader);
 }
 
 function changeSuggestionFocus(suggestions, toBeFocused) {

@@ -270,11 +270,17 @@ strong, h1, h2 {
     display: none;
 }
 
-#starred {
+#starred-wrapper {
     margin: 1rem auto 0;
     width: fit-content;
     align-items: center;
     justify-items: end;
+    flex-wrap: wrap;
+}
+
+#starred {
+    width: fit-content;
+    align-items: center;
     flex-wrap: wrap;
 }
 
@@ -298,12 +304,34 @@ strong, h1, h2 {
     width: 2rem;
 }
 
+#remember-station {
+    margin: auto .5rem;
+}
+
 #station {
     position: sticky;
-    top: 0;
+    top: -1px;
     z-index: 40;
     background-color: var(--background-color--opaque);
     backdrop-filter: blur(1px);
+    transition: font-size .3s ease-in-out, padding .3s ease-in-out, margin .3s ease-in-out;
+    margin: 0;
+    padding: 1.5rem 0;
+}
+
+#station .wi {
+    transition: font-size .3s ease-in-out;
+}
+
+#station.sticks {
+    font-size: 1.25rem;
+    padding: 0;
+    margin-bottom: 4.5rem;
+}
+
+#station.sticks .wi {
+    font-size: 1.5rem;
+    line-height: 1;
 }
 
 #station__name {
@@ -313,6 +341,11 @@ strong, h1, h2 {
 
 #station #station__name, #station #station__icon {
     padding: 0 1rem;
+    transition: padding .3s ease-in-out, border .5s, background-color .5s;
+}
+
+#station.sticks #station__name, #station.sticks #station__icon {
+    padding: 0 .5rem;
 }
 
 #station #station__icon, #station .wi {
@@ -320,11 +353,15 @@ strong, h1, h2 {
 }
 
 #below-station-name[data-nowcast="2"] #station-info {
-    height: 9rem;
+    height: 6rem;
 }
 
 #below-station-name[data-nowcast="1"] #nowcast {
     height: 20rem;
+}
+
+#below-station-name[data-nowcast="1"] #nowcast[data-nowcast-available="0"] {
+    height: 3rem;
 }
 
 #station-info {
@@ -339,19 +376,22 @@ strong, h1, h2 {
     padding: .5rem;
 }
 
-#remember-station {
-    padding: .5rem 1rem;
-    margin: auto;
-}
-
 #nowcast {
     overflow-y: clip;
     height: 0;
     transition: height .3s ease-in-out;
 }
 
-.nowcast__time {
+.nowcast__time, #nowcast-unavailable {
     text-align: center;
+}
+
+#nowcast[data-nowcast-available="0"] > :not(#nowcast-unavailable) {
+    display: none;
+}
+
+#nowcast[data-nowcast-available="1"] #nowcast-unavailable {
+    display: none;
 }
 
 .day-select-container {
