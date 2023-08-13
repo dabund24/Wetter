@@ -2,9 +2,10 @@ import Day from "./day.js";
 import Warning from "./warning.js";
 import Station from "./station.js";
 import {
+    currentDay,
     root,
-    setColor,
-    setTheme,
+    setColor as stColor,
+    setTheme as stTheme,
     switchColor as sColor,
     switchDay as sDay,
     switchStation as sStation,
@@ -22,6 +23,7 @@ import {
     setInfoDisplay,
     setNowcastDisplay,
     setOverviewDisplay,
+    setSingleDayDisplay,
     setStarredDisplay,
     setWarningDisplay
 } from "./data.js";
@@ -55,24 +57,24 @@ for (let i = 0; i < 10; i++) {
  */
 export const stations = []
 
-await applyPreferences();
-
 /**
  * the index of the station in stations that is displayed
  * @type {Station}
  */
 export let currentStation;
 
-setupSearch();
+await applyPreferences();
 
-setStarredDisplay();
-if (stations.length === 0) {
+//setupSearch();
+
+//setStarredDisplay();
+/*if (stations.length === 0) {
     currentStation = new Station(await getStationById("10389"))
-    document.getElementById("remember-station").innerText = "+";
+    document.getElementById("starred__toggle").innerText = "+";
 } else {
     currentStation = stations[0];
     document.getElementById("starred").children[0].classList.add("starred__station--active")
-}
+}*/
 
 document.getElementById("station__name").innerHTML = currentStation.name;
 
@@ -80,10 +82,13 @@ resetData();
 
 async function applyPreferences() {
     const cookies = await fetch("/getcookies").then(res => res.json())
-    if (cookies.theme === undefined || cookies.color === undefined || cookies.stations === undefined) {
+    if (cookies.theme === undefined || cookies.color === undefined || cookies.stations === undefined || cookies.station === undefined) {
         setColor(0)
         setTheme("light")
         stations.length = 0
+        currentStation = new Station(await getStationById("10389"))
+        setupSearch();
+        setStarredDisplay();
         return
     }
     setColor(cookies.color)
@@ -92,6 +97,18 @@ async function applyPreferences() {
     stations.length = 0
     for (let stationID of stationIDs) {
         stations.push(new Station(await getStationById(stationID)));
+    }
+    currentStation = new Station(await getStationById(cookies.station))
+
+    setupSearch();
+
+    setStarredDisplay();
+
+    const indexOfStation = stationIDs.indexOf(cookies.station)
+
+    if (indexOfStation > -1) {
+        document.getElementById("starred").children[indexOfStation].classList.add("starred__station--active")
+        sStation(indexOfStation)
     }
 }
 
@@ -128,6 +145,7 @@ export async function resetData() {
     setInfoDisplay();
     setNowcastDisplay();
     setDayDisplay();
+    setSingleDayDisplay(currentDay)
     setOverviewDisplay();
     setForecastDisplay();
     setWarningDisplay();
@@ -298,11 +316,19 @@ export function switchTheme() {
     sTheme();
 }
 
+export function setTheme(theme) {
+    stTheme(theme)
+}
+
 /**
  * allows switching between green, red and blue accent color
  */
 export function switchColor() {
     sColor();
+}
+
+export function setColor(color) {
+    stColor(color)
 }
 
 export function toggleNowcast(index) {
@@ -314,7 +340,13 @@ export function toggleNowcast(index) {
  * @param {number} index - index of day to be switched to
  */
 export function switchDay(index) {
+    if (index === -1) {
+        index = (currentDay + 9) % 10;
+    } else if (index === -2) {
+        index = (currentDay + 1) % 10;
+    }
     sDay(index);
+    setSingleDayDisplay(index)
     resetOverviewDisplay();
     resetForecastDisplay();
     resetWarningDisplay();
@@ -334,14 +366,13 @@ export async function switchStation(id, index) {
     // if new station is not yet pinned
     const isNotPinned = index === -1 && stations.find(station => station.id === id) === undefined;
     if (isNotPinned) {
-        console.log(id);
         newStation = new Station(await getStationById(id));
     } else if (index === -1) {
         newStation = stations.find(station => station.id === id);
         index = stations.indexOf(newStation);
     } else {
         newStation = stations[index];
-        if (newStation === currentStation) {
+        if (newStation.id === currentStation.id) {
             return false;
         }
     }
@@ -350,6 +381,7 @@ export async function switchStation(id, index) {
     if (await resetData()) {
         sStation(index);
         document.getElementById("station__name").innerHTML = currentStation.name;
+        fetch("/setcookie?key=station&value=" + currentStation.id)
         return true;
     } else {
         currentStation = oldStation;

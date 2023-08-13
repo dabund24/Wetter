@@ -9,6 +9,7 @@ export function setupSearch() {
 
     searchInput.addEventListener("focusin", function (event) {
         refreshAutocomplete(this.value);
+        searchInput.select()
     })
 
     searchInput.addEventListener("keyup", function (event) {
@@ -112,7 +113,11 @@ export function displaySearchSuggestions(suggestions) {
 }
 
 function clickSuggestion(suggestion) {
-    document.querySelector("#search__input").value = suggestion.getElementsByTagName("input")[0].value;
     switchStation(suggestion.getElementsByTagName("input")[0].getAttribute("data-id"), -1);
-    refreshAutocomplete(suggestion.getElementsByTagName("input")[0].value);
+    let suggestionString = suggestion.getElementsByTagName("input")[0].value
+    if (suggestionString.endsWith("&#x2708;")) {
+        suggestionString = suggestionString.slice(0, suggestionString.length - 9)
+    }
+    refreshAutocomplete(suggestionString);
+    document.querySelector("#search__input").value = suggestionString;
 }

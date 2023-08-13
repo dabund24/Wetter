@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de" data-theme="light" data-color="green">
+<html lang="de" data-theme="" data-color="green">
 
 <head>
     <meta charset="UTF-8"/>
@@ -18,7 +18,9 @@
         refreshAutocomplete,
         switchTab,
         switchTheme,
+        setTheme,
         switchColor,
+        setColor,
         switchDay,
         toggleNowcast,
         switchStation,
@@ -29,7 +31,9 @@
     window.refreshAutocomplete = refreshAutocomplete;
     window.switchTab = switchTab;
     window.switchTheme = switchTheme;
+    window.setTheme = setTheme;
     window.switchColor = switchColor;
+    window.setColor = setColor;
     window.switchDay = switchDay;
     window.toggleNowcast = toggleNowcast;
     window.switchStation = switchStation;
@@ -40,49 +44,43 @@
     <div id="load-indicator" class="line--accent"></div>
     <div id="search">
         <label>
-            <input type="text" name="search" id="search__input" class="search__input" placeholder="Suche">
+            <input type="text" name="search" id="search__input" class="search__input padded-top-bottom" placeholder="Suche">
         </label>
         <div id="search__suggestions" class="flex-column hoverable">
-            <div class="search__suggestion flex-row">
+            <div class="search__suggestion flex-row padded-top-bottom">
                 <div class="line--accent"></div>
-                <div class="search__suggestion__text">Keine Vorschläge</div>
+                <div class="search__suggestion__text center">Keine Vorschläge</div>
                 <input class="search__suggestion__click" type="hidden">
             </div>
         </div>
         <template>
-            <div class="search__suggestion flex-row">
+            <div class="search__suggestion flex-row padded-top-bottom">
                 <div class="line--accent"></div>
-                <div class="search__suggestion__text"></div>
+                <div class="search__suggestion__text center"></div>
                 <input class="search__suggestion__click" type="hidden">
             </div>
         </template>
         <div class="line--regular"></div>
     </div>
-    <div class="action-bar flex-row">
-        <button class="hoverable refresh" onclick="resetData()">
-            <i class="wi wi-fw wi-refresh"></i>
-        </button>
-        <button class="hoverable star" onclick="switchColor()">
-            <i class="wi wi-fw wi-stars"></i>
-        </button>
-        <button class="hoverable theme-toggle" onclick="switchTheme()">
-            <i class="wi wi-fw wi-day-sunny"></i>
-            <i class="wi wi-fw wi-night-clear"></i>
-        </button>
-    </div>
-    <div id="starred-wrapper" class="flex-row">
-        <div id="starred" class="flex-row">
+    <div id="starred-wrapper" class="flex-row center">
+        <div id="starred" class="flex-row center">
 
         </div>
         <template>
-            <div class="starred__station">
+            <div class="starred__station center">
                 <button class="hoverable starred__station-name">Gespeicherte Station</button>
                 <div class="line--accent"></div>
             </div>
         </template>
-        <button class="starred__station-name hoverable" onclick=toggleStationStar() id="remember-station">
-            –
-        </button>
+        <div class="flex-row center">
+            <button class="starred__station-name starred__action hoverable" onclick=toggleStationStar() id="starred__toggle">
+                –
+            </button>
+            <button class="starred__station-name starred__action hoverable" onclick=resetData() id="starred__refresh">
+                <i class="wi wi-refresh"></i>
+            </button>
+        </div>
+
     </div>
     <h1 id="station">
         <button id="station__name" class="hoverable" onclick="toggleNowcast('2')">
@@ -93,22 +91,26 @@
     </h1>
     <div id="below-station-name" class="content-wrapper" data-nowcast="0">
         <div id="station-info">
-            <div class="flex-row">
-                <div class="flex-column">
-                    <strong>Koordinaten</strong>
-                    <a class="info__position" href="https://www.openstreetmap.org/" target="_blank">00° 00'</a>
+            <div class="flex-row-column">
+                <div class="flex-row">
+                    <div class="flex-column">
+                        <strong>Koordinaten</strong>
+                        <a class="info__position" href="https://www.openstreetmap.org/" target="_blank">00° 00'</a>
+                    </div>
+                    <div class="flex-column">
+                        <strong>Höhe über NN</strong>
+                        <div class="info__elevation">0 m</div>
+                    </div>
                 </div>
-                <div class="flex-column">
-                    <strong>Höhe über NN</strong>
-                    <div class="info__elevation">0 m</div>
-                </div>
-                <div class="flex-column">
-                    <strong>ICAO-Code</strong>
-                    <div class="info__icao">XXXX</div>
-                </div>
-                <div class="flex-column">
-                    <strong>Stations-ID (Mosmix)</strong>
-                    <div class="info__id">X0000</div>
+                <div class="flex-row">
+                    <div class="flex-column">
+                        <strong>ICAO-Code</strong>
+                        <div class="info__icao">XXXX</div>
+                    </div>
+                    <div class="flex-column">
+                        <strong>Stations-ID (Mosmix)</strong>
+                        <div class="info__id">X0000</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -116,30 +118,34 @@
             <div id="nowcast-unavailable">
                 Keine aktuellen Daten verfügbar.
             </div>
-            <div class="nowcast__tiles-container flex-row">
-                <div class="nowcast-tile tile flex-column">
+            <div class="flex-row-column">
+                <div class="nowcast__tiles-container flex-row">
+                    <div class="nowcast-tile tile flex-column">
                         <span class="nowcast__icon">
                             <i class="wi wi-thermometer"></i>
                         </span>
-                    <span class="nowcast__temperature">Temperatur</span>
-                </div>
-                <div class="nowcast-tile tile flex-column">
+                        <span class="nowcast__temperature">Temperatur</span>
+                    </div>
+                    <div class="nowcast-tile tile flex-column">
                         <span class="nowcast__icon">
                             <i class="wi wi-umbrella"></i>
                         </span>
-                    <span class="nowcast__precipitation">Niederschlag</span>
+                        <span class="nowcast__precipitation">Niederschlag</span>
+                    </div>
                 </div>
-                <div class="nowcast-tile tile flex-column">
+                <div class="nowcast__tiles-container flex-row">
+                    <div class="nowcast-tile tile flex-column">
                         <span class="nowcast__icon">
                             <i class="wi wi-snowflake-cold"></i>
                         </span>
-                    <span class="nowcast__totalSnow">Schneefall</span>
-                </div>
-                <div class="nowcast-tile tile flex-column">
+                        <span class="nowcast__totalSnow">Schneefall</span>
+                    </div>
+                    <div class="nowcast-tile tile flex-column">
                         <span class="nowcast__icon">
                             <i class="wi wi-day-sunny"></i>
                         </span>
-                    <span class="nowcast__sunshine">Sonnenstunden</span>
+                        <span class="nowcast__sunshine">Sonnenstunden</span>
+                    </div>
                 </div>
             </div>
             <div class="nowcast__tiles-container flex-row">
@@ -176,9 +182,8 @@
                     <span class="nowcast__humidity">Luftfeuchte</span>
                 </div>
                 <div class="nowcast-tile tile flex-column">
-                        <span class="nowcast__icon tooltip-dewPoint tooltip">
-                            <i class="wi wi-thermometer"></i>
-                            <i class="wi wi-raindrop"></i>
+                        <span class="nowcast__icon">
+                            <i class="wi wi-raindrops tooltip tooltip-dewPoint"></i>
                         </span>
                     <span class="nowcast__dewPoint">Taupunkt</span>
                 </div>
@@ -188,8 +193,8 @@
             </div>
         </div>
     </div>
-    <div class="day-select-container">
-        <div class="day-select">
+    <div id="day-select-container" class="desktop-only padded-top-bottom">
+        <div id="day-select" class="center">
             <div class="days flex-row">
                 <button class="day hoverable tile flex-column" onclick="switchDay(0)">
                 <span class="day__icon">
@@ -299,12 +304,53 @@
             </div>
         </div>
     </div>
+    <div class="day-select--mobile mobile-only center padded-top-bottom">
+        <div class="flex-row center" id="day-select__navigation--mobile">
+            <button type="button" class="hoverable starred__action" onclick="switchDay(-1)">
+                <i class="wi wi-direction-left"></i>
+            </button>
+            <button class="hoverable tile flex-column" id="day--mobile" onclick="switchDay(8)">
+            <span class="day__icon">
+                <i class="day__icon__0 wi wi-na wi_-data"></i>
+                <strong class="day__icon__warning"></strong>
+            </span>
+                <span class="day__temperature">Temperatur</span>
+                <span class="day__precipitation">Niederschlag</span>
+                <strong class="day__day-of-week">Wochentag</strong>
+                <strong class="day__date">XX.XX.XXXX</strong>
+            </button>
+            <button type="button" class="hoverable starred__action" onclick="switchDay(-2)">
+                <i class="wi wi-direction-right"></i>
+            </button>
+
+        </div>
+        <div class="day-indicator-container indicator-line-container">
+            <div class="line--accent indicator indicator__animation-to-right" id="day-indicator--mobile">
+
+            </div>
+        </div>
+    </div>
 
     <div class="content-wrapper">
         <div class="tab-row flex-row">
-            <button type="button" class="hoverable tab-row__tab" onclick="switchTab(0)">Verlauf</button>
-            <button type="button" class="hoverable tab-row__tab" onclick="switchTab(1)">Tagesdaten</button>
-            <button type="button" class="hoverable tab-row__tab" onclick="switchTab(2)">Unwetterwarnungen</button>
+            <button type="button" class="hoverable tab-row__tab" onclick="switchTab(0)">
+                <span class="desktop-only">Verlauf</span>
+                <span class="mobile-only">
+                    <i class="wi wi-time-3"></i>
+                </span>
+            </button>
+            <button type="button" class="hoverable tab-row__tab" onclick="switchTab(1)">
+                <span class="desktop-only">Tagesdaten</span>
+                <span class="mobile-only">
+                    <i class="wi wi-earthquake"></i>
+                </span>
+            </button>
+            <button type="button" class="hoverable tab-row__tab" onclick="switchTab(2)">
+                <span class="desktop-only">Unwetterwarnungen</span>
+                <span class="mobile-only">
+                    <i class="wi wi-storm-warning"></i>
+                </span>
+            </button>
         </div>
         <div class="tab-indicator-container indicator-line-container">
             <div class="line--accent indicator indicator__animation-to-right" id="tab-indicator"></div>
@@ -313,27 +359,56 @@
             <div id="tab-content-0">
                 <div class="table flex-column">
                     <div class="table__header">
-                        <div class="forecast__header forecast__row table__row flex-row">
+                        <div class="forecast__header forecast__row table__row flex-row padded-top-bottom">
                             <div class="table__cell">
-                                Uhrzeit
+                                <span class="desktop-only">
+                                    <strong>Uhrzeit</strong>
+                                </span>
                             </div>
                             <div class="table__cell">
-                                Icon
+                                <span class="desktop-only">
+                                    Icon
+                                </span>
                             </div>
                             <div class="table__cell">
-                                Temperatur
+                                <span class="desktop-only">
+                                    Temperatur
+                                </span>
+                                <span class="mobile-only">
+                                    <i class="wi wi-thermometer"></i>
+                                </span>
                             </div>
                             <div class="table__cell">
-                                Niederschlag
+                                <span class="desktop-only">
+                                    Niederschlag
+                                </span>
+                                <span class="mobile-only">
+                                    <i class="wi wi-umbrella"></i>
+                                </span>
                             </div>
                             <div class="table__cell">
-                                Luftdruck
+                                <span class="desktop-only">
+                                    Luftdruck
+                                </span>
+                                <span class="mobile-only">
+                                    <i class="wi wi-barometer"></i>
+                                </span>
                             </div>
                             <div class="table__cell">
-                                Luftfeuchte
+                                <span class="desktop-only">
+                                    Luftfeuchte
+                                </span>
+                                <span class="mobile-only">
+                                    <i class="wi wi-humidity"></i>
+                                </span>
                             </div>
                             <div class="table__cell">
-                                Taupunkt
+                                <span class="desktop-only">
+                                    Taupunkt
+                                </span>
+                                <span class="mobile-only">
+                                    <i class="wi wi-raindrop"></i>
+                                </span>
                             </div>
                         </div>
                         <div class="line--regular line--horizontal"></div>
@@ -342,10 +417,10 @@
 
                     </div>
                     <template>
-                        <div class="forecast__row table__row flex-row">
-                            <div class="table__cell forecast__time">
+                        <div class="forecast__row table__row flex-row padded-top-bottom">
+                            <strong class="table__cell forecast__time">
                                 Uhrzeit
-                            </div>
+                            </strong>
                             <div class="table__cell">
                                 <i class="wi wi-na wi_-data tooltip forecast__icon"></i>
                             </div>
@@ -377,94 +452,108 @@
                         <span>Icon</span>
                     </div>
                 </div>
-                <div class="day-data__tiles-container flex-row">
-                    <div class="day-data-tile tile flex-column">
+                <div class="flex-row-column">
+                    <div class="day-data__tiles-container flex-row">
+                        <div class="day-data-tile tile flex-column">
                         <span class="day__icon">
-                            <i class="wi wi-thermometer"></i>
+                            <i class="wi wi-thermometer-exterior"></i>
                             <i class="wi wi-direction-down"></i>
                         </span>
-                        <span class="day-data__temperatureMin">Tiefsttemperatur</span>
-                    </div>
-                    <div class="day-data-tile tile flex-column">
+                            <span class="day-data__temperatureMin">Tiefsttemperatur</span>
+                        </div>
+                        <div class="day-data-tile tile flex-column">
                         <span class="day__icon">
-                            <i class="wi wi-thermometer"></i>
+                            <i class="wi wi-thermometer-exterior"></i>
                             <i class="wi wi-direction-up"></i>
                         </span>
-                        <span class="day-data__temperatureMax">Höchsttemperatur</span>
+                            <span class="day-data__temperatureMax">Höchsttemperatur</span>
+                        </div>
                     </div>
-                    <div class="day-data-tile tile flex-column">
+                    <div class="day-data__tiles-container flex-row">
+                        <div class="day-data-tile tile flex-column">
                         <span class="day__icon">
                             <i class="wi wi-umbrella"></i>
                         </span>
-                        <span class="day-data__precipitation">Niederschlag</span>
-                    </div>
-                    <div class="day-data-tile tile flex-column">
+                            <span class="day-data__precipitation">Niederschlag</span>
+                        </div>
+                        <div class="day-data-tile tile flex-column">
                         <span class="day__icon">
                             <i class="wi wi-day-sunny"></i>
                         </span>
-                        <span class="day-data__sunshine">Sonnenstunden</span>
+                            <span class="day-data__sunshine">Sonnenstunden</span>
+                        </div>
                     </div>
                 </div>
-                <div class="day-data__tiles-container flex-row">
-                    <div class="day-data-tile tile flex-column">
+
+                <div class="flex-row-column">
+                    <div class="day-data__tiles-container flex-row">
+                        <div class="day-data-tile tile flex-column">
                         <span class="day__icon">
                             <i class="wi wi-sunrise tooltip"></i>
                         </span>
-                        <span class="day-data__sunrise">Sonnenaufgang</span>
-                    </div>
-                    <div class="day-data-tile tile flex-column">
+                            <span class="day-data__sunrise">Sonnenaufgang</span>
+                        </div>
+                        <div class="day-data-tile tile flex-column">
                         <span class="day__icon">
                             <i class="wi wi-sunset tooltip"></i>
                         </span>
-                        <span class="day-data__sunset">Sonnenuntergang</span>
+                            <span class="day-data__sunset">Sonnenuntergang</span>
+                        </div>
                     </div>
-                    <div class="day-data-tile tile flex-column">
+                    <div class="day-data__tiles-container flex-row">
+                        <div class="day-data-tile tile flex-column">
                         <span class="day__icon">
                             <i class="wi wi-moonrise tooltip"></i>
                         </span>
-                        <span class="day-data__moonrise">Mondaufgang</span>
-                    </div>
-                    <div class="day-data-tile tile flex-column">
+                            <span class="day-data__moonrise">Mondaufgang</span>
+                        </div>
+                        <div class="day-data-tile tile flex-column">
                         <span class="day__icon">
                             <i class="wi wi-moonset tooltip"></i>
                         </span>
-                        <span class="day-data__moonset">Monduntergang</span>
+                            <span class="day-data__moonset">Monduntergang</span>
+                        </div>
                     </div>
                 </div>
-                <div class="day-data__tiles-container flex-row">
-                    <div class="day-data-tile tile flex-column">
+                <div class="flex-row-column">
+                    <div class="day-data__tiles-container flex-row">
+                        <div class="day-data-tile tile flex-column">
                         <span class="day__icon">
                             <i class="wi wi-windy"></i>
                         </span>
-                        <span class="day-data__windSpeed">Mittelwind</span>
-                    </div>
-                    <div class="day-data-tile tile flex-column">
+                            <span class="day-data__windSpeed">Mittelwind</span>
+                        </div>
+                        <div class="day-data-tile tile flex-column">
                         <span class="day__icon">
                             <i class="wi wi-strong-wind"></i>
                         </span>
-                        <span class="day-data__windGust">Windböen</span>
+                            <span class="day-data__windGust">Windböen</span>
+                        </div>
                     </div>
-                    <div class="day-data-tile tile flex-column">
+                    <div class="day-data__tiles-container flex-row">
+                        <div class="day-data-tile tile flex-column">
                         <span class="day__icon">
                             <i class="wi wi-wind wi_-data day-data__windDirection"></i>
                         </span>
-                        <span>Windrichtung</span>
-                    </div>
-                    <div class="day-data-tile tile flex-column">
+                            <span>Windrichtung</span>
+                        </div>
+                        <div class="day-data-tile tile flex-column">
                         <span class="day__icon">
                             <i class="wi wi-na wi_-data day-data__moonPhase tooltip"></i>
                         </span>
-                        <span>Mondphase</span>
+                            <span>Mondphase</span>
+                        </div>
                     </div>
                 </div>
+
             </div>
             <div id="tab-content-2">
-                <div id="no-warning">Keine Warnungen.</div>
+                <div id="no-warning" class="padded-top-bottom">Keine Warnungen.</div>
                 <div class="flex-column" id="warning__display">
                 </div>
-                <template class="warning flex-column">
-                    <div class="warning flex-column">
-                        <div class="warning__header flex-row">
+                <template class="warning flex-column padded-top-bottom">
+                    <div class="warning flex-column padded-top-bottom">
+                        <div class="warning__header flex-row padded-top-bottom">
                             <div class="warning__title">
                                 <strong>WARNTYP</strong><br/><i>Xx, XX.XX.XXXX, XX Uhr – Xx, XX.XX.XXXX, XX Uhr</i>
                             </div>
@@ -500,24 +589,72 @@
     </div>
 </div>
 <footer class="flex-column">
-    <div id="status-bar">Seite wird vorbereitet. Bitte warten...</div>
-    <div id="additional-content" class="flex-column">
-        <div class="line--regular"></div>
-        <div id="keyboard-shortcuts" class="flex-column">
-            Tastenkürzel:
-            <div class="ident">[i] Daten neu laden</div>
-            <div class="ident">[o] Akzentfarbe wechseln</div>
-            <div class="ident">[p] Farbschema wechseln</div>
-            <div class="ident">[s] Station wechseln</div>
-            <div class="ident">[n] aktuelle Wetterdaten anzeigen</div>
-            <div class="ident">[d] Tag wechseln</div>
-            <div class="ident">[t] Datenanzeige wechseln</div>
-        </div>
-        <div id="final-row" class="flex-row">
-            <div>Daniel Bund, 2023</div>
-            <a href="https://github.com/dabund24/WetterLOL">Github</a>
+    <div style="width: 100%"></div>
+    <div class="content-wrapper">
+        <div id="footer__status-bar">Seite wird vorbereitet. Bitte warten...</div>
+        <div id="footer__settings" class="flex-column">
+            <div class="line--regular"></div>
+            <div class="tab-row flex-row">
+                <button type="button" class="hoverable tab-row__tab" onclick="setTheme('light')">
+                    <span class="desktop-only">Hell</span>
+                    <span class="mobile-only">
+                    <i class="wi wi-day-sunny"></i>
+                </span>
+                </button>
+                <button type="button" class="hoverable tab-row__tab" onclick="setTheme('dark')">
+                    <span class="desktop-only">Dunkel</span>
+                    <span class="mobile-only">
+                    <i class="wi wi-night-clear"></i>
+                </span>
+                </button>
+            </div>
+            <div class="tab-indicator-container indicator-line-container">
+                <div class="line--accent indicator indicator__animation-to-right" id="theme-indicator"></div>
+            </div>
+            <div class="tab-row flex-row">
+                <button type="button" class="hoverable tab-row__tab" onclick="setColor(0)">
+                    <span class="desktop-only">Grün</span>
+                    <span class="mobile-only">
+                    <i class="wi wi-moon-full" style="color: var(--accent-green)"></i>
+                </span>
+                </button>
+                <button type="button" class="hoverable tab-row__tab" onclick="setColor(1)">
+                    <span class="desktop-only">Rot</span>
+                    <span class="mobile-only">
+                    <i class="wi wi-moon-full" style="color: var(--accent-red)"></i>
+                </span>
+                </button>
+                <button type="button" class="hoverable tab-row__tab" onclick="setColor(2)">
+                    <span class="desktop-only">Blau</span>
+                    <span class="mobile-only">
+                    <i class="wi wi-moon-full" style="color: var(--accent-blue)"></i>
+                </span>
+                </button>
+            </div>
+            <div class="tab-indicator-container indicator-line-container">
+                <div class="line--accent indicator indicator__animation-to-right" id="color-indicator"></div>
+            </div>
+            <!--
+            <div id="keyboard-shortcuts" class="flex-column">
+                Tastenkürzel:
+                <div class="ident">[i] Daten neu laden</div>
+                <div class="ident">[o] Akzentfarbe wechseln</div>
+                <div class="ident">[p] Farbschema wechseln</div>
+                <div class="ident">[s] Station wechseln</div>
+                <div class="ident">[n] aktuelle Wetterdaten anzeigen</div>
+                <div class="ident">[d] Tag wechseln</div>
+                <div class="ident">[t] Datenanzeige wechseln</div>
+            </div>
+            -->
+            <div id="credits">
+                <a href="https://github.com/dabund24/WetterLOL">Github</a>
+                <div>Daniel Bund</div>
+                <div>2023</div>
+            </div>
+
         </div>
     </div>
+
 </footer>
 </body>
 </html>

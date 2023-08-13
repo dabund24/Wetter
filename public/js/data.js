@@ -105,6 +105,22 @@ export function setDayDisplay() {
     }
 }
 
+export function setSingleDayDisplay(index) {
+    const dayTile = document.getElementById("day--mobile");
+    dayTile.getElementsByClassName("day__icon__0")[0].className = "day__icon__0 wi wi_-data " + days[index].icon;
+    //replaceNaClassOfChildOfParent(dayTile, ".day__icon__0", days[index].icon);
+    if (days[index].warnings.length === 0) {
+        setHTMLOfChildOfParent(dayTile, ".day__icon__warning", "");
+    } else {
+        setHTMLOfChildOfParent(dayTile, ".day__icon__warning", "!");
+    }
+    setHTMLOfChildOfParent(dayTile, ".day__temperature", days[index].temperatureMin + " / " + days[index].temperatureMax);
+    setHTMLOfChildOfParent(dayTile, ".day__precipitation", days[index].precipitation);
+    setHTMLOfChildOfParent(dayTile, ".day__date", days[index].stringDate);
+    setHTMLOfChildOfParent(dayTile, ".day__day-of-week", days[index].dayOfWeek);
+
+}
+
 /**
  * displays overview data for current day
  */

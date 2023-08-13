@@ -2,12 +2,15 @@ function collectAllStations(stationsString) {
     const cells = stationsString.split("\n").map(el => {
         const array = el.split(/\s+/);
         const start = array.slice(0, 2);
-        const name = array.slice(2, array.length - 3).map(string => {
+        let name = array.slice(2, array.length - 3).map(string => {
             string =
                 string.toLowerCase().replace(/([-(/.]\w)+/, word => word[0] + word[1].toUpperCase()
                 + word.slice(2));
             return string[0].toUpperCase() + string.slice(1);
         }).join(" ");
+        if (start[1] !== "----" && start[1] !== "ICAO") { // Airports
+            name += " &#x2708;"
+        }
         const end = array.slice(array.length - 3);
         return start.concat(name).concat(end);
     });

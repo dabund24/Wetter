@@ -41,7 +41,7 @@ app.get("/suggest", (req, res) => {
 });
 
 app.get("/setcookie", (req, res) => {
-    if (req.query.key !== "theme" && req.query.key !== "color" && req.query.key !== "stations") {
+    if (req.query.key !== "theme" && req.query.key !== "color" && req.query.key !== "stations" && req.query.key !== "station") {
         console.log("incorrect cookie key " + req.query.key)
         return
     }
