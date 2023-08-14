@@ -20,6 +20,10 @@ app.get('/', function(req, res) {
     res.sendFile(path.join(__dirname, '/index.html'));
 });
 
+app.get('/icons', function(req, res) {
+    res.sendFile(path.join(__dirname, '/public/html/icons.html'));
+});
+
 app.get("/data", (req, res) => {
     const backendUrl = "https://app-prod-ws.warnwetter.de/v30/stationOverviewExtended?stationIds=" + req.query.stationIDs;
     axios.get(backendUrl).then(response => res.send(response.data)).catch(e => console.log(e));

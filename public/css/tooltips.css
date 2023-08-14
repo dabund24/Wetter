@@ -26,6 +26,12 @@
     opacity: 1;
 }
 
+@media screen and (max-width: 1000px) {
+    .tooltip:hover:after {
+        font-size: 16px;
+    }
+}
+
 /* 1 */
 .tooltip.wi-day-sunny:after {
     content: "Sonne";

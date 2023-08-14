@@ -52,11 +52,9 @@ function changeSuggestionFocus(suggestions, toBeFocused) {
         return;
     }
     if (selectedStation < suggestions.length - 1 && selectedStation >= 0) {
-        console.log(selectedStation)
         suggestions[selectedStation].classList.remove("suggestion--focus");
     }
     selectedStation = toBeFocused;
-    console.log(selectedStation);
     suggestions[selectedStation].classList.add("suggestion--focus");
 }
 
@@ -98,7 +96,6 @@ export function displaySearchSuggestions(suggestions) {
         suggestionsContainer.appendChild(toBeAdded);
         document.querySelector(".search__suggestion").focus();
     }
-    console.log(selectedStation >= suggestionsContainer.children.length)
     if (selectedStation >= suggestionsContainer.children.length) {
         changeSuggestionFocus(suggestionsContainer.children, suggestionsContainer.childElementCount - 1);
     }

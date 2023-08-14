@@ -63,6 +63,11 @@ export function switchDay(newDay) {
     if (newDay === currentDay) {
         return;
     }
+    if (newDay === -1) {
+        newDay = (currentDay + 9) % 10;
+    } else if (newDay === -2) {
+        newDay = (currentDay + 1) % 10;
+    }
     
     const dayLine = document.getElementById("day-indicator");
     const dayLineMobile = document.getElementById("day-indicator--mobile");
@@ -90,15 +95,6 @@ export function switchDay(newDay) {
     currentDay = newDay;
 }
 
-export function switchTheme() {
-    if (document.documentElement.getAttribute("data-theme") === "light") {
-        document.documentElement.setAttribute("data-theme", "dark");
-        fetch("/setCookie?key=theme&value=dark")
-    } else {
-        document.documentElement.setAttribute("data-theme", "light");
-        fetch("/setCookie?key=theme&value=light")
-    }
-}
 
 export function setTheme(theme) {
     if (document.documentElement.getAttribute("data-theme") === theme) {
@@ -122,14 +118,9 @@ export function setTheme(theme) {
     fetch("/setCookie?key=theme&value=" + theme)
 }
 
-const colors = ["green", "red", "blue"];
-let currentColor = 0;
-export function switchColor() {
-    currentColor = (currentColor + 1) % 3;
-    document.documentElement.setAttribute("data-color", colors[currentColor]);
-    fetch("/setcookie?key=color&value=" + currentColor)//.then(res => console.log(res.body));
-}
-
+const colors = ["red", "yellow", "green", "blue", "purple", "gray"];
+const colorPercentages = ["calc(100% / 12)", "25%", "calc(100% / 12) * 5", "calc(100% / 12) * 7", "75%", "calc((100% / 12) * 11)"];
+let currentColor = -1;
 export function setColor(color) {
     if (color === currentColor) {
         return;
@@ -137,8 +128,8 @@ export function setColor(color) {
     const colorLine = document.getElementById("color-indicator");
 
     // set variables for start and end
-    colorLine.style.setProperty("--animation--tab-indicator__start", tabPercentages[currentColor]);
-    colorLine.style.setProperty("--animation--tab-indicator__end", tabPercentages[color]);
+    colorLine.style.setProperty("--animation--tab-indicator__start", colorPercentages[currentColor]);
+    colorLine.style.setProperty("--animation--tab-indicator__end", colorPercentages[color]);
 
     colorLine.classList.remove("indicator__animation-to-right");
     colorLine.classList.remove("indicator__animation-to-left");

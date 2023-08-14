@@ -251,7 +251,7 @@ export function setHTMLOfChildOfParent(parent, childSelector, innerHTML) {
  * @param {string} notification - the notification to be displayed
  */
 export function printNotification(notification) {
-    document.getElementById("footer__status-bar").innerHTML = unixToHoursString(Date.now()) + ": " + notification;
+    document.getElementById("footer__status-bar__content").innerHTML = unixToHoursString(Date.now()) + ": " + notification;
 }
 
 export async function getStationById(id) {

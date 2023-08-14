@@ -2,15 +2,12 @@ import Day from "./day.js";
 import Warning from "./warning.js";
 import Station from "./station.js";
 import {
-    currentDay,
     root,
     setColor as stColor,
     setTheme as stTheme,
-    switchColor as sColor,
     switchDay as sDay,
     switchStation as sStation,
     switchTab as sTab,
-    switchTheme as sTheme,
     toggleNowcast as tNowcast
 } from "./navigation.js";
 import {
@@ -65,17 +62,6 @@ export let currentStation;
 
 await applyPreferences();
 
-//setupSearch();
-
-//setStarredDisplay();
-/*if (stations.length === 0) {
-    currentStation = new Station(await getStationById("10389"))
-    document.getElementById("starred__toggle").innerText = "+";
-} else {
-    currentStation = stations[0];
-    document.getElementById("starred").children[0].classList.add("starred__station--active")
-}*/
-
 document.getElementById("station__name").innerHTML = currentStation.name;
 
 resetData();
@@ -83,6 +69,8 @@ resetData();
 async function applyPreferences() {
     const cookies = await fetch("/getcookies").then(res => res.json())
     if (cookies.theme === undefined || cookies.color === undefined || cookies.stations === undefined || cookies.station === undefined) {
+        fetch("setcookie?key=station&value=10389")
+        fetch("setcookie?key=stations&value=[]")
         setColor(0)
         setTheme("light")
         stations.length = 0
@@ -145,7 +133,7 @@ export async function resetData() {
     setInfoDisplay();
     setNowcastDisplay();
     setDayDisplay();
-    setSingleDayDisplay(currentDay)
+    setSingleDayDisplay()
     setOverviewDisplay();
     setForecastDisplay();
     setWarningDisplay();
@@ -187,7 +175,8 @@ export async function fetchData() {
 }
 
 function setNowcastData() {
-    currentStation.setNowcast(nowcastData);
+    const isDay = days[0].sunriseTime < Date.now() && Date.now() < days[0].sunsetTime;
+    currentStation.setNowcast(nowcastData, isDay);
 }
 
 /**
@@ -312,20 +301,11 @@ export function switchTab(index) {
 /**
  * allows switching between light and dark theme
  */
-export function switchTheme() {
-    sTheme();
-}
 
 export function setTheme(theme) {
     stTheme(theme)
 }
 
-/**
- * allows switching between green, red and blue accent color
- */
-export function switchColor() {
-    sColor();
-}
 
 export function setColor(color) {
     stColor(color)
@@ -340,13 +320,8 @@ export function toggleNowcast(index) {
  * @param {number} index - index of day to be switched to
  */
 export function switchDay(index) {
-    if (index === -1) {
-        index = (currentDay + 9) % 10;
-    } else if (index === -2) {
-        index = (currentDay + 1) % 10;
-    }
     sDay(index);
-    setSingleDayDisplay(index)
+    setSingleDayDisplay()
     resetOverviewDisplay();
     resetForecastDisplay();
     resetWarningDisplay();
@@ -390,7 +365,7 @@ export async function switchStation(id, index) {
 }
 
 export function toggleStationStar() {
-    if (stations.includes(currentStation)) {
+    if (stations.map(s => s.id).includes(currentStation.id)) {
         stations.splice(stations.indexOf(currentStation), 1);
         setStarredDisplay();
         sStation(-1);

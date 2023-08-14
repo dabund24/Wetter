@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de" data-theme="" data-color="green">
+<html lang="de" data-theme="" data-color="">
 
 <head>
     <meta charset="UTF-8"/>
@@ -17,9 +17,7 @@
     import {
         refreshAutocomplete,
         switchTab,
-        switchTheme,
         setTheme,
-        switchColor,
         setColor,
         switchDay,
         toggleNowcast,
@@ -30,9 +28,7 @@
 
     window.refreshAutocomplete = refreshAutocomplete;
     window.switchTab = switchTab;
-    window.switchTheme = switchTheme;
     window.setTheme = setTheme;
-    window.switchColor = switchColor;
     window.setColor = setColor;
     window.switchDay = switchDay;
     window.toggleNowcast = toggleNowcast;
@@ -74,7 +70,7 @@
         </template>
         <div class="flex-row center">
             <button class="starred__station-name starred__action hoverable" onclick=toggleStationStar() id="starred__toggle">
-                –
+                +
             </button>
             <button class="starred__station-name starred__action hoverable" onclick=resetData() id="starred__refresh">
                 <i class="wi wi-refresh"></i>
@@ -309,7 +305,7 @@
             <button type="button" class="hoverable starred__action" onclick="switchDay(-1)">
                 <i class="wi wi-direction-left"></i>
             </button>
-            <button class="hoverable tile flex-column" id="day--mobile" onclick="switchDay(8)">
+            <button class="hoverable tile flex-column" id="day--mobile">
             <span class="day__icon">
                 <i class="day__icon__0 wi wi-na wi_-data"></i>
                 <strong class="day__icon__warning"></strong>
@@ -325,7 +321,7 @@
 
         </div>
         <div class="day-indicator-container indicator-line-container">
-            <div class="line--accent indicator indicator__animation-to-right" id="day-indicator--mobile">
+            <div class="line--accent indicator indicator__animation-to-right" id="day-indicator--mobile" style="--animation--tab-indicator__start: 50%; --animation--tab-indicator__end: 50%">
 
             </div>
         </div>
@@ -456,14 +452,14 @@
                     <div class="day-data__tiles-container flex-row">
                         <div class="day-data-tile tile flex-column">
                         <span class="day__icon">
-                            <i class="wi wi-thermometer-exterior"></i>
+                            <i class="wi wi-thermometer"></i>
                             <i class="wi wi-direction-down"></i>
                         </span>
                             <span class="day-data__temperatureMin">Tiefsttemperatur</span>
                         </div>
                         <div class="day-data-tile tile flex-column">
                         <span class="day__icon">
-                            <i class="wi wi-thermometer-exterior"></i>
+                            <i class="wi wi-thermometer"></i>
                             <i class="wi wi-direction-up"></i>
                         </span>
                             <span class="day-data__temperatureMax">Höchsttemperatur</span>
@@ -557,7 +553,7 @@
                             <div class="warning__title">
                                 <strong>WARNTYP</strong><br/><i>Xx, XX.XX.XXXX, XX Uhr – Xx, XX.XX.XXXX, XX Uhr</i>
                             </div>
-                            <div class="warning__level flex-row tooltip">
+                            <div class="warning__level flex-row desktop-only tooltip">
                                 <div class="line--regular"></div>
                                 <div class="line--regular"></div>
                                 <div class="line--regular"></div>
@@ -591,7 +587,11 @@
 <footer class="flex-column">
     <div style="width: 100%"></div>
     <div class="content-wrapper">
-        <div id="footer__status-bar">Seite wird vorbereitet. Bitte warten...</div>
+        <div id="footer__status-bar" class="flex-row">
+            <span id="footer__status-bar__content" class="center">
+                Seite wird vorbereitet. Bitte warten...
+            </span>
+        </div>
         <div id="footer__settings" class="flex-column">
             <div class="line--regular"></div>
             <div class="tab-row flex-row">
@@ -609,30 +609,48 @@
                 </button>
             </div>
             <div class="tab-indicator-container indicator-line-container">
-                <div class="line--accent indicator indicator__animation-to-right" id="theme-indicator"></div>
+                <div class="line--accent indicator indicator__animation-to-right" id="theme-indicator" style="--animation--tab-indicator__start: 25%; --animation--tab-indicator__end: 25%"></div>
             </div>
             <div class="tab-row flex-row">
                 <button type="button" class="hoverable tab-row__tab" onclick="setColor(0)">
-                    <span class="desktop-only">Grün</span>
-                    <span class="mobile-only">
-                    <i class="wi wi-moon-full" style="color: var(--accent-green)"></i>
-                </span>
-                </button>
-                <button type="button" class="hoverable tab-row__tab" onclick="setColor(1)">
                     <span class="desktop-only">Rot</span>
                     <span class="mobile-only">
                     <i class="wi wi-moon-full" style="color: var(--accent-red)"></i>
                 </span>
                 </button>
+                <button type="button" class="hoverable tab-row__tab" onclick="setColor(1)">
+                    <span class="desktop-only">Gelb</span>
+                    <span class="mobile-only">
+                    <i class="wi wi-moon-full" style="color: var(--accent-yellow)"></i>
+                </span>
+                </button>
                 <button type="button" class="hoverable tab-row__tab" onclick="setColor(2)">
+                    <span class="desktop-only">Grün</span>
+                    <span class="mobile-only">
+                    <i class="wi wi-moon-full" style="color: var(--accent-green)"></i>
+                </span>
+                </button>
+                <button type="button" class="hoverable tab-row__tab" onclick="setColor(3)">
                     <span class="desktop-only">Blau</span>
                     <span class="mobile-only">
                     <i class="wi wi-moon-full" style="color: var(--accent-blue)"></i>
                 </span>
                 </button>
+                <button type="button" class="hoverable tab-row__tab" onclick="setColor(4)">
+                    <span class="desktop-only">Lila</span>
+                    <span class="mobile-only">
+                    <i class="wi wi-moon-full" style="color: var(--accent-purple)"></i>
+                </span>
+                </button>
+                <button type="button" class="hoverable tab-row__tab" onclick="setColor(5)">
+                    <span class="desktop-only">Grau</span>
+                    <span class="mobile-only">
+                    <i class="wi wi-moon-full" style="color: var(--accent-gray)"></i>
+                </span>
+                </button>
             </div>
             <div class="tab-indicator-container indicator-line-container">
-                <div class="line--accent indicator indicator__animation-to-right" id="color-indicator"></div>
+                <div class="line--accent indicator indicator__animation-to-right" id="color-indicator" style="--animation--tab-indicator__start: calc(100% / 6); --animation--tab-indicator__end: calc(100% / 6);"></div>
             </div>
             <!--
             <div id="keyboard-shortcuts" class="flex-column">
