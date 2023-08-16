@@ -97,7 +97,7 @@ body {
 }
 
 body, input, button, .tooltip:after {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI Variable", "Segoe UI", "Segoe UI Symbol", "Roboto", "Oxygen", "Ubuntu", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI Variable", "Segoe UI", "Oxygen", "Ubuntu", "Roboto", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Symbol";
     font-size: 1.25rem;
     color: var(--foreground-color);
     background-color: var(--background-color);
@@ -109,7 +109,7 @@ body {
     background-attachment: fixed;
 }
 */
-body, a, input, .hoverable, ::-webkit-scrollbar-track, ::-webkit-scrollbar-thumb {
+body, a, input, button, .hoverable, ::-webkit-scrollbar-track, ::-webkit-scrollbar-thumb {
     transition: background .5s ease-in-out, color .5s ease-in-out;
 }
 
@@ -136,11 +136,15 @@ a {
     transform: rotate(0deg) !important;
 }
 
+.header {
+    font-size: 2em;
+}
+
 h1, h2 {
     text-align: center;
 }
 
-strong, h1, h2 {
+strong, h1, h2, .header {
     font-weight: 600;
 }
 
@@ -169,6 +173,7 @@ strong, h1, h2 {
 .center {
     margin-left: auto;
     margin-right: auto;
+    max-width: fit-content;
 }
 
 .padded-top-bottom {
@@ -295,18 +300,21 @@ strong, h1, h2 {
 }
 
 #search__suggestions {
-    display: none;
-    position: absolute;
-    z-index: 50;
     top: 4rem;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 4px solid var(--foreground-color--opaque);
-    background-color: inherit;
-    width: calc(25rem - 8px);
+    display: none;
 }
 
-#search:focus-within #search__suggestions, #search__suggestions:hover {
+.options {
+    position: absolute;
+    z-index: 50;
+    border: 4px solid var(--foreground-color--opaque);
+    padding-right: 4px;
+    width: calc(25rem - 12px);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+#search:focus-within #search__suggestions, #search__suggestions:active {
     display: flex;
 }
 
@@ -314,12 +322,16 @@ strong, h1, h2 {
     display: none;
 }
 
-.search__suggestion .line--accent {
+.options .line--accent {
     width: 4px;
     margin: auto 0;
     height: 0;
     background-color: var(--accent-color);
-    transition: height .2s ease-in-out;
+    transition: height .2s ease-in-out, background-color .5s ease-in-out;
+}
+
+.options:hover {
+    background-color: transparent;
 }
 
 .search__suggestion__text {
@@ -328,6 +340,15 @@ strong, h1, h2 {
 
 .search__suggestion:last-child {
     cursor: default;
+}
+
+.option {
+    padding: .5rem 0;
+    width: 100%;
+}
+
+.option:not(.search__suggestion):hover .line--accent, .option--focus .line--accent {
+    height: 1.5rem;
 }
 
 .suggestion--focus:not(:last-child) .line--accent, .search__suggestion:hover:not(:last-child) .line--accent {
@@ -360,23 +381,23 @@ strong, h1, h2 {
     overflow-x: scroll;
 }
 
-.starred__station {
+.selectable--horizontal {
     height: 100%;
 }
 
-.starred__station-name {
+.selectable__text {
     padding: .5rem 1rem;
     white-space: nowrap;
 }
 
-.starred__station .line--accent {
+.selectable--horizontal .line--accent {
     margin: -4px auto 0;
     height: 4px;
     width: 0;
     transition: width .2s ease-in-out, background-color .5s ease-in-out;
 }
 
-.starred__station--active .line--accent {
+.selectable--horizontal--active .line--accent {
     width: 2rem;
 }
 
@@ -387,30 +408,8 @@ strong, h1, h2 {
 }
 
 #station {
-    /*position: sticky;
-    top: -1px;
-    z-index: 40;
-    background-color: var(--background-color--opaque);
-    backdrop-filter: blur(1px);
-    transition: font-size .3s ease-in-out, padding .3s ease-in-out, margin .3s ease-in-out;*/
-    margin: 0;
-    padding: 1.5rem 0;
+    flex-wrap: wrap;
 }
-
-/*#station .wi {
-    transition: font-size .3s ease-in-out;
-}
-
-#station.sticks {
-    font-size: 1.25rem;
-    padding: 0;
-    margin-bottom: 4.5rem;
-}
-
-#station.sticks .wi {
-    font-size: 1.5rem;
-    line-height: 1;
-}*/
 
 #station__name {
     text-align: center;
@@ -418,7 +417,8 @@ strong, h1, h2 {
 }
 
 #station #station__name, #station #station__icon {
-    padding: 0 1rem;
+    white-space: normal;
+    /*padding: 0 1rem;
     /*transition: padding .3s ease-in-out, border .5s, background-color .5s;*/
 }
 
@@ -426,15 +426,15 @@ strong, h1, h2 {
     font-size: inherit;
 }
 
-#below-station-name[data-nowcast="2"] #station-info {
+#below-station-name[data-nowcast="1"] #station-info {
     height: 6rem;
 }
 
-#below-station-name[data-nowcast="1"] #nowcast {
+#below-station-name[data-nowcast="2"] #nowcast {
     height: 20rem;
 }
 
-#below-station-name[data-nowcast="1"] #nowcast[data-nowcast-available="0"] {
+#below-station-name[data-nowcast="2"] #nowcast[data-nowcast-available="0"] {
     height: 3rem;
 }
 
@@ -474,6 +474,19 @@ strong, h1, h2 {
 
 #day-select {
     width: fit-content;
+}
+
+.day-option__text {
+    width: 100%;
+    text-align: center;
+}
+
+.day-option__text > :nth-child(2) {
+    width: 100%;
+}
+
+.day-option__text > :first-child, .day-option__text > :last-child {
+    width: 20%;
 }
 
 .tile {
@@ -519,7 +532,7 @@ strong, h1, h2 {
 }
 
 .day-select--mobile {
-    width: fit-content;
+    max-width: 25rem;
 }
 
 #tab-indicator {
@@ -695,7 +708,7 @@ footer .line--regular {
     margin: .3rem 0;
 }
 
-footer:hover {
+footer:hover, footer:active {
     height: 15.5rem;
 }
 
@@ -726,7 +739,7 @@ footer:hover {
     }
 }
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 1000px), screen and (max-height: 900px) {
     :root {
         font-size: 13px;
     }
@@ -772,7 +785,7 @@ footer:hover {
         align-items: flex-end;
     }
 
-    footer:hover {
+    footer:hover, footer:active {
         height: 17.7rem;
     }
 }
@@ -787,11 +800,11 @@ footer:hover {
         flex-direction: column;
     }
 
-    #below-station-name[data-nowcast="2"] #station-info {
+    #below-station-name[data-nowcast="1"] #station-info {
         height: 9rem;
     }
 
-    #below-station-name[data-nowcast="1"] #nowcast {
+    #below-station-name[data-nowcast="2"] #nowcast {
         height: 25rem;
     }
 

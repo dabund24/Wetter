@@ -12,9 +12,9 @@ export function setStarredDisplay() {
     let toBeAdded;
     for (let i = 0; i < stations.length; i++) {
         toBeAdded = document.importNode(template, true);
-        setHTMLOfChildOfParent(toBeAdded, ".starred__station-name", stations[i].name);
+        setHTMLOfChildOfParent(toBeAdded, ".selectable__text", stations[i].name);
         starredDisplay.querySelector("#starred").append(toBeAdded);
-        starredDisplay.getElementsByClassName("starred__station")[i].setAttribute("onclick", "switchStation(0, " + i + ")");
+        starredDisplay.getElementsByClassName("selectable--horizontal")[i].setAttribute("onclick", "switchStation(0, " + i + ")");
     }
 }
 
@@ -92,6 +92,7 @@ export function setNowcastDisplay() {
  */
 export function setDayDisplay() {
     const dayTiles = document.getElementsByClassName("day");
+    const dayOptions = document.getElementsByClassName("day-mobile")
     for (let i = 0; i < dayTiles.length; i++) {
         replaceNaClassOfChildOfParent(dayTiles[i], ".day__icon__0", days[i].icon);
         setHTMLOfChildOfParent(dayTiles[i], ".day__icon__warning", "");
@@ -102,6 +103,9 @@ export function setDayDisplay() {
         setHTMLOfChildOfParent(dayTiles[i], ".day__precipitation", days[i].precipitation);
         setHTMLOfChildOfParent(dayTiles[i], ".day__date", days[i].stringDate);
         setHTMLOfChildOfParent(dayTiles[i], ".day__day-of-week", days[i].dayOfWeek);
+
+        replaceNaClassOfChildOfParent(dayOptions[i], ".day-mobile___icon", days[i].icon)
+        setHTMLOfChildOfParent(dayOptions[i], ".day-mobile___date", days[i].dayOfWeek + ", " + days[i].stringDate)
     }
 }
 

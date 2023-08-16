@@ -12,7 +12,7 @@
     <link href="/css/weather-icons-wind.min.css" rel="stylesheet">
     <link href="/css/tooltips.css" rel="stylesheet">
 </head>
-<body>
+<body ontouchstart="">
 <script type="module">
     import {
         refreshAutocomplete,
@@ -20,6 +20,7 @@
         setTheme,
         setColor,
         switchDay,
+        activateMobileDaySelect,
         toggleNowcast,
         switchStation,
         resetData,
@@ -31,6 +32,7 @@
     window.setTheme = setTheme;
     window.setColor = setColor;
     window.switchDay = switchDay;
+    window.activateMobileDaySelect = activateMobileDaySelect;
     window.toggleNowcast = toggleNowcast;
     window.switchStation = switchStation;
     window.resetData = resetData;
@@ -42,17 +44,17 @@
         <label>
             <input type="text" name="search" id="search__input" class="search__input padded-top-bottom" placeholder="Suche">
         </label>
-        <div id="search__suggestions" class="flex-column hoverable">
-            <div class="search__suggestion flex-row padded-top-bottom">
+        <div id="search__suggestions" class="options flex-column hoverable">
+            <div class="search__suggestion option flex-row padded-top-bottom">
                 <div class="line--accent"></div>
-                <div class="search__suggestion__text center">Keine Vorschläge</div>
+                <div class="option__text center">Keine Vorschläge</div>
                 <input class="search__suggestion__click" type="hidden">
             </div>
         </div>
         <template>
-            <div class="search__suggestion flex-row padded-top-bottom">
+            <div class="search__suggestion option flex-row padded-top-bottom">
                 <div class="line--accent"></div>
-                <div class="search__suggestion__text center"></div>
+                <div class="option__text center"></div>
                 <input class="search__suggestion__click" type="hidden">
             </div>
         </template>
@@ -63,28 +65,35 @@
 
         </div>
         <template>
-            <div class="starred__station center">
-                <button class="hoverable starred__station-name">Gespeicherte Station</button>
+            <div class="selectable--horizontal center">
+                <button class="hoverable selectable__text">Gespeicherte Station</button>
                 <div class="line--accent"></div>
             </div>
         </template>
         <div class="flex-row center">
-            <button class="starred__station-name starred__action hoverable" onclick=toggleStationStar() id="starred__toggle">
+            <button class="selectable__text starred__action hoverable" onclick=toggleStationStar() id="starred__toggle">
                 +
             </button>
-            <button class="starred__station-name starred__action hoverable" onclick=resetData() id="starred__refresh">
+            <button class="selectable__text starred__action hoverable" onclick=resetData() id="starred__refresh">
                 <i class="wi wi-refresh"></i>
             </button>
         </div>
 
     </div>
-    <h1 id="station">
-        <button id="station__name" class="hoverable" onclick="toggleNowcast('2')">
-            Lade Seite...
-        </button><button id="station__icon" class="hoverable" onclick="toggleNowcast('1')">
-            <i class="station__icon__0 wi wi-na wi_-data"></i>
-        </button>
-    </h1>
+    <div id="station" class="flex-row center header padded-top-bottom">
+        <div class="selectable--horizontal center">
+            <button id="station__name" class="hoverable selectable__text" onclick="toggleNowcast('1')">
+                Lade Seite...
+            </button>
+            <div class="line--accent"></div>
+        </div>
+        <div class="selectable--horizontal center">
+            <button id="station__icon" class="hoverable selectable__text" onclick="toggleNowcast('2')">
+                <i class="station__icon__0 wi wi-na wi_-data"></i>
+            </button>
+            <div class="line--accent"></div>
+        </div>
+    </div>
     <div id="below-station-name" class="content-wrapper" data-nowcast="0">
         <div id="station-info">
             <div class="flex-row-column">
@@ -118,13 +127,13 @@
                 <div class="nowcast__tiles-container flex-row">
                     <div class="nowcast-tile tile flex-column">
                         <span class="nowcast__icon">
-                            <i class="wi wi-thermometer"></i>
+                            <i class="wi wi-thermometer tooltip tooltip--down"></i>
                         </span>
                         <span class="nowcast__temperature">Temperatur</span>
                     </div>
                     <div class="nowcast-tile tile flex-column">
                         <span class="nowcast__icon">
-                            <i class="wi wi-umbrella"></i>
+                            <i class="wi wi-umbrella tooltip tooltip--down"></i>
                         </span>
                         <span class="nowcast__precipitation">Niederschlag</span>
                     </div>
@@ -132,7 +141,7 @@
                 <div class="nowcast__tiles-container flex-row">
                     <div class="nowcast-tile tile flex-column">
                         <span class="nowcast__icon">
-                            <i class="wi wi-snowflake-cold"></i>
+                            <i class="wi wi-snowflake-cold tooltip tooltip--down"></i>
                         </span>
                         <span class="nowcast__totalSnow">Schneefall</span>
                     </div>
@@ -147,13 +156,13 @@
             <div class="nowcast__tiles-container flex-row">
                 <div class="nowcast-tile tile flex-column">
                         <span class="nowcast__icon">
-                            <i class="wi wi-windy"></i>
+                            <i class="wi wi-windy tooltip"></i>
                         </span>
                     <span class="nowcast__meanWind">Mittelwind</span>
                 </div>
                 <div class="nowcast-tile tile flex-column">
                         <span class="nowcast__icon">
-                            <i class="wi wi-strong-wind"></i>
+                            <i class="wi wi-strong-wind tooltip"></i>
                         </span>
                     <span class="nowcast__maxWind">Windböen</span>
                 </div>
@@ -305,7 +314,7 @@
             <button type="button" class="hoverable starred__action" onclick="switchDay(-1)">
                 <i class="wi wi-direction-left"></i>
             </button>
-            <button class="hoverable tile flex-column" id="day--mobile">
+            <button class="hoverable tile flex-column" id="day--mobile" onclick="activateMobileDaySelect()">
             <span class="day__icon">
                 <i class="day__icon__0 wi wi-na wi_-data"></i>
                 <strong class="day__icon__warning"></strong>
@@ -318,12 +327,95 @@
             <button type="button" class="hoverable starred__action" onclick="switchDay(-2)">
                 <i class="wi wi-direction-right"></i>
             </button>
-
         </div>
         <div class="day-indicator-container indicator-line-container">
             <div class="line--accent indicator indicator__animation-to-right" id="day-indicator--mobile" style="--animation--tab-indicator__start: 50%; --animation--tab-indicator__end: 50%">
 
             </div>
+        </div>
+        <div id="day-select-mobile" class="options mobile-only flex-column hoverable" style="display: none">
+            <button class="day-mobile option--focus option flex-row padded-top-bottom" onclick="switchDay(0); activateMobileDaySelect()">
+                <span class="line--accent"></span>
+                <span class="option__text day-option__text flex-row">
+                    <span></span>
+                    <span class="day-mobile___date">Montag, 22.08.2023</span>
+                    <i class="day-mobile___icon wi wi_-data wi-day-sunny"></i>
+                </span>
+            </button>
+            <button class="day-mobile option flex-row padded-top-bottom" onclick="switchDay(1); activateMobileDaySelect()">
+                <span class="line--accent"></span>
+                <span class="option__text day-option__text flex-row">
+                    <span></span>
+                    <span class="day-mobile___date">Dienstag, 22.08.2023</span>
+                    <i class="day-mobile___icon wi wi_-data wi-day-sunny"></i>
+                </span>
+            </button>
+            <button class="day-mobile option flex-row padded-top-bottom" onclick="switchDay(2); activateMobileDaySelect()">
+                <span class="line--accent"></span>
+                <span class="option__text day-option__text flex-row">
+                    <span></span>
+                    <span class="day-mobile___date">Mittwoch, 22.08.2023</span>
+                    <i class="day-mobile___icon wi wi_-data wi-day-sunny"></i>
+                </span>
+            </button>
+            <button class="day-mobile option flex-row padded-top-bottom" onclick="switchDay(3); activateMobileDaySelect()">
+                <span class="line--accent"></span>
+                <span class="option__text day-option__text flex-row">
+                    <span></span>
+                    <span class="day-mobile___date">Donnerstag, 22.08.2023</span>
+                    <i class="day-mobile___icon wi wi_-data wi-day-sunny"></i>
+                </span>
+            </button>
+            <button class="day-mobile option flex-row padded-top-bottom" onclick="switchDay(4); activateMobileDaySelect()">
+                <span class="line--accent"></span>
+                <span class="option__text day-option__text flex-row">
+                    <span></span>
+                    <span class="day-mobile___date">Freitag, 22.08.2023</span>
+                    <i class="day-mobile___icon wi wi_-data wi-day-sunny"></i>
+                </span>
+            </button>
+            <button class="day-mobile option flex-row padded-top-bottom" onclick="switchDay(5); activateMobileDaySelect()">
+                <span class="line--accent"></span>
+                <span class="option__text day-option__text flex-row">
+                    <span></span>
+                    <span class="day-mobile___date">Samstag, 22.08.2023</span>
+                    <i class="day-mobile___icon wi wi_-data wi-day-sunny"></i>
+                </span>
+            </button>
+            <button class="day-mobile option flex-row padded-top-bottom" onclick="switchDay(6); activateMobileDaySelect()">
+                <span class="line--accent"></span>
+                <span class="option__text day-option__text flex-row">
+                    <span></span>
+                    <span class="day-mobile___date">Sonntag, 22.08.2023</span>
+                    <i class="day-mobile___icon wi wi_-data wi-day-sunny"></i>
+                </span>
+            </button>
+            <button class="day-mobile option flex-row padded-top-bottom" onclick="switchDay(7); activateMobileDaySelect()">
+                <span class="line--accent"></span>
+                <span class="option__text day-option__text flex-row">
+                    <span></span>
+                    <span class="day-mobile___date">Montag, 22.08.2023</span>
+                    <i class="day-mobile___icon wi wi_-data wi-day-sunny"></i>
+                </span>
+            </button>
+            <button class="day-mobile option flex-row padded-top-bottom" onclick="switchDay(8); activateMobileDaySelect()">
+                <span class="line--accent"></span>
+                <span class="option__text day-option__text flex-row">
+                    <span></span>
+                    <span class="day-mobile___date">Dienstag, 22.08.2023</span>
+                    <i class="day-mobile___icon wi wi_-data wi-day-sunny"></i>
+                </span>
+            </button>
+            <button class="day-mobile option flex-row padded-top-bottom" onclick="switchDay(9); activateMobileDaySelect()">
+                <span class="line--accent"></span>
+                <span class="option__text day-option__text flex-row">
+                    <span></span>
+                    <span class="day-mobile___date">Mittwoch, 22.08.2023</span>
+                    <span>
+                        <i class="day-mobile___icon wi wi_-data wi-day-sunny"></i>
+                    </span>
+                </span>
+            </button>
         </div>
     </div>
 
@@ -371,7 +463,7 @@
                                     Temperatur
                                 </span>
                                 <span class="mobile-only">
-                                    <i class="wi wi-thermometer"></i>
+                                    <i class="wi wi-thermometer tooltip tooltip--down"></i>
                                 </span>
                             </div>
                             <div class="table__cell">
@@ -379,7 +471,7 @@
                                     Niederschlag
                                 </span>
                                 <span class="mobile-only">
-                                    <i class="wi wi-umbrella"></i>
+                                    <i class="wi wi-umbrella tooltip tooltip--down"></i>
                                 </span>
                             </div>
                             <div class="table__cell">
@@ -387,7 +479,7 @@
                                     Luftdruck
                                 </span>
                                 <span class="mobile-only">
-                                    <i class="wi wi-barometer"></i>
+                                    <i class="wi wi-barometer tooltip tooltip--down"></i>
                                 </span>
                             </div>
                             <div class="table__cell">
@@ -395,7 +487,7 @@
                                     Luftfeuchte
                                 </span>
                                 <span class="mobile-only">
-                                    <i class="wi wi-humidity"></i>
+                                    <i class="wi wi-humidity tooltip tooltip--down"></i>
                                 </span>
                             </div>
                             <div class="table__cell">
@@ -403,7 +495,7 @@
                                     Taupunkt
                                 </span>
                                 <span class="mobile-only">
-                                    <i class="wi wi-raindrop"></i>
+                                    <i class="wi wi-raindrops tooltip tooltip--down"></i>
                                 </span>
                             </div>
                         </div>
@@ -443,7 +535,7 @@
                 <div class="day-data__tiles-container flex-row">
                     <div class="day-data-tile tile flex-column">
                         <span class="day__icon">
-                            <i class="wi wi-na wi_-data tooltip day-data__icon"></i>
+                            <i class="wi wi-na wi_-data tooltip tooltip--down day-data__icon"></i>
                         </span>
                         <span>Icon</span>
                     </div>

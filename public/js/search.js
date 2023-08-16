@@ -70,14 +70,24 @@ export async function getSearchSuggestions(text) {
     text = text.replaceAll(/ß/gi, "ss");
 
     let suggestions = [];
-    return await fetch("/suggest?name=" + text)
+    await fetch("/suggest?name=" + text)
         .then(response => response.json())
         .then(data => {
             for (let i = 0; i < data.length && i < 10; i++) {
                 suggestions.push(data[i]);
             }
-            return suggestions;
         })
+    if (suggestions.length === 10) {
+        return suggestions
+    }
+    await fetch("/suggest?name=" + text + "&sndRun=true")
+        .then(response => response.json())
+        .then(data => {
+            for (let i = 0; i < data.length && suggestions.length < 10; i++) {
+                suggestions.push(data[i]);
+            }
+        })
+    return suggestions
 }
 
 export function displaySearchSuggestions(suggestions) {
@@ -87,14 +97,14 @@ export function displaySearchSuggestions(suggestions) {
     let toBeAdded;
     for (let suggestion of suggestions) {
         toBeAdded = document.importNode(template, true);
-        setHTMLOfChildOfParent(toBeAdded, ".search__suggestion__text", suggestion.Name);
+        setHTMLOfChildOfParent(toBeAdded, ".option__text", suggestion.Name);
         toBeAdded.querySelector(".search__suggestion__click").setAttribute("value", suggestion.Name);
         toBeAdded.querySelector(".search__suggestion__click").setAttribute("data-id", suggestion.ID);
-        toBeAdded.querySelector(".search__suggestion").addEventListener("click", function () {
+        toBeAdded.querySelector(".option").addEventListener("click", function () {
             clickSuggestion(this);
         });
         suggestionsContainer.appendChild(toBeAdded);
-        document.querySelector(".search__suggestion").focus();
+        document.querySelector(".option").focus();
     }
     if (selectedStation >= suggestionsContainer.children.length) {
         changeSuggestionFocus(suggestionsContainer.children, suggestionsContainer.childElementCount - 1);
@@ -105,7 +115,7 @@ export function displaySearchSuggestions(suggestions) {
 
     // add no suggestions
     const noSuggestions = document.importNode(template, true);
-    setHTMLOfChildOfParent(noSuggestions, ".search__suggestion__text", "Keine Vorschläge");
+    setHTMLOfChildOfParent(noSuggestions, ".option__text", "Keine Vorschläge");
     suggestionsContainer.appendChild(noSuggestions)
 }
 

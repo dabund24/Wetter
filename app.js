@@ -38,7 +38,13 @@ app.get("/stations", (req, res) => {
 app.get("/suggest", (req, res) => {
     if (req.query.name !== undefined) {
         const query = req.query.name.toLowerCase();
-        allStations.then(stations => stations.filter(station => station["Name"].toLowerCase().startsWith(query))).then(res.send.bind(res));
+        if (req.query.sndRun !== "true") {
+            allStations.then(stations => stations.filter(station => station["Name"].toLowerCase().startsWith(query))).then(res.send.bind(res));
+        } else {
+            allStations.then(stations =>  stations.filter(station =>
+                    station["Name"].toLowerCase().includes(query) && !station["Name"].toLowerCase().startsWith(query)
+                )).then(res.send.bind(res));
+        }
     } else {
         allStations.then(stations => stations.find(station => station["ID"].includes(req.query.id))).then(res.send.bind(res));
     }

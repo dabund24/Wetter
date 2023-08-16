@@ -26,7 +26,7 @@ function collectAllStations(stationsString) {
             }
         }
         return obj;
-    });
+    }).sort((el1, el2) => (el1.Name).localeCompare(el2.Name))
 }
 
 module.exports = {collectAllStations};

@@ -9,10 +9,10 @@ export function switchStation(newStation) {
     let stations = document.getElementById("starred");
     document.getElementById("starred__toggle").innerText = "+";
     if (currentStation !== -1 && currentStation < stations.children.length) {
-        stations.children[currentStation].classList.remove("starred__station--active");
+        stations.children[currentStation].classList.remove("selectable--horizontal--active");
     }
     if (newStation !== -1) {
-        stations.children[newStation].classList.add("starred__station--active");
+        stations.children[newStation].classList.add("selectable--horizontal--active");
         document.getElementById("starred__toggle").innerText = "–";
     }
     currentStation = newStation;
@@ -68,7 +68,11 @@ export function switchDay(newDay) {
     } else if (newDay === -2) {
         newDay = (currentDay + 1) % 10;
     }
-    
+
+    const daysMobile = document.getElementsByClassName("day-mobile")
+    daysMobile[currentDay].classList.remove("option--focus")
+    daysMobile[newDay].classList.add("option--focus")
+
     const dayLine = document.getElementById("day-indicator");
     const dayLineMobile = document.getElementById("day-indicator--mobile");
 
@@ -93,6 +97,18 @@ export function switchDay(newDay) {
         dayLineMobile.classList.add("indicator__animation-to-left");
     }
     currentDay = newDay;
+}
+
+let mobileDaySelectIsShown = false
+
+export function showMobileDaySelect() {
+    if (!mobileDaySelectIsShown) {
+        document.getElementById("day-select-mobile").style.removeProperty("display")
+        mobileDaySelectIsShown = true
+    } else {
+        document.getElementById("day-select-mobile").style.setProperty("display", "none")
+        mobileDaySelectIsShown = false
+    }
 }
 
 
@@ -149,6 +165,15 @@ export function setColor(color) {
  * show nowcast
  */
 export function toggleNowcast(index) {
+    const station = document.getElementById("station");
+    const stationSelectables = station.getElementsByClassName("selectable--horizontal");
+    if (stationSelectables[index - 1].classList.contains("selectable--horizontal--active")) {
+        stationSelectables[index - 1].classList.remove("selectable--horizontal--active")
+    } else {
+        stationSelectables[(index % 2)].classList.remove("selectable--horizontal--active")
+        stationSelectables[index - 1].classList.add("selectable--horizontal--active")
+    }
+
     const bsn = document.getElementById("below-station-name");
     if (bsn.getAttribute("data-nowcast") !== index) {
         bsn.setAttribute("data-nowcast", index);

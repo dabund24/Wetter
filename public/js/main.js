@@ -6,6 +6,7 @@ import {
     setColor as stColor,
     setTheme as stTheme,
     switchDay as sDay,
+    showMobileDaySelect,
     switchStation as sStation,
     switchTab as sTab,
     toggleNowcast as tNowcast
@@ -207,6 +208,8 @@ function setForecastData() {
 
     let forecast2IndexBase;
 
+    let dewPointOffset = forecastRoot1.precipitationTotal.length - forecastRoot1.dewPoint2m.length;
+
     for (let i = 0; i < forecastRoot1.temperature.length; i++) {
         currentTime = addHours(forecastStart1, i * forecastStep1);
         // if forecastRoot2 starts
@@ -226,9 +229,9 @@ function setForecastData() {
             forecastRoot1.icon[i],
             forecastRoot1.temperature[i],
             forecastRoot1.precipitationTotal[i],
-            forecastRoot1.surfacePressure[i],
-            forecastRoot1.humidity[i],
-            forecastRoot1.dewPoint2m[i]);
+            forecastRoot1.surfacePressure[i - dewPointOffset],
+            forecastRoot1.humidity[i - dewPointOffset],
+            forecastRoot1.dewPoint2m[i - dewPointOffset]);
     }
 
     for (let i = 0; i < forecastRoot2.icon.length; i++) {
@@ -313,6 +316,10 @@ export function setColor(color) {
 
 export function toggleNowcast(index) {
     tNowcast(index);
+}
+
+export function activateMobileDaySelect() {
+    showMobileDaySelect()
 }
 
 /**
