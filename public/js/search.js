@@ -9,7 +9,6 @@ export function setupSearch() {
 
     searchInput.addEventListener("focusin", function (event) {
         refreshAutocomplete(this.value);
-        searchInput.select()
     })
 
     searchInput.addEventListener("keyup", function (event) {

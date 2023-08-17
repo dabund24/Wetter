@@ -226,7 +226,7 @@
     content: "Temperatur";
 }
 .tooltip.wi-umbrella:after {
-    content: "Niederschlag";
+    content: "Nienderschlag";
 }
 .tooltip.wi-snowflake-cold:after {
     content: "Schneefall";

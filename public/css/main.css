@@ -31,7 +31,7 @@
 :root {
     --background-color: #ffffff;
     --foreground-color: #000000;
-    --background-color--opaque: #ffffffc0;
+    --background-color--opaque: #ffffffe0;
     --foreground-color--opaque: #00000011;
     --accent-color: var(--accent-light);
     --accent-inverted: var(--accent-dark);
@@ -46,7 +46,7 @@
 [data-theme="dark"] {
     --background-color: #121212;
     --foreground-color: #ffffff;
-    --background-color--opaque: #121212c0;
+    --background-color--opaque: #121212e0;
     --foreground-color--opaque: #ffffff11;
     --accent-color: var(--accent-dark);
     --accent-inverted: var(--accent-light);
@@ -64,13 +64,15 @@
     height: 4px;
 }
 
-::-webkit-scrollbar-track {
-    background-color: var(--background-color);        /* color of the tracking area */
+::-webkit-scrollbar-thumb {
+    border-radius: 2px;
+    background-color: var(--foreground-color);
 }
 
-::-webkit-scrollbar-thumb {
-    background-color: var(--foreground-color);
-    border-radius: 2px;
+@media screen and (min-width: 600px) {
+    ::-webkit-scrollbar-track {
+        background-color: var(--background-color);        /* color of the tracking area */
+    }
 }
 
 button:focus {
@@ -310,7 +312,8 @@ strong, h1, h2, .header {
     border: 4px solid var(--foreground-color--opaque);
     padding-right: 4px;
     width: calc(25rem - 12px);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(2px);
+    background-color: var(--background-color--opaque);
     -webkit-backdrop-filter: blur(10px);
 }
 
@@ -331,7 +334,7 @@ strong, h1, h2, .header {
 }
 
 .options:hover {
-    background-color: transparent;
+    background-color: var(--background-color--opaque);
 }
 
 .search__suggestion__text {
@@ -409,6 +412,10 @@ strong, h1, h2, .header {
 
 #station {
     flex-wrap: wrap;
+}
+
+#station > * {
+    max-width: unset;
 }
 
 #station__name {
@@ -692,14 +699,15 @@ strong, h1, h2, .header {
 }
 
 footer {
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(1px);
+    -webkit-backdrop-filter: blur(1px);
+    background-color: var(--background-color--opaque);
     padding: 0 .5rem .2rem;
     position: sticky;
     bottom: 0;
     z-index: 1000;
     height: 1.7rem;
-    transition: height .3s ease-in-out;
+    transition: height .3s ease-in-out, background-color .5s ease-in-out;
     overflow-y: clip;
     text-align: center;
 }
