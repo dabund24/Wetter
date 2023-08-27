@@ -2,7 +2,6 @@ import Day from "./day.js";
 import Warning from "./warning.js";
 import Station from "./station.js";
 import {
-    root,
     setColor as stColor,
     setTheme as stTheme,
     switchDay as sDay,
@@ -27,6 +26,7 @@ import {
 } from "./data.js";
 import {addDays, addHours, cancelTimezoneOffset, dayDifference, getStationById, printNotification} from "./util.js";
 import {getSearchSuggestions, displaySearchSuggestions, setupSearch} from "./search.js";
+import {showLoadSlider, hideLoadSlider} from "./pageActions.js";
 
 /**
  * json overviewData of current station
@@ -106,13 +106,17 @@ async function applyPreferences() {
  * @returns {Promise<boolean>} - success of overviewData fetch
  */
 export async function resetData() {
-    root.classList.add("loading");
+    showLoadSlider();
     printNotification("Hole Daten für " + currentStation.name + "...");
 
-    if (!(await fetchData()) || baseData === undefined) {
+    if (!(await fetchData())) {
         // if overviewData fetch failed
-        root.classList.remove("loading");
-        printNotification("Daten konnten nicht geladen werden.")
+        hideLoadSlider()
+        printNotification("Netzwerkfehler.")
+        return false;
+    } else if (baseData === undefined) {
+        hideLoadSlider()
+        printNotification("Daten für " + currentStation.name + " nicht verfügbar.")
         return false;
     }
 
@@ -141,7 +145,7 @@ export async function resetData() {
 
     printNotification("Daten für " + currentStation.name + " erfolgreich aktualisiert.");
 
-    root.classList.remove("loading");
+    hideLoadSlider()
     return true;
 }
 
@@ -384,29 +388,3 @@ export function toggleStationStar() {
     const stationIDs = stations.map(station => station.id);
     fetch("/setcookie?key=stations&value=" + JSON.stringify(stationIDs))
 }
-
-/*document.addEventListener("keydown", ev => {
-    switch (ev.key.toLowerCase()) {
-        case "p":
-            sTheme();
-            break;
-        case "o":
-            sColor();
-            break;
-        case "i":
-            resetData();
-            break;
-        case "s":
-            switchStation((currentStation + 1) % stations.length);
-            break;
-        case "n":
-            tNowcast();
-            break;
-        case "d":
-            switchDay((currentDay + 1) % days.length);
-            break;
-        case "t":
-            switchTab((currentTab + 1) % 3);
-            break;
-    }
-})*/

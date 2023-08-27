@@ -1,4 +1,4 @@
-export const root = document.querySelector(':root');
+import {slideIndicator} from "./pageActions.js";
 
 let currentStation = 0;
 /**
@@ -20,7 +20,6 @@ export function switchStation(newStation) {
 
 
 export let currentTab = 0;
-const tabPercentages = ["calc(100% / 6)", "50%", "calc((100% / 6) * 5)"];
 
 /**
  * switches to tab with index
@@ -31,21 +30,8 @@ export function switchTab(newTab) {
         return;
     }
 
-    const tabLine = document.getElementById("tab-indicator");
-    
-    // set variables for start and end
-    tabLine.style.setProperty("--animation--tab-indicator__start", tabPercentages[currentTab]);
-    tabLine.style.setProperty("--animation--tab-indicator__end", tabPercentages[newTab]);
-    
-    tabLine.classList.remove("indicator__animation-to-right");
-    tabLine.classList.remove("indicator__animation-to-left");
-    tabLine.offsetWidth;
-    if (newTab > currentTab) {
-        tabLine.classList.add("indicator__animation-to-right");
-    } else {
-        tabLine.classList.add("indicator__animation-to-left");
-    }
-    
+    slideIndicator("tab-indicator", 3, currentTab, newTab)
+
     document.getElementById("tab-content-" + currentTab).style.setProperty("display", "none");
     document.getElementById("tab-content-" + newTab).style.setProperty("display", "block");
 
@@ -53,7 +39,6 @@ export function switchTab(newTab) {
 }
 
 export let currentDay = 0;
-const dayPercentages = ["5%", "15%", "25%", "35%", "45%", "55%", "65%", "75%", "85%", "95%"];
 
 /**
  * switch day
@@ -73,30 +58,10 @@ export function switchDay(newDay) {
     daysMobile[currentDay].classList.remove("option--focus")
     daysMobile[newDay].classList.add("option--focus")
 
-    const dayLine = document.getElementById("day-indicator");
-    const dayLineMobile = document.getElementById("day-indicator--mobile");
+    slideIndicator("day-indicator", 10, currentDay, newDay)
+    slideIndicator("day-indicator--mobile", 3, newDay > currentDay ? 0 : 2, 1)
 
-    // set variables for start and end
-    dayLine.style.setProperty("--animation--tab-indicator__start", dayPercentages[currentDay]);
-    dayLine.style.setProperty("--animation--tab-indicator__end", dayPercentages[newDay]);
-    dayLineMobile.style.setProperty("--animation--tab-indicator__end", "50%");
-
-    dayLine.classList.remove("indicator__animation-to-right");
-    dayLine.classList.remove("indicator__animation-to-left");
-    dayLine.offsetWidth;
-    dayLineMobile.classList.remove("indicator__animation-to-right");
-    dayLineMobile.classList.remove("indicator__animation-to-left");
-    dayLine.offsetWidth;
-    if (newDay > currentDay) {
-        dayLine.classList.add("indicator__animation-to-right");
-        dayLineMobile.style.setProperty("--animation--tab-indicator__start", "10%")
-        dayLineMobile.classList.add("indicator__animation-to-right");
-    } else {
-        dayLine.classList.add("indicator__animation-to-left");
-        dayLineMobile.style.setProperty("--animation--tab-indicator__start", "90%")
-        dayLineMobile.classList.add("indicator__animation-to-left");
-    }
-    currentDay = newDay;
+    currentDay = newDay
 }
 
 let mobileDaySelectIsShown = false
@@ -116,47 +81,22 @@ export function setTheme(theme) {
     if (document.documentElement.getAttribute("data-theme") === theme) {
         return
     }
-    const themeLine = document.getElementById("theme-indicator");
-    themeLine.classList.remove("indicator__animation-to-right");
-    themeLine.classList.remove("indicator__animation-to-left");
-    themeLine.offsetWidth;
+    slideIndicator("theme-indicator", 2, theme === "light", theme === "dark")
 
-    if (theme === "dark") {
-        themeLine.style.setProperty("--animation--tab-indicator__start", "25%");
-        themeLine.style.setProperty("--animation--tab-indicator__end", "75%");
-        themeLine.classList.add("indicator__animation-to-right");
-    } else if (theme === "light") {
-        themeLine.style.setProperty("--animation--tab-indicator__start", "75%");
-        themeLine.style.setProperty("--animation--tab-indicator__end", "25%");
-        themeLine.classList.add("indicator__animation-to-left");
-    }
     document.documentElement.setAttribute("data-theme", theme);
     fetch("/setCookie?key=theme&value=" + theme)
 }
 
 const colors = ["red", "yellow", "green", "blue", "purple", "gray"];
-const colorPercentages = ["calc(100% / 12)", "25%", "calc(100% / 12) * 5", "calc(100% / 12) * 7", "75%", "calc((100% / 12) * 11)"];
 let currentColor = -1;
 export function setColor(color) {
     if (color === currentColor) {
         return;
     }
-    const colorLine = document.getElementById("color-indicator");
 
-    // set variables for start and end
-    colorLine.style.setProperty("--animation--tab-indicator__start", colorPercentages[currentColor]);
-    colorLine.style.setProperty("--animation--tab-indicator__end", colorPercentages[color]);
+    slideIndicator("color-indicator", 6, currentColor, color)
 
-    colorLine.classList.remove("indicator__animation-to-right");
-    colorLine.classList.remove("indicator__animation-to-left");
-    colorLine.offsetWidth;
-    if (color > currentColor) {
-        colorLine.classList.add("indicator__animation-to-right");
-    } else {
-        colorLine.classList.add("indicator__animation-to-left");
-    }
     currentColor = color;
-
     document.documentElement.setAttribute("data-color", colors[color]);
     fetch("/setcookie?key=color&value=" + color)
 }

@@ -69,10 +69,8 @@
     background-color: var(--foreground-color);
 }
 
-@media screen and (min-width: 600px) {
-    ::-webkit-scrollbar-track {
-        background-color: var(--background-color);        /* color of the tracking area */
-    }
+::-webkit-scrollbar-track {
+    background-color: transparent;
 }
 
 button:focus {
@@ -99,7 +97,7 @@ body {
 }
 
 body, input, button, .tooltip:after {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI Variable", "Segoe UI", "Oxygen", "Ubuntu", "Roboto", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Symbol";
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI Variable", "Segoe UI Variable Text", "Segoe UI", "Oxygen", "Ubuntu", "Roboto", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Symbol";
     font-size: 1.25rem;
     color: var(--foreground-color);
     background-color: var(--background-color);
@@ -773,10 +771,6 @@ footer:hover, footer:active {
     .mobile-only {
         display: inherit;
     }
-
-    /*.forecast__row > :nth-child(2) {
-        width: 70%;
-    }*/
 }
 
 @media screen and (max-width: 600px) {
