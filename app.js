@@ -20,6 +20,10 @@ app.get('/', function(req, res) {
     res.sendFile(path.join(__dirname, '/index.html'));
 });
 
+app.get('/icons', function(req, res) {
+    res.sendFile(path.join(__dirname, '/public/html/icons.html'));
+});
+
 app.get("/data", (req, res) => {
     const backendUrl = "https://app-prod-ws.warnwetter.de/v30/stationOverviewExtended?stationIds=" + req.query.stationIDs;
     axios.get(backendUrl).then(response => res.send(response.data)).catch(e => console.log(e));
@@ -34,14 +38,20 @@ app.get("/stations", (req, res) => {
 app.get("/suggest", (req, res) => {
     if (req.query.name !== undefined) {
         const query = req.query.name.toLowerCase();
-        allStations.then(stations => stations.filter(station => station["Name"].toLowerCase().startsWith(query))).then(res.send.bind(res));
+        if (req.query.sndRun !== "true") {
+            allStations.then(stations => stations.filter(station => station["Name"].toLowerCase().startsWith(query))).then(res.send.bind(res));
+        } else {
+            allStations.then(stations =>  stations.filter(station =>
+                    station["Name"].toLowerCase().includes(query) && !station["Name"].toLowerCase().startsWith(query)
+                )).then(res.send.bind(res));
+        }
     } else {
         allStations.then(stations => stations.find(station => station["ID"].includes(req.query.id))).then(res.send.bind(res));
     }
 });
 
 app.get("/setcookie", (req, res) => {
-    if (req.query.key !== "theme" && req.query.key !== "color" && req.query.key !== "stations") {
+    if (req.query.key !== "theme" && req.query.key !== "color" && req.query.key !== "stations" && req.query.key !== "station") {
         console.log("incorrect cookie key " + req.query.key)
         return
     }

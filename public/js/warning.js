@@ -26,16 +26,21 @@ export default class Warning {
             + leadingZeros(this.start.getFullYear(), 4) + ", "
             + unixToHoursString(start);
         this.end = new Date(end);
-        /**
-         * string representation of end of warning following this scheme:
-         * `<dayOfWeekShort>, DD.MM.YYYY, hh.mm Uhr`
-         * @type {string}
-         */
-        this.stringEnd = daysOfWeekShort[this.end.getDay()] + ", "
-            + leadingZeros(this.end.getDate(), 2) + "."
-            + leadingZeros(this.end.getMonth() + 1, 2) + "."
-            + leadingZeros(this.end.getFullYear(), 4) + ", "
-            + unixToHoursString(end);
+
+        if (this.start.getDate() === this.end.getDate()) {
+            this.stringEnd = unixToHoursString(end);
+        } else {
+            /**
+             * string representation of end of warning following this scheme:
+             * `<dayOfWeekShort>, DD.MM.YYYY, hh.mm Uhr`
+             * @type {string}
+             */
+            this.stringEnd = daysOfWeekShort[this.end.getDay()] + ", "
+                + leadingZeros(this.end.getDate(), 2) + "."
+                + leadingZeros(this.end.getMonth() + 1, 2) + "."
+                + leadingZeros(this.end.getFullYear(), 4) + ", "
+                + unixToHoursString(end);
+        }
         /**
          * string representation of html of warning title
          * @type {string}

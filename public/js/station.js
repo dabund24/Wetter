@@ -1,4 +1,4 @@
-import {checkUndefined, icons_day, unixToHoursString} from "./util.js";
+import {checkUndefined, icons_day, icons_night, unixToHoursString} from "./util.js";
 
 export default class Station {
 
@@ -25,12 +25,12 @@ export default class Station {
     /**
      * sets nowcast data of station
      * @param {Object} data - nowcast data of station
+     * @param {boolean} isDay - ```Date-now``` is between sunrise and sunset of first day
      */
-    setNowcast(data) {
+    setNowcast(data, isDay) {
         this.time = unixToHoursString(data.time);
         if (data.icon !== undefined && data.icon !== 32767) {
-            console.log(data.icon);
-            this.icon = icons_day[data.icon];
+            this.icon = isDay ? icons_day[data.icon] : icons_night[data.icon]
         }
         this.temperature = checkUndefined((data.temperature / 10).toLocaleString(), " °C");
         this.precipitation = checkUndefined((data.precipitation / 10).toLocaleString(), " mm");

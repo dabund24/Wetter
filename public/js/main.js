@@ -2,14 +2,12 @@ import Day from "./day.js";
 import Warning from "./warning.js";
 import Station from "./station.js";
 import {
-    root,
-    setColor,
-    setTheme,
-    switchColor as sColor,
+    setColor as stColor,
+    setTheme as stTheme,
     switchDay as sDay,
+    showMobileDaySelect,
     switchStation as sStation,
     switchTab as sTab,
-    switchTheme as sTheme,
     toggleNowcast as tNowcast
 } from "./navigation.js";
 import {
@@ -22,11 +20,13 @@ import {
     setInfoDisplay,
     setNowcastDisplay,
     setOverviewDisplay,
+    setSingleDayDisplay,
     setStarredDisplay,
     setWarningDisplay
 } from "./data.js";
 import {addDays, addHours, cancelTimezoneOffset, dayDifference, getStationById, printNotification} from "./util.js";
 import {getSearchSuggestions, displaySearchSuggestions, setupSearch} from "./search.js";
+import {showLoadSlider, hideLoadSlider} from "./pageActions.js";
 
 /**
  * json overviewData of current station
@@ -55,24 +55,13 @@ for (let i = 0; i < 10; i++) {
  */
 export const stations = []
 
-await applyPreferences();
-
 /**
  * the index of the station in stations that is displayed
  * @type {Station}
  */
 export let currentStation;
 
-setupSearch();
-
-setStarredDisplay();
-if (stations.length === 0) {
-    currentStation = new Station(await getStationById("10389"))
-    document.getElementById("remember-station").innerText = "+";
-} else {
-    currentStation = stations[0];
-    document.getElementById("starred").children[0].classList.add("starred__station--active")
-}
+await applyPreferences();
 
 document.getElementById("station__name").innerHTML = currentStation.name;
 
@@ -80,10 +69,15 @@ resetData();
 
 async function applyPreferences() {
     const cookies = await fetch("/getcookies").then(res => res.json())
-    if (cookies.theme === undefined || cookies.color === undefined || cookies.stations === undefined) {
+    if (cookies.theme === undefined || cookies.color === undefined || cookies.stations === undefined || cookies.station === undefined) {
+        fetch("setcookie?key=station&value=10389")
+        fetch("setcookie?key=stations&value=[]")
         setColor(0)
         setTheme("light")
         stations.length = 0
+        currentStation = new Station(await getStationById("10389"))
+        setupSearch();
+        setStarredDisplay();
         return
     }
     setColor(cookies.color)
@@ -93,6 +87,18 @@ async function applyPreferences() {
     for (let stationID of stationIDs) {
         stations.push(new Station(await getStationById(stationID)));
     }
+    currentStation = new Station(await getStationById(cookies.station))
+
+    setupSearch();
+
+    setStarredDisplay();
+
+    const indexOfStation = stationIDs.indexOf(cookies.station)
+
+    if (indexOfStation > -1) {
+        document.getElementById("starred").children[indexOfStation].classList.add("starred__station--active")
+        sStation(indexOfStation)
+    }
 }
 
 /**
@@ -100,13 +106,17 @@ async function applyPreferences() {
  * @returns {Promise<boolean>} - success of overviewData fetch
  */
 export async function resetData() {
-    root.classList.add("loading");
+    showLoadSlider();
     printNotification("Hole Daten für " + currentStation.name + "...");
 
-    if (!(await fetchData()) || baseData === undefined) {
+    if (!(await fetchData())) {
         // if overviewData fetch failed
-        root.classList.remove("loading");
-        printNotification("Daten konnten nicht geladen werden.")
+        hideLoadSlider()
+        printNotification("Netzwerkfehler.")
+        return false;
+    } else if (baseData === undefined) {
+        hideLoadSlider()
+        printNotification("Daten für " + currentStation.name + " nicht verfügbar.")
         return false;
     }
 
@@ -128,13 +138,14 @@ export async function resetData() {
     setInfoDisplay();
     setNowcastDisplay();
     setDayDisplay();
+    setSingleDayDisplay()
     setOverviewDisplay();
     setForecastDisplay();
     setWarningDisplay();
 
     printNotification("Daten für " + currentStation.name + " erfolgreich aktualisiert.");
 
-    root.classList.remove("loading");
+    hideLoadSlider()
     return true;
 }
 
@@ -169,7 +180,8 @@ export async function fetchData() {
 }
 
 function setNowcastData() {
-    currentStation.setNowcast(nowcastData);
+    const isDay = days[0].sunriseTime < Date.now() && Date.now() < days[0].sunsetTime;
+    currentStation.setNowcast(nowcastData, isDay);
 }
 
 /**
@@ -200,6 +212,8 @@ function setForecastData() {
 
     let forecast2IndexBase;
 
+    let dewPointOffset = forecastRoot1.precipitationTotal.length - forecastRoot1.dewPoint2m.length;
+
     for (let i = 0; i < forecastRoot1.temperature.length; i++) {
         currentTime = addHours(forecastStart1, i * forecastStep1);
         // if forecastRoot2 starts
@@ -219,9 +233,9 @@ function setForecastData() {
             forecastRoot1.icon[i],
             forecastRoot1.temperature[i],
             forecastRoot1.precipitationTotal[i],
-            forecastRoot1.surfacePressure[i],
-            forecastRoot1.humidity[i],
-            forecastRoot1.dewPoint2m[i]);
+            forecastRoot1.surfacePressure[i - dewPointOffset],
+            forecastRoot1.humidity[i - dewPointOffset],
+            forecastRoot1.dewPoint2m[i - dewPointOffset]);
     }
 
     for (let i = 0; i < forecastRoot2.icon.length; i++) {
@@ -294,19 +308,22 @@ export function switchTab(index) {
 /**
  * allows switching between light and dark theme
  */
-export function switchTheme() {
-    sTheme();
+
+export function setTheme(theme) {
+    stTheme(theme)
 }
 
-/**
- * allows switching between green, red and blue accent color
- */
-export function switchColor() {
-    sColor();
+
+export function setColor(color) {
+    stColor(color)
 }
 
 export function toggleNowcast(index) {
     tNowcast(index);
+}
+
+export function activateMobileDaySelect() {
+    showMobileDaySelect()
 }
 
 /**
@@ -315,6 +332,7 @@ export function toggleNowcast(index) {
  */
 export function switchDay(index) {
     sDay(index);
+    setSingleDayDisplay()
     resetOverviewDisplay();
     resetForecastDisplay();
     resetWarningDisplay();
@@ -334,14 +352,13 @@ export async function switchStation(id, index) {
     // if new station is not yet pinned
     const isNotPinned = index === -1 && stations.find(station => station.id === id) === undefined;
     if (isNotPinned) {
-        console.log(id);
         newStation = new Station(await getStationById(id));
     } else if (index === -1) {
         newStation = stations.find(station => station.id === id);
         index = stations.indexOf(newStation);
     } else {
         newStation = stations[index];
-        if (newStation === currentStation) {
+        if (newStation.id === currentStation.id) {
             return false;
         }
     }
@@ -350,6 +367,7 @@ export async function switchStation(id, index) {
     if (await resetData()) {
         sStation(index);
         document.getElementById("station__name").innerHTML = currentStation.name;
+        fetch("/setcookie?key=station&value=" + currentStation.id)
         return true;
     } else {
         currentStation = oldStation;
@@ -358,7 +376,7 @@ export async function switchStation(id, index) {
 }
 
 export function toggleStationStar() {
-    if (stations.includes(currentStation)) {
+    if (stations.map(s => s.id).includes(currentStation.id)) {
         stations.splice(stations.indexOf(currentStation), 1);
         setStarredDisplay();
         sStation(-1);
@@ -370,29 +388,3 @@ export function toggleStationStar() {
     const stationIDs = stations.map(station => station.id);
     fetch("/setcookie?key=stations&value=" + JSON.stringify(stationIDs))
 }
-
-/*document.addEventListener("keydown", ev => {
-    switch (ev.key.toLowerCase()) {
-        case "p":
-            sTheme();
-            break;
-        case "o":
-            sColor();
-            break;
-        case "i":
-            resetData();
-            break;
-        case "s":
-            switchStation((currentStation + 1) % stations.length);
-            break;
-        case "n":
-            tNowcast();
-            break;
-        case "d":
-            switchDay((currentDay + 1) % days.length);
-            break;
-        case "t":
-            switchTab((currentTab + 1) % 3);
-            break;
-    }
-})*/

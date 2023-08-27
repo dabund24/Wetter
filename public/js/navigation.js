@@ -1,4 +1,4 @@
-export const root = document.querySelector(':root');
+import {slideIndicator} from "./pageActions.js";
 
 let currentStation = 0;
 /**
@@ -7,20 +7,19 @@ let currentStation = 0;
  */
 export function switchStation(newStation) {
     let stations = document.getElementById("starred");
-    document.getElementById("remember-station").innerText = "+";
+    document.getElementById("starred__toggle").innerText = "+";
     if (currentStation !== -1 && currentStation < stations.children.length) {
-        stations.children[currentStation].classList.remove("starred__station--active");
+        stations.children[currentStation].classList.remove("selectable--horizontal--active");
     }
     if (newStation !== -1) {
-        stations.children[newStation].classList.add("starred__station--active");
-        document.getElementById("remember-station").innerText = "–";
+        stations.children[newStation].classList.add("selectable--horizontal--active");
+        document.getElementById("starred__toggle").innerText = "–";
     }
     currentStation = newStation;
 }
 
 
 export let currentTab = 0;
-const tabPercentages = ["17%", "50%", "83%"];
 
 /**
  * switches to tab with index
@@ -31,21 +30,8 @@ export function switchTab(newTab) {
         return;
     }
 
-    const tabLine = document.getElementById("tab-indicator");
-    
-    // set variables for start and end
-    tabLine.style.setProperty("--animation--tab-indicator__start", tabPercentages[currentTab]);
-    tabLine.style.setProperty("--animation--tab-indicator__end", tabPercentages[newTab]);
-    
-    tabLine.classList.remove("indicator__animation-to-right");
-    tabLine.classList.remove("indicator__animation-to-left");
-    tabLine.offsetWidth;
-    if (newTab > currentTab) {
-        tabLine.classList.add("indicator__animation-to-right");
-    } else {
-        tabLine.classList.add("indicator__animation-to-left");
-    }
-    
+    slideIndicator("tab-indicator", 3, currentTab, newTab)
+
     document.getElementById("tab-content-" + currentTab).style.setProperty("display", "none");
     document.getElementById("tab-content-" + newTab).style.setProperty("display", "block");
 
@@ -53,7 +39,6 @@ export function switchTab(newTab) {
 }
 
 export let currentDay = 0;
-const dayPercentages = ["5%", "15%", "25%", "35%", "45%", "55%", "65%", "75%", "85%", "95%"];
 
 /**
  * switch day
@@ -63,48 +48,54 @@ export function switchDay(newDay) {
     if (newDay === currentDay) {
         return;
     }
-    
-    const dayLine = document.getElementById("day-indicator");
-
-    // set variables for start and end
-    dayLine.style.setProperty("--animation--tab-indicator__start", dayPercentages[currentDay]);
-    dayLine.style.setProperty("--animation--tab-indicator__end", dayPercentages[newDay]);
-
-    dayLine.classList.remove("indicator__animation-to-right");
-    dayLine.classList.remove("indicator__animation-to-left");
-    dayLine.offsetWidth;
-    if (newDay > currentDay) {
-        dayLine.classList.add("indicator__animation-to-right");
-    } else {
-        dayLine.classList.add("indicator__animation-to-left");
+    if (newDay === -1) {
+        newDay = (currentDay + 9) % 10;
+    } else if (newDay === -2) {
+        newDay = (currentDay + 1) % 10;
     }
-    currentDay = newDay;
+
+    const daysMobile = document.getElementsByClassName("day-mobile")
+    daysMobile[currentDay].classList.remove("option--focus")
+    daysMobile[newDay].classList.add("option--focus")
+
+    slideIndicator("day-indicator", 10, currentDay, newDay)
+    slideIndicator("day-indicator--mobile", 3, newDay > currentDay ? 0 : 2, 1)
+
+    currentDay = newDay
 }
 
-export function switchTheme() {
-    if (document.documentElement.getAttribute("data-theme") === "light") {
-        document.documentElement.setAttribute("data-theme", "dark");
-        fetch("/setCookie?key=theme&value=dark")
+let mobileDaySelectIsShown = false
+
+export function showMobileDaySelect() {
+    if (!mobileDaySelectIsShown) {
+        document.getElementById("day-select-mobile").style.removeProperty("display")
+        mobileDaySelectIsShown = true
     } else {
-        document.documentElement.setAttribute("data-theme", "light");
-        fetch("/setCookie?key=theme&value=light")
+        document.getElementById("day-select-mobile").style.setProperty("display", "none")
+        mobileDaySelectIsShown = false
     }
 }
+
 
 export function setTheme(theme) {
+    if (document.documentElement.getAttribute("data-theme") === theme) {
+        return
+    }
+    slideIndicator("theme-indicator", 2, theme === "light", theme === "dark")
+
     document.documentElement.setAttribute("data-theme", theme);
     fetch("/setCookie?key=theme&value=" + theme)
 }
 
-const colors = ["green", "red", "blue"];
-let currentColor = 0;
-export function switchColor() {
-    currentColor = (currentColor + 1) % 3;
-    document.documentElement.setAttribute("data-color", colors[currentColor]);
-    fetch("/setcookie?key=color&value=" + currentColor)//.then(res => console.log(res.body));
-}
-
+const colors = ["red", "yellow", "green", "blue", "purple", "gray"];
+let currentColor = -1;
 export function setColor(color) {
+    if (color === currentColor) {
+        return;
+    }
+
+    slideIndicator("color-indicator", 6, currentColor, color)
+
     currentColor = color;
     document.documentElement.setAttribute("data-color", colors[color]);
     fetch("/setcookie?key=color&value=" + color)
@@ -114,6 +105,15 @@ export function setColor(color) {
  * show nowcast
  */
 export function toggleNowcast(index) {
+    const station = document.getElementById("station");
+    const stationSelectables = station.getElementsByClassName("selectable--horizontal");
+    if (stationSelectables[index - 1].classList.contains("selectable--horizontal--active")) {
+        stationSelectables[index - 1].classList.remove("selectable--horizontal--active")
+    } else {
+        stationSelectables[(index % 2)].classList.remove("selectable--horizontal--active")
+        stationSelectables[index - 1].classList.add("selectable--horizontal--active")
+    }
+
     const bsn = document.getElementById("below-station-name");
     if (bsn.getAttribute("data-nowcast") !== index) {
         bsn.setAttribute("data-nowcast", index);

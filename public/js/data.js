@@ -12,9 +12,9 @@ export function setStarredDisplay() {
     let toBeAdded;
     for (let i = 0; i < stations.length; i++) {
         toBeAdded = document.importNode(template, true);
-        setHTMLOfChildOfParent(toBeAdded, ".starred__station-name", stations[i].name);
+        setHTMLOfChildOfParent(toBeAdded, ".selectable__text", stations[i].name);
         starredDisplay.querySelector("#starred").append(toBeAdded);
-        starredDisplay.getElementsByClassName("starred__station")[i].setAttribute("onclick", "switchStation(0, " + i + ")");
+        starredDisplay.getElementsByClassName("selectable--horizontal")[i].setAttribute("onclick", "switchStation(0, " + i + ")");
     }
 }
 
@@ -92,6 +92,7 @@ export function setNowcastDisplay() {
  */
 export function setDayDisplay() {
     const dayTiles = document.getElementsByClassName("day");
+    const dayOptions = document.getElementsByClassName("day-mobile")
     for (let i = 0; i < dayTiles.length; i++) {
         replaceNaClassOfChildOfParent(dayTiles[i], ".day__icon__0", days[i].icon);
         setHTMLOfChildOfParent(dayTiles[i], ".day__icon__warning", "");
@@ -102,7 +103,26 @@ export function setDayDisplay() {
         setHTMLOfChildOfParent(dayTiles[i], ".day__precipitation", days[i].precipitation);
         setHTMLOfChildOfParent(dayTiles[i], ".day__date", days[i].stringDate);
         setHTMLOfChildOfParent(dayTiles[i], ".day__day-of-week", days[i].dayOfWeek);
+
+        replaceNaClassOfChildOfParent(dayOptions[i], ".day-mobile___icon", days[i].icon)
+        setHTMLOfChildOfParent(dayOptions[i], ".day-mobile___date", days[i].dayOfWeek + ", " + days[i].stringDate)
     }
+}
+
+export function setSingleDayDisplay() {
+    const dayTile = document.getElementById("day--mobile");
+    dayTile.getElementsByClassName("day__icon__0")[0].className = "day__icon__0 wi wi_-data " + days[currentDay].icon;
+    //replaceNaClassOfChildOfParent(dayTile, ".day__icon__0", days[index].icon);
+    if (days[currentDay].warnings.length === 0) {
+        setHTMLOfChildOfParent(dayTile, ".day__icon__warning", "");
+    } else {
+        setHTMLOfChildOfParent(dayTile, ".day__icon__warning", "!");
+    }
+    setHTMLOfChildOfParent(dayTile, ".day__temperature", days[currentDay].temperatureMin + " / " + days[currentDay].temperatureMax);
+    setHTMLOfChildOfParent(dayTile, ".day__precipitation", days[currentDay].precipitation);
+    setHTMLOfChildOfParent(dayTile, ".day__date", days[currentDay].stringDate);
+    setHTMLOfChildOfParent(dayTile, ".day__day-of-week", days[currentDay].dayOfWeek);
+
 }
 
 /**

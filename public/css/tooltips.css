@@ -19,11 +19,21 @@
     z-index: 100;
 }
 
+.tooltip.tooltip--down:after {
+    bottom: -2em;
+}
+
 .tooltip:hover:after {
     font-size: 20px;
     border: 4px solid var(--foreground-color--opaque);
     padding: 0 .5rem;
     opacity: 1;
+}
+
+@media screen and (max-width: 1000px) {
+    .tooltip:hover:after {
+        font-size: 16px;
+    }
 }
 
 /* 1 */
@@ -209,8 +219,23 @@
 .tooltip.wi-humidity:after {
     content: "Luftfeuchte";
 }
-.tooltip.tooltip-dewPoint:after {
+.tooltip.wi-raindrops:after {
     content: "Taupunkt";
+}
+.tooltip.wi-thermometer:after {
+    content: "Temperatur";
+}
+.tooltip.wi-umbrella:after {
+    content: "Nienderschlag";
+}
+.tooltip.wi-snowflake-cold:after {
+    content: "Schneefall";
+}
+.tooltip.wi-windy:after {
+    content: "Mittelwind";
+}
+.tooltip.wi-strong-wind:after {
+    content: "Windspitzen";
 }
 
 /* moon phases */
